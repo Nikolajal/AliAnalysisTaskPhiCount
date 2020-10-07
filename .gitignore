@@ -21,3 +21,5 @@ result/*
 *.jpg
 *.ps
 *.eps
+myAnalysis.C
+myTask_merge.C
