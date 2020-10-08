@@ -166,6 +166,7 @@ bool AliAnalysisTaskPhiCount::fIsKaonCandidate ( AliAODTrack* track )
     auto ffSigTOF    = std::fabs(fPIDResponse->NumberOfSigmasTOF(track,AliPID::kKaon));
     auto ffSigTPC    = std::fabs(fPIDResponse->NumberOfSigmasTPC(track,AliPID::kKaon));
     
+    /*  STANDARD
     if ( !fbTPC || ffSigTPC > 5. ) return false;
     if (  fbTOF && ffSigTOF < 3. )
     {
@@ -178,6 +179,22 @@ bool AliAnalysisTaskPhiCount::fIsKaonCandidate ( AliAODTrack* track )
         return true;
     }
     return false;
+     */
+    
+    /*   PAPER
+
+        if (    !fbTPC      ||  ffSigTPC > 5.   )   return false;
+        if (    fbTOF       &&  ffSigTOF > 3.   )   return false;
+        if (    track->P()   >=  0.35 && ffSigTPC    >   3.  )   return false;
+        return true;
+*/
+
+    /*  CUSTOM */
+    if ( !fbTPC || (fbTOF && ffSigTOF > 3) )      return false;
+    if ( track->Pt() >= 0.28 &&  fbTOF && ffSigTPC > 5. )   return false;
+    if ( track->Pt() >= 0.28 && !fbTOF && ffSigTPC > 3. )   return false;
+    if ( track->Pt() <  0.28  && ffSigTPC > 7. )   return false;
+    return true;
 }
 
 //_____________________________________________________________________________
