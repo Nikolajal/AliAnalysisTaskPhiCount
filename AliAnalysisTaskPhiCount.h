@@ -50,7 +50,6 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
         Bool_t                  fPbRec      [1024]; //! bRec
         Bool_t                  fPbKdc      [1024]; //! bKdc
         Float_t                 fPpT        [1024]; //! Transverse Momentum
-        Float_t                 fPp         [1024]; //! Momentum
             
         // Tree Variables ( MC Truth)
         Int_t                   fnKaonCouple;       //! Number of Kaon Couples found

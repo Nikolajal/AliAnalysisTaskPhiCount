@@ -72,7 +72,6 @@ void AliAnalysisTaskPhiCount::UserCreateOutputObjects()
     fOutputTree_SIG->Branch     ("InvMass"          ,&fInvMass,         "fInvMass[fnKaonCouple]/F");
     fOutputTree_SIG->Branch     ("bEta"             ,&fKbEta,           "fKbEta[fnKaonCouple]/O");
     fOutputTree_SIG->Branch     ("pT"               ,&fKpT,             "fKpT[fnKaonCouple]/F");
-    fOutputTree_SIG->Branch     ("pT"               ,&fKp,              "fKp[fnKaonCouple]/F");
     if ( kMCbool ) fOutputTree_SIG->Branch     ("bPhi"             ,&fKbPhi,           "fKbPhi[fnKaonCouple]/O");
     
     PostData(2, fOutputTree_SIG);
@@ -368,7 +367,6 @@ void AliAnalysisTaskPhiCount::UserExec(Option_t *)
             fjKaon[fnKaonCouple]        = jKaon;
             fInvMass[fnKaonCouple]      = (fPhi).Mag();
             fKpT[fnKaonCouple]          = (fPhi).Pt();
-            fKp[fnKaonCouple]           = (fPhi).P();
             
             if ( kMCbool )  //  -   -   -   -   -   -   -   To implement
             {
