@@ -193,7 +193,11 @@ bool AliAnalysisTaskPhiCount::fIsKaonCandidate ( AliAODTrack* track )
     if ( !fbTPC || (fbTOF && ffSigTOF > 3) )      return false;
     if ( track->Pt() >= 0.28 &&  fbTOF && ffSigTPC > 5. )   return false;
     if ( track->Pt() >= 0.28 && !fbTOF && ffSigTPC > 3. )   return false;
-    if ( track->Pt() <  0.28  && ffSigTPC > 7. )   return false;
+    fFillPIDHist(track,1);
+    if ( track->Pt() <  0.28  && track->Pt() >=  0.24  && ffSigTPC > 6. )    return false;
+    if ( track->Pt() <  0.24  && track->Pt() >=  0.16  && ffSigTPC > 7. )    return false;
+    if ( track->Pt() <  0.16  && track->Pt() >=  0.00  && ffSigTPC > 7.5 )    return false;
+    fFillPIDHist(track,2);
     return true;
 }
 
