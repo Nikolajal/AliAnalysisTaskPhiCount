@@ -89,14 +89,16 @@ void AliAnalysisTaskPhiCount::UserCreateOutputObjects()
     fOutputList     ->SetOwner(kTRUE);
     fHistVertex0    = new TH1F("fHistVertex0", "Collision Vertex (FULL)", 1000, -15, 15);
     fHistVertex1    = new TH1F("fHistVertex1", "Collision Vertex (CUTS)", 1000, -15, 15);
-    fHistTPCPID0    = new TH2F("fHistTPCPID0", "TPC Response (ALL)"     , 100, 0, 4, 100, 0, 200);
-    fHistTPCPID1    = new TH2F("fHistTPCPID1", "TPC Response (Sel1)"    , 100, 0, 4, 100, 0, 200);
-    fHistTPCPID2    = new TH2F("fHistTPCPID2", "TPC Response (Sel2)"    , 100, 0, 4, 100, 0, 200);
+    fHistTPCPID0    = new TH2F("fHistTPCPID0", "TPC Response (ALL)"     , 100, 0, 4, 200, 0, 400);
+    fHistTPCPID1    = new TH2F("fHistTPCPID1", "TPC Response (Sel1)"    , 100, 0, 4, 200, 0, 400);
+    fHistTPCPID2    = new TH2F("fHistTPCPID2", "TPC Response (Sel2)"    , 100, 0, 4, 200, 0, 400);
     fHistTPCPID3    = new TH2F("fHistTPCPID3", "TPC Response (Sel3)"    , 100, 0, 4, 200, -10, 10);
     fHistTOFPID0    = new TH2F("fHistTOFPID0", "TOF Response (ALL)"     , 100, 0, 4, 100, 0, 1.2);
     fHistTOFPID1    = new TH2F("fHistTOFPID1", "TOF Response (Sel1)"    , 100, 0, 4, 100, 0, 1.2);
     fHistTOFPID2    = new TH2F("fHistTOFPID2", "TOF Response (Sel2)"    , 100, 0, 4, 100, 0, 1.2);
     fHistTOFPID3    = new TH2F("fHistTOFPID3", "TOF Response (Sel3)"    , 100, 0, 4, 200, -10, 10);
+    fHistEvntEff    = new TH1F("fHistEvntEff", "fHistEvntEff"           , 4,   0.5, 4.5);
+    fOutputList->Add(fHistEvntEff);
     fOutputList->Add(fHistVertex0);
     fOutputList->Add(fHistTPCPID0);
     fOutputList->Add(fHistTOFPID0);
@@ -121,7 +123,18 @@ bool AliAnalysisTaskPhiCount::fIsPrimaryVertexCandidate ( AliAODEvent* event )
             fPrimaryVertex      = PrimaryVertexTRK;
     
     // Requires the vertex is reconstructed by the SPD
-    if ( !PrimaryVertexSPD  ||  PrimaryVertexSPD->GetNContributors() < 1 ) return false;
+    if ( !PrimaryVertexSPD  ||  PrimaryVertexSPD->GetNContributors() < 1 )
+    {
+        fnPhi       = 0;
+        fnKaonCouple= 0;
+        fOutputTree_SIG -> Fill();
+        PostData(2, fOutputTree_SIG);
+        if ( kMCbool ) fOutputTree_TRU -> Fill();
+        if ( kMCbool ) PostData(3, fOutputTree_TRU);
+        fFillPIDHist(nullptr,-1);
+        PostData(1, fOutputList);
+        return false;
+    }
 
     // In lack of the general Method reconstructed Vertex, take the SPD reconstruction
     if ( !PrimaryVertexTRK  ||  PrimaryVertexTRK->GetNContributors() < 1 )
@@ -134,13 +147,35 @@ bool AliAnalysisTaskPhiCount::fIsPrimaryVertexCandidate ( AliAODEvent* event )
     {
         auto VertexZSPD = PrimaryVertexSPD->GetZ();
         auto VertexZTRK = PrimaryVertexTRK->GetZ();
-        if ( std::fabs(VertexZSPD-VertexZTRK) > 0.5 ) return false;
+        if ( std::fabs(VertexZSPD-VertexZTRK) > 0.5 )
+        {
+            fnPhi       = 0;
+            fnKaonCouple= 0;
+            fOutputTree_SIG -> Fill();
+            PostData(2, fOutputTree_SIG);
+            if ( kMCbool ) fOutputTree_TRU -> Fill();
+            if ( kMCbool ) PostData(3, fOutputTree_TRU);
+            fFillPIDHist(nullptr,-2);
+            PostData(1, fOutputList);
+            return false;
+        }
     }
     
     // Fill the Vertex Z position histogram
     fHistVertex0->Fill(fPrimaryVertex->GetZ());
     
-    if ( std::fabs(fPrimaryVertex->GetZ()) > 10. ) return false;
+    if ( std::fabs(fPrimaryVertex->GetZ()) > 10. )
+    {
+        fnPhi       = 0;
+        fnKaonCouple= 0;
+        fOutputTree_SIG -> Fill();
+        PostData(2, fOutputTree_SIG);
+        if ( kMCbool ) fOutputTree_TRU -> Fill();
+        if ( kMCbool ) PostData(3, fOutputTree_TRU);
+        fFillPIDHist(nullptr,-3);
+        PostData(1, fOutputList);
+        return false;
+    }
     
     // Fill the Vertex Z position histogram
     fHistVertex1->Fill(fPrimaryVertex->GetZ());
@@ -179,7 +214,7 @@ bool AliAnalysisTaskPhiCount::fIsKaonCandidate ( AliAODTrack* track )
         return true;
     }
     return false;
-     */
+    */
     
     /*   PAPER
 
@@ -275,6 +310,10 @@ bool AliAnalysisTaskPhiCount::fIsPhiValid ( AliAODMCParticle* particle )
 
 void AliAnalysisTaskPhiCount::fFillPIDHist ( AliAODTrack * track , Int_t iIndex )
 {
+    if ( iIndex == -1 ) fHistEvntEff->Fill(1);
+    if ( iIndex == -2 ) fHistEvntEff->Fill(2);
+    if ( iIndex == -3 ) fHistEvntEff->Fill(3);
+    if ( iIndex == -4 ) fHistEvntEff->Fill(4);
     if ( !track ) return;
     if ( (fPIDResponse->CheckPIDStatus(AliPIDResponse::kTPC, track) == AliPIDResponse::kDetPidOk) )
     {
@@ -323,6 +362,7 @@ void AliAnalysisTaskPhiCount::UserExec(Option_t *)
     
     // Check the event is there and has a primary vertex with due requirements
     if ( !fIsPrimaryVertexCandidate(dynamic_cast<AliAODEvent*>(InputEvent())) ) return;
+    fFillPIDHist(nullptr,-4);
      
     // Define and Fetch PID with Manager
     AliAnalysisManager *man = AliAnalysisManager::GetAnalysisManager();
@@ -427,8 +467,8 @@ void AliAnalysisTaskPhiCount::UserExec(Option_t *)
 
     // Discarding the event with over 1024 Kaons
     if ( fnKaon <= 1024 && fnKaonCouple <= 1024 ) fOutputTree_SIG -> Fill();
-    if ( kMCbool        && fnPhi <= 1024 ) PostData(3, fOutputTree_TRU);
-    if ( kMCbool ) fOutputTree_TRU -> Fill();
+    if ( kMCbool        && fnPhi <= 1024 ) fOutputTree_TRU -> Fill();
+    if ( kMCbool ) PostData(3, fOutputTree_TRU);
     PostData(2, fOutputTree_SIG);
     PostData(1, fOutputList);
 }

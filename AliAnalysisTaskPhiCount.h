@@ -70,6 +70,7 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
         TList*                  fOutputList;        //! output list
         
         // List Variables
+        TH1F*                   fHistEvntEff;        //! histogram of Event Efficiency
         TH1F*                   fHistVertex0;        //! histogram of Vertex
         TH2F*                   fHistTPCPID0;        //! histogram of TPC PID
         TH2F*                   fHistTOFPID0;        //! histogram of TOF PID
