@@ -44,14 +44,14 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
         TTree*                  fOutputTree_SIG;    //! output tree for Signal
         TTree*                  fOutputTree_TRU;    //! output tree for MC Truth
          
-        // Tree Variables ( Signal )
+        // Tree Variables ( MC Truth )
         Int_t                   fnPhi;              //! Number of Phis produced found
         Bool_t                  fPbEta      [1024]; //! bEta
         Bool_t                  fPbRec      [1024]; //! bRec
         Bool_t                  fPbKdc      [1024]; //! bKdc
         Float_t                 fPpT        [1024]; //! Transverse Momentum
             
-        // Tree Variables ( MC Truth)
+        // Tree Variables ( Signal )
         Int_t                   fnKaonCouple;       //! Number of Kaon Couples found
         Int_t                   fiKaon      [1024]; //! iKaon
         Int_t                   fjKaon      [1024]; //! jKaon
