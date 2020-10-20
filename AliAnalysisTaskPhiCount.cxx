@@ -129,7 +129,7 @@ bool AliAnalysisTaskPhiCount::fIsPrimaryVertexCandidate ( AliAODEvent* event )
         PostData(2, fOutputTree_SIG);
         if ( kMCbool ) fOutputTree_TRU -> Fill();
         if ( kMCbool ) PostData(3, fOutputTree_TRU);
-        fFillPIDHist(nullptr,-1);
+        fFillPIDHist(-1);
         PostData(1, fOutputList);
         return false;
     }
@@ -342,11 +342,10 @@ void AliAnalysisTaskPhiCount::fFillPIDHist ( AliAODTrack * track , Int_t iIndex 
 
 void AliAnalysisTaskPhiCount::fFillVtxHist ( Int_t iIndex )
 {
-    
-    if ( iIndex == -1 ) fHistEvntEff->Fill(1);
-    if ( iIndex == -2 ) fHistEvntEff->Fill(2);
-    if ( iIndex == -3 ) fHistEvntEff->Fill(3);
-    if ( iIndex == -4 ) fHistEvntEff->Fill(4);
+    for ( Int_t iFill = 1; iFill <= iIndex; iFill++ )
+    {
+        fHistEvntEff->Fill(iFill);
+    }
 }
 
 //_____________________________________________________________________________
