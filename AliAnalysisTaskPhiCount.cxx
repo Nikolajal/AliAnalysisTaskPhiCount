@@ -129,7 +129,7 @@ bool AliAnalysisTaskPhiCount::fIsPrimaryVertexCandidate ( AliAODEvent* event )
         PostData(2, fOutputTree_SIG);
         if ( kMCbool ) fOutputTree_TRU -> Fill();
         if ( kMCbool ) PostData(3, fOutputTree_TRU);
-        fFillPIDHist(-1);
+        fFillVtxHist(1);
         PostData(1, fOutputList);
         return false;
     }
@@ -153,7 +153,7 @@ bool AliAnalysisTaskPhiCount::fIsPrimaryVertexCandidate ( AliAODEvent* event )
             PostData(2, fOutputTree_SIG);
             if ( kMCbool ) fOutputTree_TRU -> Fill();
             if ( kMCbool ) PostData(3, fOutputTree_TRU);
-            fFillPIDHist(nullptr,-2);
+            fFillVtxHist(2);
             PostData(1, fOutputList);
             return false;
         }
@@ -170,7 +170,7 @@ bool AliAnalysisTaskPhiCount::fIsPrimaryVertexCandidate ( AliAODEvent* event )
         PostData(2, fOutputTree_SIG);
         if ( kMCbool ) fOutputTree_TRU -> Fill();
         if ( kMCbool ) PostData(3, fOutputTree_TRU);
-        fFillPIDHist(nullptr,-3);
+        fFillVtxHist(3);
         PostData(1, fOutputList);
         return false;
     }
@@ -366,7 +366,7 @@ void AliAnalysisTaskPhiCount::UserExec(Option_t *)
     
     // Check the event is there and has a primary vertex with due requirements
     if ( !fIsPrimaryVertexCandidate(dynamic_cast<AliAODEvent*>(InputEvent())) ) return;
-    fFillPIDHist(nullptr,-4);
+    fFillVtxHist(4);
      
     // Define and Fetch PID with Manager
     AliAnalysisManager *man = AliAnalysisManager::GetAnalysisManager();
