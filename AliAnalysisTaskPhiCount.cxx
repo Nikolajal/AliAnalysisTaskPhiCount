@@ -1,7 +1,5 @@
 // !TODO LIST
-// TODO: Implement Rec and Phi for the KaonCouples
-// TODO: Implement Rec for the true Phi
-// TODO: Implement MC Flag
+// TODO: You're all set!
 
 
 #include "TChain.h"
