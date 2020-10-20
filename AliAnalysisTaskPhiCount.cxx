@@ -344,6 +344,13 @@ void AliAnalysisTaskPhiCount::fFillPIDHist ( AliAODTrack * track , Int_t iIndex 
 
 //_____________________________________________________________________________
 
+void AliAnalysisTaskPhiCount::fFillVtxHist ( Int_t iIndex )
+{
+    
+}
+
+//_____________________________________________________________________________
+
 void AliAnalysisTaskPhiCount::UserExec(Option_t *)
 {
     // Recovering Event Data

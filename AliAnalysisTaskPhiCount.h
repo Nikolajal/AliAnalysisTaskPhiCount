@@ -31,6 +31,7 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
         bool                    fIsPhiValid                 ( AliAODMCParticle* particle );
         bool                    fIsKaonTruPhi               ( AliAODMCParticle* piKaon, AliAODMCParticle* pjKaon );
         void                    fFillPIDHist                ( AliAODTrack *     track, Int_t iIndex );
+        void                    fFillVtxHist                ( Int_t iIndex );
         AliAODVertex*           fGetPrimaryVertex           ( AliAODEvent*      event ) { return fIsPrimaryVertexCandidate(event) ? fPrimaryVertex : nullptr; };
     
         AliAODEvent*            fAOD;               //! input event
