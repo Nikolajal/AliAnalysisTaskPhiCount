@@ -308,10 +308,6 @@ bool AliAnalysisTaskPhiCount::fIsPhiValid ( AliAODMCParticle* particle )
 
 void AliAnalysisTaskPhiCount::fFillPIDHist ( AliAODTrack * track , Int_t iIndex )
 {
-    if ( iIndex == -1 ) fHistEvntEff->Fill(1);
-    if ( iIndex == -2 ) fHistEvntEff->Fill(2);
-    if ( iIndex == -3 ) fHistEvntEff->Fill(3);
-    if ( iIndex == -4 ) fHistEvntEff->Fill(4);
     if ( !track ) return;
     if ( (fPIDResponse->CheckPIDStatus(AliPIDResponse::kTPC, track) == AliPIDResponse::kDetPidOk) )
     {
@@ -347,6 +343,10 @@ void AliAnalysisTaskPhiCount::fFillPIDHist ( AliAODTrack * track , Int_t iIndex 
 void AliAnalysisTaskPhiCount::fFillVtxHist ( Int_t iIndex )
 {
     
+    if ( iIndex == -1 ) fHistEvntEff->Fill(1);
+    if ( iIndex == -2 ) fHistEvntEff->Fill(2);
+    if ( iIndex == -3 ) fHistEvntEff->Fill(3);
+    if ( iIndex == -4 ) fHistEvntEff->Fill(4);
 }
 
 //_____________________________________________________________________________
