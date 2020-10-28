@@ -66,22 +66,22 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
         Int_t                   fnKaon;
         Int_t                   faKaon      [1024];
         
-    
         // List
-        TList*                  fOutputList;        //! output list
+        TList*                  fAnalysisOutputList;//! Analysis output list
+        TList*                  fQCOutputList;      //! Analysis output list
         
         // List Variables
-        TH1F*                   fHistEvntEff;        //! histogram of Event Efficiency
-        TH1F*                   fHistVertex0;        //! histogram of Vertex
-        TH2F*                   fHistTPCPID0;        //! histogram of TPC PID
-        TH2F*                   fHistTOFPID0;        //! histogram of TOF PID
-        TH1F*                   fHistVertex1;        //! histogram of Vertex
-        TH2F*                   fHistTPCPID1;        //! histogram of TPC PID
-        TH2F*                   fHistTOFPID1;        //! histogram of TOF PID
-        TH2F*                   fHistTPCPID2;        //! histogram of TPC PID
-        TH2F*                   fHistTOFPID2;        //! histogram of TOF PID
-        TH2F*                   fHistTOFPID3;        //! histogram of TOF PID Sigma
-        TH2F*                   fHistTPCPID3;        //! histogram of TPC PID Sigma
+        TH1F*                   fHistEvntEff;       //! histogram of Event Efficiency
+        TH1F*                   fHistVertex0;       //! histogram of Vertex
+        TH2F*                   fHistTPCPID0;       //! histogram of TPC PID
+        TH2F*                   fHistTOFPID0;       //! histogram of TOF PID
+        TH1F*                   fHistVertex1;       //! histogram of Vertex
+        TH2F*                   fHistTPCPID1;       //! histogram of TPC PID
+        TH2F*                   fHistTOFPID1;       //! histogram of TOF PID
+        TH2F*                   fHistTPCPID2;       //! histogram of TPC PID
+        TH2F*                   fHistTOFPID2;       //! histogram of TOF PID
+        TH2F*                   fHistTOFPID3;       //! histogram of TOF PID Sigma
+        TH2F*                   fHistTPCPID3;       //! histogram of TPC PID Sigma
 
         AliAnalysisTaskPhiCount   (const AliAnalysisTaskPhiCount&); // not implemented
         AliAnalysisTaskPhiCount&  operator = (const AliAnalysisTaskPhiCount&); // not implemented

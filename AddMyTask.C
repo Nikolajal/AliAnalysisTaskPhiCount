@@ -27,9 +27,15 @@ AliAnalysisTaskPhiCount* AddMyTask( Bool_t MCFlag, TString name = "name" )
     mgr->ConnectInput(task,0,mgr->GetCommonInputContainer());
     
     // Output
-    mgr->ConnectOutput(task,2,mgr->CreateContainer("MyOutputContainerTreeSIG", TTree::Class(), AliAnalysisManager::kOutputContainer, fileName.Data()));
-    if ( MCFlag ) mgr->ConnectOutput(task,3,mgr->CreateContainer("MyOutputContainerTreeTRU", TTree::Class(), AliAnalysisManager::kOutputContainer, fileName.Data()));
-    mgr->ConnectOutput(task,1,mgr->CreateContainer("MyOutputContainerListUTL", TList::Class(), AliAnalysisManager::kOutputContainer, fileName.Data()));
+    // - // TLists
+    
+    mgr->ConnectOutput(task,1,mgr->CreateContainer("fAnalysisOutputList",   TList::Class(), AliAnalysisManager::kOutputContainer, fileName.Data()));
+    mgr->ConnectOutput(task,2,mgr->CreateContainer("fQCOutputList",         TList::Class(), AliAnalysisManager::kOutputContainer, fileName.Data()));
+    
+    // - // TTrees
+    
+    mgr->ConnectOutput(task,3,mgr->CreateContainer("MyOutputContainerTreeSIG", TTree::Class(), AliAnalysisManager::kOutputContainer, fileName.Data()));
+    if ( MCFlag ) mgr->ConnectOutput(task,4,mgr->CreateContainer("MyOutputContainerTreeTRU", TTree::Class(), AliAnalysisManager::kOutputContainer, fileName.Data()));
     
     // Add task
     mgr->AddTask(task);

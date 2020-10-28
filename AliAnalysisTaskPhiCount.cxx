@@ -22,7 +22,7 @@ using namespace std;
 ClassImp(AliAnalysisTaskPhiCount)
 
 AliAnalysisTaskPhiCount::AliAnalysisTaskPhiCount() : AliAnalysisTaskSE(),
-fAOD(0), fMCD(0), fOutputList(0), fOutputTree_SIG(0), fOutputTree_TRU(0), fHistVertex0(0), fHistVertex1(0), fHistTPCPID0(0), fHistTPCPID1(0), fHistTPCPID2(0), fHistTOFPID0(0), fHistTOFPID1(0), fHistTOFPID2(0), fPIDResponse(0), AODMCTrackArray(0)
+fAOD(0), fMCD(0), fAnalysisOutputList(0), fQCOutputList(0), fOutputTree_SIG(0), fOutputTree_TRU(0), fHistVertex0(0), fHistVertex1(0), fHistTPCPID0(0), fHistTPCPID1(0), fHistTPCPID2(0), fHistTOFPID0(0), fHistTOFPID1(0), fHistTOFPID2(0), fPIDResponse(0), AODMCTrackArray(0)
 {
     
 }
@@ -30,30 +30,36 @@ fAOD(0), fMCD(0), fOutputList(0), fOutputTree_SIG(0), fOutputTree_TRU(0), fHistV
 //_____________________________________________________________________________
 
 AliAnalysisTaskPhiCount::AliAnalysisTaskPhiCount(const char* name) : AliAnalysisTaskSE(name),
-   fAOD(0), fMCD(0), fOutputList(0), fOutputTree_SIG(0), fOutputTree_TRU(0), fHistVertex0(0), fHistVertex1(0), fHistTPCPID0(0), fHistTPCPID1(0), fHistTPCPID2(0), fHistTOFPID0(0), fHistTOFPID1(0), fHistTOFPID2(0), fPIDResponse(0), AODMCTrackArray(0)
+   fAOD(0), fMCD(0), fAnalysisOutputList(0), fQCOutputList(0), fOutputTree_SIG(0), fOutputTree_TRU(0), fHistVertex0(0), fHistVertex1(0), fHistTPCPID0(0), fHistTPCPID1(0), fHistTPCPID2(0), fHistTOFPID0(0), fHistTOFPID1(0), fHistTOFPID2(0), fPIDResponse(0), AODMCTrackArray(0)
 {
     // Define Input
     DefineInput(0, TChain::Class());
     
     // Define Output
     DefineOutput(1, TList::Class());
-    DefineOutput(2, TTree::Class());
+    DefineOutput(2, TList::Class());
     DefineOutput(3, TTree::Class());
+    DefineOutput(4, TTree::Class());
 }
 
 //_____________________________________________________________________________
 
 AliAnalysisTaskPhiCount::~AliAnalysisTaskPhiCount()
 {
-    if(fOutputList)
+    // Deleting TLists
+    if( fAnalysisOutputList )
     {
-        delete fOutputList;
+        delete fAnalysisOutputList;
     }
-    if(fOutputTree_SIG)
+    if( fQCOutputList )
+    {
+        delete fQCOutputList;
+    }
+    if( fOutputTree_SIG )
     {
         delete fOutputTree_SIG;
     }
-    if(fOutputTree_TRU)
+    if( fOutputTree_TRU )
     {
         delete fOutputTree_TRU;
     }
@@ -72,7 +78,7 @@ void AliAnalysisTaskPhiCount::UserCreateOutputObjects()
     fOutputTree_SIG->Branch     ("pT"               ,&fKpT,             "fKpT[fnKaonCouple]/F");
     if ( kMCbool ) fOutputTree_SIG->Branch     ("bPhi"             ,&fKbPhi,           "fKbPhi[fnKaonCouple]/O");
     
-    PostData(2, fOutputTree_SIG);
+    PostData(3, fOutputTree_SIG);
     
     fOutputTree_TRU = new TTree ("TRU_Phi__Tree",   "A ROOT tree for pythia MC - Phi");
     fOutputTree_TRU->Branch     ("nPhi",            &fnPhi,            "fnPhi/I");
@@ -81,34 +87,39 @@ void AliAnalysisTaskPhiCount::UserCreateOutputObjects()
     fOutputTree_TRU->Branch     ("bKdc",            &fPbKdc,           "fPbKdc[fnPhi]/O");
     fOutputTree_TRU->Branch     ("pT",              &fPpT,             "fPpT[fnPhi]/F");
     
-    if ( kMCbool ) PostData(3, fOutputTree_TRU);
+    if ( kMCbool ) PostData(4, fOutputTree_TRU);
     
-    fOutputList     = new TList();
-    fOutputList     ->SetOwner(kTRUE);
+    fAnalysisOutputList     = new TList();
+    fAnalysisOutputList     ->SetOwner(kTRUE);
     fHistVertex0    = new TH1F("fHistVertex0", "Collision Vertex (FULL)", 1000, -15, 15);
     fHistVertex1    = new TH1F("fHistVertex1", "Collision Vertex (CUTS)", 1000, -15, 15);
     fHistTPCPID0    = new TH2F("fHistTPCPID0", "TPC Response (ALL)"     , 100, 0, 4, 200, 0, 400);
     fHistTPCPID1    = new TH2F("fHistTPCPID1", "TPC Response (Sel1)"    , 100, 0, 4, 200, 0, 400);
     fHistTPCPID2    = new TH2F("fHistTPCPID2", "TPC Response (Sel2)"    , 100, 0, 4, 200, 0, 400);
-    fHistTPCPID3    = new TH2F("fHistTPCPID3", "TPC Response (Sel3)"    , 100, 0, 4, 200, -10, 10);
     fHistTOFPID0    = new TH2F("fHistTOFPID0", "TOF Response (ALL)"     , 100, 0, 4, 100, 0, 1.2);
     fHistTOFPID1    = new TH2F("fHistTOFPID1", "TOF Response (Sel1)"    , 100, 0, 4, 100, 0, 1.2);
     fHistTOFPID2    = new TH2F("fHistTOFPID2", "TOF Response (Sel2)"    , 100, 0, 4, 100, 0, 1.2);
-    fHistTOFPID3    = new TH2F("fHistTOFPID3", "TOF Response (Sel3)"    , 100, 0, 4, 200, -10, 10);
     fHistEvntEff    = new TH1F("fHistEvntEff", "fHistEvntEff"           , 4,   0.5, 4.5);
-    fOutputList->Add(fHistEvntEff);
-    fOutputList->Add(fHistVertex0);
-    fOutputList->Add(fHistTPCPID0);
-    fOutputList->Add(fHistTOFPID0);
-    fOutputList->Add(fHistVertex1);
-    fOutputList->Add(fHistTPCPID1);
-    fOutputList->Add(fHistTOFPID1);
-    fOutputList->Add(fHistTPCPID2);
-    fOutputList->Add(fHistTOFPID2);
-    fOutputList->Add(fHistTPCPID3);
-    fOutputList->Add(fHistTOFPID3);
+    fAnalysisOutputList->Add(fHistEvntEff);
+    fAnalysisOutputList->Add(fHistVertex0);
+    fAnalysisOutputList->Add(fHistTPCPID0);
+    fAnalysisOutputList->Add(fHistTOFPID0);
+    fAnalysisOutputList->Add(fHistVertex1);
+    fAnalysisOutputList->Add(fHistTPCPID1);
+    fAnalysisOutputList->Add(fHistTOFPID1);
+    fAnalysisOutputList->Add(fHistTPCPID2);
+    fAnalysisOutputList->Add(fHistTOFPID2);
     
-    PostData(1, fOutputList);
+    PostData(1, fAnalysisOutputList);
+    
+    fQCOutputList     = new TList();
+    fQCOutputList     ->SetOwner(kTRUE);
+    fHistTPCPID3    = new TH2F("fHistTPCPID3", "TPC Response (Sel3)"    , 100, 0, 4, 200, -10, 10);
+    fHistTOFPID3    = new TH2F("fHistTOFPID3", "TOF Response (Sel3)"    , 100, 0, 4, 200, -10, 10);
+    fQCOutputList->Add(fHistTPCPID3);
+    fQCOutputList->Add(fHistTOFPID3);
+    
+    PostData(2, fQCOutputList);
 }
 
 //_____________________________________________________________________________
@@ -126,11 +137,12 @@ bool AliAnalysisTaskPhiCount::fIsPrimaryVertexCandidate ( AliAODEvent* event )
         fnPhi       = 0;
         fnKaonCouple= 0;
         fOutputTree_SIG -> Fill();
-        PostData(2, fOutputTree_SIG);
+        PostData(3, fOutputTree_SIG);
         if ( kMCbool ) fOutputTree_TRU -> Fill();
-        if ( kMCbool ) PostData(3, fOutputTree_TRU);
+        if ( kMCbool ) PostData(4, fOutputTree_TRU);
         fFillVtxHist(1);
-        PostData(1, fOutputList);
+        PostData(1, fAnalysisOutputList);
+        PostData(2, fQCOutputList);
         return false;
     }
 
@@ -150,11 +162,12 @@ bool AliAnalysisTaskPhiCount::fIsPrimaryVertexCandidate ( AliAODEvent* event )
             fnPhi       = 0;
             fnKaonCouple= 0;
             fOutputTree_SIG -> Fill();
-            PostData(2, fOutputTree_SIG);
+            PostData(3, fOutputTree_SIG);
             if ( kMCbool ) fOutputTree_TRU -> Fill();
-            if ( kMCbool ) PostData(3, fOutputTree_TRU);
+            if ( kMCbool ) PostData(4, fOutputTree_TRU);
             fFillVtxHist(2);
-            PostData(1, fOutputList);
+            PostData(1, fAnalysisOutputList);
+            PostData(2, fQCOutputList);
             return false;
         }
     }
@@ -167,11 +180,12 @@ bool AliAnalysisTaskPhiCount::fIsPrimaryVertexCandidate ( AliAODEvent* event )
         fnPhi       = 0;
         fnKaonCouple= 0;
         fOutputTree_SIG -> Fill();
-        PostData(2, fOutputTree_SIG);
+        PostData(3, fOutputTree_SIG);
         if ( kMCbool ) fOutputTree_TRU -> Fill();
-        if ( kMCbool ) PostData(3, fOutputTree_TRU);
+        if ( kMCbool ) PostData(4, fOutputTree_TRU);
         fFillVtxHist(3);
-        PostData(1, fOutputList);
+        PostData(1, fAnalysisOutputList);
+        PostData(2, fQCOutputList);
         return false;
     }
     
@@ -468,13 +482,16 @@ void AliAnalysisTaskPhiCount::UserExec(Option_t *)
             fnPhi++;
         }
     }
-
+    
+    // Post-data for TLists
+    PostData(1, fAnalysisOutputList);
+    PostData(2, fQCOutputList);
+    
     // Discarding the event with over 1024 Kaons
     if ( fnKaon <= 1024 && fnKaonCouple <= 1024 ) fOutputTree_SIG -> Fill();
     if ( kMCbool        && fnPhi <= 1024 ) fOutputTree_TRU -> Fill();
-    if ( kMCbool ) PostData(3, fOutputTree_TRU);
-    PostData(2, fOutputTree_SIG);
-    PostData(1, fOutputList);
+    if ( kMCbool ) PostData(4, fOutputTree_TRU);
+    PostData(3, fOutputTree_SIG);
 }
 
 //_____________________________________________________________________________
