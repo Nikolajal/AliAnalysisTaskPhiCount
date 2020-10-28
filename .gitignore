@@ -25,3 +25,5 @@ myAnalysis.C
 myTask_merge.C
 outputs_valid
 stderr
+stdout
+.DS_Store
