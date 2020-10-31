@@ -42,8 +42,10 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
         Bool_t                  kMCbool;            // MC Flag
         
         // Tree
-        TTree*                  fOutputTree_SIG;    //! output tree for Signal
-        TTree*                  fOutputTree_TRU;    //! output tree for MC Truth
+        TTree*                  fKaonCandidate;  //! output tree for Signal
+        TTree*                  fPhiCandidate;   //! output tree for Signal
+        TTree*                  fKaonEfficiency; //! output tree for MC Truth
+        TTree*                  fPhiEfficiency;  //! output tree for MC Truth
          
         // Tree Variables ( MC Truth )
         Int_t                   fnPhi;              //! Number of Phis produced found

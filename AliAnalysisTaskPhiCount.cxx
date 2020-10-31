@@ -22,7 +22,7 @@ using namespace std;
 ClassImp(AliAnalysisTaskPhiCount)
 
 AliAnalysisTaskPhiCount::AliAnalysisTaskPhiCount() : AliAnalysisTaskSE(),
-fAOD(0), fMCD(0), fAnalysisOutputList(0), fQCOutputList(0), fOutputTree_SIG(0), fOutputTree_TRU(0), fHistVertex0(0), fHistVertex1(0), fHistTPCPID0(0), fHistTPCPID1(0), fHistTPCPID2(0), fHistTOFPID0(0), fHistTOFPID1(0), fHistTOFPID2(0), fPIDResponse(0), AODMCTrackArray(0)
+fAOD(0), fMCD(0), fAnalysisOutputList(0), fQCOutputList(0), fPhiCandidate(0), fPhiEfficiency(0), fHistVertex0(0), fHistVertex1(0), fHistTPCPID0(0), fHistTPCPID1(0), fHistTPCPID2(0), fHistTOFPID0(0), fHistTOFPID1(0), fHistTOFPID2(0), fPIDResponse(0), AODMCTrackArray(0)
 {
     
 }
@@ -30,7 +30,7 @@ fAOD(0), fMCD(0), fAnalysisOutputList(0), fQCOutputList(0), fOutputTree_SIG(0), 
 //_____________________________________________________________________________
 
 AliAnalysisTaskPhiCount::AliAnalysisTaskPhiCount(const char* name) : AliAnalysisTaskSE(name),
-   fAOD(0), fMCD(0), fAnalysisOutputList(0), fQCOutputList(0), fOutputTree_SIG(0), fOutputTree_TRU(0), fHistVertex0(0), fHistVertex1(0), fHistTPCPID0(0), fHistTPCPID1(0), fHistTPCPID2(0), fHistTOFPID0(0), fHistTOFPID1(0), fHistTOFPID2(0), fPIDResponse(0), AODMCTrackArray(0)
+   fAOD(0), fMCD(0), fAnalysisOutputList(0), fQCOutputList(0), fPhiCandidate(0), fPhiEfficiency(0), fHistVertex0(0), fHistVertex1(0), fHistTPCPID0(0), fHistTPCPID1(0), fHistTPCPID2(0), fHistTOFPID0(0), fHistTOFPID1(0), fHistTOFPID2(0), fPIDResponse(0), AODMCTrackArray(0)
 {
     // Define Input
     DefineInput(0, TChain::Class());
@@ -40,6 +40,7 @@ AliAnalysisTaskPhiCount::AliAnalysisTaskPhiCount(const char* name) : AliAnalysis
     DefineOutput(2, TList::Class());
     DefineOutput(3, TTree::Class());
     DefineOutput(4, TTree::Class());
+    DefineOutput(5, TTree::Class());
 }
 
 //_____________________________________________________________________________
@@ -55,13 +56,21 @@ AliAnalysisTaskPhiCount::~AliAnalysisTaskPhiCount()
     {
         delete fQCOutputList;
     }
-    if( fOutputTree_SIG )
+    if( fKaonCandidate )
     {
-        delete fOutputTree_SIG;
+        delete fKaonCandidate;
     }
-    if( fOutputTree_TRU )
+    if( fPhiCandidate )
     {
-        delete fOutputTree_TRU;
+        delete fPhiCandidate;
+    }
+    if( fKaonEfficiency )
+    {
+        delete fKaonEfficiency;
+    }
+    if( fPhiEfficiency )
+    {
+        delete fPhiEfficiency;
     }
 }
 
@@ -69,25 +78,25 @@ AliAnalysisTaskPhiCount::~AliAnalysisTaskPhiCount()
 
 void AliAnalysisTaskPhiCount::UserCreateOutputObjects()
 {
-    fOutputTree_SIG = new TTree ("SIG_Kaon_Tree"    ,"Real Data Tree for Kaon+- Couples");
-    fOutputTree_SIG->Branch     ("nKaonCouple"      ,&fnKaonCouple,     "fnKaonCouple/I");
-    fOutputTree_SIG->Branch     ("iKaon"            ,&fiKaon,           "fiKaon[fnKaonCouple]/I");
-    fOutputTree_SIG->Branch     ("jKaon"            ,&fjKaon,           "fjKaon[fnKaonCouple]/I");
-    fOutputTree_SIG->Branch     ("InvMass"          ,&fInvMass,         "fInvMass[fnKaonCouple]/F");
-    fOutputTree_SIG->Branch     ("bEta"             ,&fKbEta,           "fKbEta[fnKaonCouple]/O");
-    fOutputTree_SIG->Branch     ("pT"               ,&fKpT,             "fKpT[fnKaonCouple]/F");
-    if ( kMCbool ) fOutputTree_SIG->Branch     ("bPhi"             ,&fKbPhi,           "fKbPhi[fnKaonCouple]/O");
+    fPhiCandidate = new TTree ("SIG_Kaon_Tree"    ,"Real Data Tree for Kaon+- Couples");
+    fPhiCandidate->Branch     ("nKaonCouple"      ,&fnKaonCouple,     "fnKaonCouple/I");
+    fPhiCandidate->Branch     ("iKaon"            ,&fiKaon,           "fiKaon[fnKaonCouple]/I");
+    fPhiCandidate->Branch     ("jKaon"            ,&fjKaon,           "fjKaon[fnKaonCouple]/I");
+    fPhiCandidate->Branch     ("InvMass"          ,&fInvMass,         "fInvMass[fnKaonCouple]/F");
+    fPhiCandidate->Branch     ("bEta"             ,&fKbEta,           "fKbEta[fnKaonCouple]/O");
+    fPhiCandidate->Branch     ("pT"               ,&fKpT,             "fKpT[fnKaonCouple]/F");
+    if ( kMCbool ) fPhiCandidate->Branch     ("bPhi"             ,&fKbPhi,           "fKbPhi[fnKaonCouple]/O");
     
-    PostData(3, fOutputTree_SIG);
+    PostData(3, fPhiCandidate);
     
-    fOutputTree_TRU = new TTree ("TRU_Phi__Tree",   "A ROOT tree for pythia MC - Phi");
-    fOutputTree_TRU->Branch     ("nPhi",            &fnPhi,            "fnPhi/I");
-    fOutputTree_TRU->Branch     ("bEta",            &fPbEta,           "fPbEta[fnPhi]/O");
-    fOutputTree_TRU->Branch     ("bRec",            &fPbRec,           "fPbRec[fnPhi]/O");
-    fOutputTree_TRU->Branch     ("bKdc",            &fPbKdc,           "fPbKdc[fnPhi]/O");
-    fOutputTree_TRU->Branch     ("pT",              &fPpT,             "fPpT[fnPhi]/F");
+    fPhiEfficiency = new TTree ("TRU_Phi__Tree",   "A ROOT tree for pythia MC - Phi");
+    fPhiEfficiency->Branch     ("nPhi",            &fnPhi,            "fnPhi/I");
+    fPhiEfficiency->Branch     ("bEta",            &fPbEta,           "fPbEta[fnPhi]/O");
+    fPhiEfficiency->Branch     ("bRec",            &fPbRec,           "fPbRec[fnPhi]/O");
+    fPhiEfficiency->Branch     ("bKdc",            &fPbKdc,           "fPbKdc[fnPhi]/O");
+    fPhiEfficiency->Branch     ("pT",              &fPpT,             "fPpT[fnPhi]/F");
     
-    if ( kMCbool ) PostData(4, fOutputTree_TRU);
+    if ( kMCbool ) PostData(4, fPhiEfficiency);
     
     fAnalysisOutputList     = new TList();
     fAnalysisOutputList     ->SetOwner(kTRUE);
@@ -136,10 +145,10 @@ bool AliAnalysisTaskPhiCount::fIsPrimaryVertexCandidate ( AliAODEvent* event )
     {
         fnPhi       = 0;
         fnKaonCouple= 0;
-        fOutputTree_SIG -> Fill();
-        PostData(3, fOutputTree_SIG);
-        if ( kMCbool ) fOutputTree_TRU -> Fill();
-        if ( kMCbool ) PostData(4, fOutputTree_TRU);
+        fPhiCandidate -> Fill();
+        PostData(3, fPhiCandidate);
+        if ( kMCbool ) fPhiEfficiency -> Fill();
+        if ( kMCbool ) PostData(4, fPhiEfficiency);
         fFillVtxHist(1);
         PostData(1, fAnalysisOutputList);
         PostData(2, fQCOutputList);
@@ -161,10 +170,10 @@ bool AliAnalysisTaskPhiCount::fIsPrimaryVertexCandidate ( AliAODEvent* event )
         {
             fnPhi       = 0;
             fnKaonCouple= 0;
-            fOutputTree_SIG -> Fill();
-            PostData(3, fOutputTree_SIG);
-            if ( kMCbool ) fOutputTree_TRU -> Fill();
-            if ( kMCbool ) PostData(4, fOutputTree_TRU);
+            fPhiCandidate -> Fill();
+            PostData(3, fPhiCandidate);
+            if ( kMCbool ) fPhiEfficiency -> Fill();
+            if ( kMCbool ) PostData(4, fPhiEfficiency);
             fFillVtxHist(2);
             PostData(1, fAnalysisOutputList);
             PostData(2, fQCOutputList);
@@ -179,10 +188,10 @@ bool AliAnalysisTaskPhiCount::fIsPrimaryVertexCandidate ( AliAODEvent* event )
     {
         fnPhi       = 0;
         fnKaonCouple= 0;
-        fOutputTree_SIG -> Fill();
-        PostData(3, fOutputTree_SIG);
-        if ( kMCbool ) fOutputTree_TRU -> Fill();
-        if ( kMCbool ) PostData(4, fOutputTree_TRU);
+        fPhiCandidate -> Fill();
+        PostData(3, fPhiCandidate);
+        if ( kMCbool ) fPhiEfficiency -> Fill();
+        if ( kMCbool ) PostData(4, fPhiEfficiency);
         fFillVtxHist(3);
         PostData(1, fAnalysisOutputList);
         PostData(2, fQCOutputList);
@@ -488,10 +497,10 @@ void AliAnalysisTaskPhiCount::UserExec(Option_t *)
     PostData(2, fQCOutputList);
     
     // Discarding the event with over 1024 Kaons
-    if ( fnKaon <= 1024 && fnKaonCouple <= 1024 ) fOutputTree_SIG -> Fill();
-    if ( kMCbool        && fnPhi <= 1024 ) fOutputTree_TRU -> Fill();
-    if ( kMCbool ) PostData(4, fOutputTree_TRU);
-    PostData(3, fOutputTree_SIG);
+    if ( fnKaon <= 1024 && fnKaonCouple <= 1024 ) fPhiCandidate -> Fill();
+    if ( kMCbool        && fnPhi <= 1024 ) fPhiEfficiency -> Fill();
+    if ( kMCbool ) PostData(4, fPhiEfficiency);
+    PostData(3, fPhiCandidate);
 }
 
 //_____________________________________________________________________________
