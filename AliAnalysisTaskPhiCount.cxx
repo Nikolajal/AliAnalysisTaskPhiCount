@@ -79,24 +79,49 @@ AliAnalysisTaskPhiCount::~AliAnalysisTaskPhiCount()
 
 void AliAnalysisTaskPhiCount::UserCreateOutputObjects()
 {
-    fPhiCandidate = new TTree ("SIG_Kaon_Tree"    ,"Real Data Tree for Kaon+- Couples");
-    fPhiCandidate->Branch     ("nKaonCouple"      ,&fnKaonCouple,     "fnKaonCouple/I");
-    fPhiCandidate->Branch     ("iKaon"            ,&fiKaon,           "fiKaon[fnKaonCouple]/I");
-    fPhiCandidate->Branch     ("jKaon"            ,&fjKaon,           "fjKaon[fnKaonCouple]/I");
-    fPhiCandidate->Branch     ("InvMass"          ,&fInvMass,         "fInvMass[fnKaonCouple]/F");
-    fPhiCandidate->Branch     ("bEta"             ,&fKbEta,           "fKbEta[fnKaonCouple]/O");
-    fPhiCandidate->Branch     ("pT"               ,&fKpT,             "fKpT[fnKaonCouple]/F");
+    // PhiCandidate Tree Set-Up
+    fPhiCandidate = new TTree   ("PhiCandidate",    "Data Tree for Phi Candidates");
+    fPhiCandidate->Branch       ("fMultiplicity",   &fMultiplicity,     "fMultiplicity/F");
+    fPhiCandidate->Branch       ("nPhi",            &fnPhi,             "fnPhi/I");
+    fPhiCandidate->Branch       ("Px",              &fPhiPx,            "fPhiPx[fnPhi]/F");
+    fPhiCandidate->Branch       ("Py",              &fPhiPy,            "fPhiPy[fnPhi]/F");
+    fPhiCandidate->Branch       ("Pz",              &fPhiPz,            "fPhiPz[fnPhi]/F");
+    fPhiCandidate->Branch       ("InvMass",         &fInvMass,          "fInvMass[fnPhi]/F");
+    fPhiCandidate->Branch       ("iKaon",           &fiKaon,            "fiKaon[fnPhi]/I");
+    fPhiCandidate->Branch       ("jKaon",           &fjKaon,            "fjKaon[fnPhi]/I");
     
     PostData(3, fPhiCandidate);
     
-    fPhiEfficiency = new TTree ("TRU_Phi__Tree",   "A ROOT tree for pythia MC - Phi");
-    fPhiEfficiency->Branch     ("nPhi",            &fnPhi,            "fnPhi/I");
-    fPhiEfficiency->Branch     ("bEta",            &fPbEta,           "fPbEta[fnPhi]/O");
-    fPhiEfficiency->Branch     ("bRec",            &fPbRec,           "fPbRec[fnPhi]/O");
-    fPhiEfficiency->Branch     ("bKdc",            &fPbKdc,           "fPbKdc[fnPhi]/O");
-    fPhiEfficiency->Branch     ("pT",              &fPpT,             "fPpT[fnPhi]/F");
+    // KaonCandidate Tree Set-Up
+    fKaonCandidate = new TTree ("KaonCandidate",    "Data Tree for Kaon Candidates");
+    fKaonCandidate->Branch     ("fMultiplicity",    &fMultiplicity,     "fMultiplicity/F");
+    fKaonCandidate->Branch     ("fnKaon",           &fnKaon,            "fnKaon/I");
+    fKaonCandidate->Branch     ("Px",               &fKaonPx,           "fKaonPx[fnKaon]/F");
+    fKaonCandidate->Branch     ("Py",               &fKaonPy,           "fKaonPy[fnKaon]/F");
+    fKaonCandidate->Branch     ("Pz",               &fKaonPz,           "fKaonPz[fnKaon]/F");
     
-    if ( kMCbool ) PostData(4, fPhiEfficiency);
+    PostData(4, fKaonCandidate);
+
+    
+    fPhiEfficiency = new TTree  ("PhiEfficiency",   "Data Tree for Phi Efficiency");
+    fPhiEfficiency->Branch      ("nPhi",            &fnPhi,             "fnPhi/I");
+    fPhiEfficiency->Branch      ("bEta",            &fPbEta,            "fPbEta[fnPhi]/O");
+    fPhiEfficiency->Branch      ("bRec",            &fPbRec,            "fPbRec[fnPhi]/O");
+    fPhiEfficiency->Branch      ("bKdc",            &fPbKdc,            "fPbKdc[fnPhi]/O");
+    fPhiEfficiency->Branch      ("pT",              &fPpT,              "fPpT[fnPhi]/F");
+    
+    if ( kMCbool ) PostData(5, fPhiEfficiency);
+    
+
+    
+    fKaonEfficiency = new TTree ("TRU_Phi__Tree",   "A ROOT tree for pythia MC - Phi");
+    fKaonEfficiency->Branch     ("nPhi",            &fnPhi,             "fnPhi/I");
+    fKaonEfficiency->Branch     ("bEta",            &fPbEta,            "fPbEta[fnPhi]/O");
+    fKaonEfficiency->Branch     ("bRec",            &fPbRec,            "fPbRec[fnPhi]/O");
+    fKaonEfficiency->Branch     ("bKdc",            &fPbKdc,            "fPbKdc[fnPhi]/O");
+    fKaonEfficiency->Branch     ("pT",              &fPpT,              "fPpT[fnPhi]/F");
+    
+    if ( kMCbool ) PostData(6, fPhiEfficiency);
     
     fAnalysisOutputList     = new TList();
     fAnalysisOutputList     ->SetOwner(kTRUE);

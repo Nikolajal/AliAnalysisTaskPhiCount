@@ -42,35 +42,44 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
         TClonesArray*           AODMCTrackArray;    //! MC Tracks Array
 
         Bool_t                  kMCbool;            // MC Flag
-        Bool_t                  kPhibool;            // Phi tree Flag
-        Bool_t                  kKaonbool;            // Kaon tree Flag
+        Bool_t                  kPhibool;           // Phi tree Flag
+        Bool_t                  kKaonbool;          // Kaon tree Flag
         
         // Tree
-        TTree*                  fKaonCandidate;  //! output tree for Signal
-        TTree*                  fPhiCandidate;   //! output tree for Signal
-        TTree*                  fKaonEfficiency; //! output tree for MC Truth
-        TTree*                  fPhiEfficiency;  //! output tree for MC Truth
+        TTree*                  fKaonCandidate;     //! output tree for Signal
+        TTree*                  fPhiCandidate;      //! output tree for Signal
+        TTree*                  fKaonEfficiency;    //! output tree for MC Truth
+        TTree*                  fPhiEfficiency;     //! output tree for MC Truth
+
+        // Event Variables
+        Float_t                 fMultiplicity;      //! Event Multiplicity
+        Int_t                   faKaon      [1024];
          
-        // Tree Variables ( MC Truth )
+        // Tree Variables ( PhiCandidate )
+        Int_t                   fnPhi;              //! Number of Phis produced found
+        Float_t                 fInvMass    [1024]; //! Invariant Mass
+        Float_t                 fPhiPx      [1024]; //! Phi Px
+        Float_t                 fPhiPy      [1024]; //! Phi Py
+        Float_t                 fPhiPz      [1024]; //! Phi Pz
+        short unsigned Int_t    fiKaon      [1024]; //! iKaon
+        short unsigned Int_t    fjKaon      [1024]; //! jKaon
+    
+        // Tree Variables ( KaonCandidate )
+        Int_t                   fnKaon;              //! Number of Phis produced found
+        Float_t                 fInvMass    [1024]; //! Invariant Mass
+        Float_t                 fKaonPx     [1024]; //! Kaon Px
+        Float_t                 fKaonPy     [1024]; //! Kaon Py
+        Float_t                 fKaonPz     [1024]; //! Kaon Pz
+        short signed Int_t      fCharge     [1024]; //! Kaon Charge
+        short signed Int_t      fTOFSigma   [1024]; //! PID TOF
+        short signed Int_t      fTPCSigma   [1024]; //! PID TPC
+         
+        // Tree Variables ( PhiEfficiency )
         Int_t                   fnPhi;              //! Number of Phis produced found
         Bool_t                  fPbEta      [1024]; //! bEta
         Bool_t                  fPbRec      [1024]; //! bRec
         Bool_t                  fPbKdc      [1024]; //! bKdc
         Float_t                 fPpT        [1024]; //! Transverse Momentum
-            
-        // Tree Variables ( Signal )
-        Int_t                   fnKaonCouple;       //! Number of Kaon Couples found
-        Int_t                   fiKaon      [1024]; //! iKaon
-        Int_t                   fjKaon      [1024]; //! jKaon
-        Float_t                 fInvMass    [1024]; //! Invariant Mass
-        Bool_t                  fKbEta      [1024]; //! bEta
-        Int_t                   fKnRec      [1024]; //! bRec
-        Bool_t                  fKbPhi      [1024]; //! bRec
-        Float_t                 fKpT        [1024]; //! Transverse Momentum
-    
-        // Utility Variables
-        Int_t                   fnKaon;
-        Int_t                   faKaon      [1024];
         
         // List
         TList*                  fAnalysisOutputList;//! Analysis output list
