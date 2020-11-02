@@ -116,35 +116,36 @@ void    AliAnalysisTaskPhiCount::UserCreateOutputObjects()
     // PhiCandidate Tree Set-Up
     fPhiCandidate = new TTree   ("PhiCandidate",    "Data Tree for Phi Candidates");
     fPhiCandidate->Branch       ("fMultiplicity",   &fMultiplicity,     "fMultiplicity/F");
-    fPhiCandidate->Branch       ("nPhi",            &fnPhi,             "fnPhi/I");
+    fPhiCandidate->Branch       ("nPhi",            &fnPhi,             "fnPhi/B");
     fPhiCandidate->Branch       ("Px",              &fPhiPx,            "fPhiPx[fnPhi]/F");
     fPhiCandidate->Branch       ("Py",              &fPhiPy,            "fPhiPy[fnPhi]/F");
     fPhiCandidate->Branch       ("Pz",              &fPhiPz,            "fPhiPz[fnPhi]/F");
     fPhiCandidate->Branch       ("InvMass",         &fInvMass,          "fInvMass[fnPhi]/F");
-    fPhiCandidate->Branch       ("iKaon",           &fiKaon,            "fiKaon[fnPhi]/I");
-    fPhiCandidate->Branch       ("jKaon",           &fjKaon,            "fjKaon[fnPhi]/I");
+    fPhiCandidate->Branch       ("iKaon",           &fiKaon,            "fiKaon[fnPhi]/B");
+    fPhiCandidate->Branch       ("jKaon",           &fjKaon,            "fjKaon[fnPhi]/B");
     
     if ( kPhibool )                 PostData(3, fPhiCandidate);
     
     // KaonCandidate Tree Set-Up
     fKaonCandidate = new TTree ("KaonCandidate",    "Data Tree for Kaon Candidates");
     fKaonCandidate->Branch     ("fMultiplicity",    &fMultiplicity,     "fMultiplicity/F");
-    fKaonCandidate->Branch     ("fnKaon",           &fnKaon,            "fnKaon/I");
+    fKaonCandidate->Branch     ("fnKaon",           &fnKaon,            "fnKaon/B");
     fKaonCandidate->Branch     ("Px",               &fKaonPx,           "fKaonPx[fnKaon]/F");
     fKaonCandidate->Branch     ("Py",               &fKaonPy,           "fKaonPy[fnKaon]/F");
     fKaonCandidate->Branch     ("Pz",               &fKaonPz,           "fKaonPz[fnKaon]/F");
-    fKaonCandidate->Branch     ("Charge",           &fCharge,           "fCharge[fnKaon]/I");
-    fKaonCandidate->Branch     ("TOFSigma",         &fTOFSigma,         "fTOFSigma[fnKaon]/I");
-    fKaonCandidate->Branch     ("TPCSigma",         &fTPCSigma,         "fTPCSigma[fnKaon]/I");
+    fKaonCandidate->Branch     ("Charge",           &fCharge,           "fCharge[fnKaon]/B");
+    fKaonCandidate->Branch     ("TOFSigma",         &fTOFSigma,         "fTOFSigma[fnKaon]/B");
+    fKaonCandidate->Branch     ("TPCSigma",         &fTPCSigma,         "fTPCSigma[fnKaon]/B");
     
     if ( kKaonbool )                PostData(4, fKaonCandidate);
 
     fPhiEfficiency = new TTree  ("PhiEfficiency",   "MC Tree for Phi Efficiency");
-    fPhiEfficiency->Branch      ("nPhi",            &fnPhiTru,          "fnPhi/I");
-    fPhiEfficiency->Branch      ("bEta",            &fPbEta,            "fPbEta[fnPhi]/O");
-    fPhiEfficiency->Branch      ("bRec",            &fPbRec,            "fPbRec[fnPhi]/O");
-    fPhiEfficiency->Branch      ("bKdc",            &fPbKdc,            "fPbKdc[fnPhi]/O");
-    fPhiEfficiency->Branch      ("pT",              &fPpT,              "fPpT[fnPhi]/F");
+    fPhiEfficiency->Branch      ("nPhi",            &fnPhiTru,          "fnPhiTru/I");
+    fPhiCandidate->Branch       ("Px",              &fPhiTruPx,         "fPhiTruPx[fnPhiTru]/F");
+    fPhiCandidate->Branch       ("Py",              &fPhiTruPy,         "fPhiTruPy[fnPhiTru]/F");
+    fPhiCandidate->Branch       ("Pz",              &fPhiTruPz,         "fPhiTruPz[fnPhiTru]/F");
+    fPhiEfficiency->Branch      ("bRec",            &fPbRec,            "fPbRec[fnPhiTru]/O");
+    fPhiEfficiency->Branch      ("bKdc",            &fPbKdc,            "fPbKdc[fnPhiTru]/O");
     
     if ( kPhibool   &&  kMCbool )   PostData(5, fPhiEfficiency);
     
@@ -185,19 +186,6 @@ void    AliAnalysisTaskPhiCount::fPostData()
     if ( kKaonbool )                PostData(4, fKaonCandidate);
     if ( kPhibool   &&  kMCbool )   PostData(5, fPhiEfficiency);
     if ( kKaonbool  &&  kMCbool )   PostData(6, fKaonEfficiency);
-    
-    
-    if ( fnKaon <= 1024 && fnPhi <= 1024 ) fPhiCandidate -> Fill();
-    if ( fnPhiTru <= 1024 ) fPhiEfficiency -> Fill();
-    if ( kMCbool ) PostData(4, fPhiEfficiency);
-    PostData(3, fPhiCandidate);
-    
-    
-    fPhiCandidate -> Fill();
-    PostData(3, fPhiCandidate);
-    if ( kMCbool ) fPhiEfficiency -> Fill();
-    if ( kMCbool ) PostData(4, fPhiEfficiency);
-    fFillVtxHist(2);
 }
 
 //_____________________________________________________________________________
@@ -278,9 +266,9 @@ bool    AliAnalysisTaskPhiCount::fIsKaonCandidate ( AliAODTrack* track )
     if ( track->Pt() >= 0.28 &&  fbTOF && ffSigTPC > 5. )   return false;
     if ( track->Pt() >= 0.28 && !fbTOF && ffSigTPC > 3. )   return false;
     fFillPIDHist(track,1);
-    if ( track->Pt() <  0.28  && track->Pt() >=  0.24  && ffSigTPC > 6. )    return false;
-    if ( track->Pt() <  0.24  && track->Pt() >=  0.16  && ffSigTPC > 7. )    return false;
-    if ( track->Pt() <  0.16  && track->Pt() >=  0.00  && ffSigTPC > 7.5 )    return false;
+    if ( track->Pt() <  0.28  && track->Pt() >=  0.24  && ffSigTPC > 6. )   return false;
+    if ( track->Pt() <  0.24  && track->Pt() >=  0.16  && ffSigTPC > 7. )   return false;
+    if ( track->Pt() <  0.16  && track->Pt() >=  0.00  && ffSigTPC > 7.5 )  return false;
     fFillPIDHist(track,2);
     return true;
 }
@@ -296,11 +284,13 @@ bool    AliAnalysisTaskPhiCount::fSetKaonPID ( AliAODTrack* track )
     if ( !fPIDResponse ) return false;
     auto fbTPC       = (fPIDResponse->CheckPIDStatus(AliPIDResponse::kTPC, track) == AliPIDResponse::kDetPidOk);
     auto fbTOF       = (fPIDResponse->CheckPIDStatus(AliPIDResponse::kTOF, track) == AliPIDResponse::kDetPidOk);
-    auto ffSigTOF    = std::fabs(fPIDResponse->NumberOfSigmasTOF(track,AliPID::kKaon));
-    auto ffSigTPC    = std::fabs(fPIDResponse->NumberOfSigmasTPC(track,AliPID::kKaon));
+    auto ffSigTOF    = (fPIDResponse->NumberOfSigmasTOF(track,AliPID::kKaon));
+    auto ffSigTPC    = (fPIDResponse->NumberOfSigmasTPC(track,AliPID::kKaon));
     
-    fTOFSigma[fnKaon]= static_cast<Int_t>(ffSigTOF*10);
-    fTPCSigma[fnKaon]= static_cast<Int_t>(ffSigTPC*10);
+    if ( fabs(ffSigTOF) <= 10 && fbTOF )    fTOFSigma[fnKaon]= static_cast<Char_t>(ffSigTOF*10);
+    else                                    fTOFSigma[fnKaon]= static_cast<Char_t>(-127);
+    if ( fabs(ffSigTPC) <= 10 && fbTPC )    fTPCSigma[fnKaon]= static_cast<Char_t>(ffSigTPC*10);
+    else                                    fTPCSigma[fnKaon]= static_cast<Char_t>(-127);
     
     return  fIsKaonCandidate(track);
 }
@@ -339,7 +329,6 @@ bool    AliAnalysisTaskPhiCount::fIsPhiGen ( AliAODMCParticle* particle )
 
 bool    AliAnalysisTaskPhiCount::fIsPhiRec ( AliAODMCParticle* particle )
 {
-    /*
     // To be recrodable, it must come from a K^+k^- decay
     if ( !fIsPhiGen(particle) ) return false;
     
@@ -364,8 +353,7 @@ bool    AliAnalysisTaskPhiCount::fIsPhiRec ( AliAODMCParticle* particle )
         if ( abs(track->GetLabel()) == Dau1->GetLabel() ) fCheckDau1 = true;
         if ( abs(track->GetLabel()) == Dau2->GetLabel() ) fCheckDau2 = true;
     }
-    return fCheckDau1 && fCheckDau2;*/
-    return true;
+    return fCheckDau1 && fCheckDau2;
 }
 
 //_____________________________________________________________________________
@@ -440,7 +428,6 @@ void    AliAnalysisTaskPhiCount::UserExec(Option_t *)
     // Setting zero all counters and global variables, setting utility variables
     fSetZero();
     Int_t           nTrack(fAOD->GetNumberOfTracks());
-    Int_t           nKaon1_sign, nKaon2_sign;
     TLorentzVector  fKaon1, fKaon2, fPhi;
     
     // Check the event is there and has a primary vertex with due requirements
@@ -455,11 +442,8 @@ void    AliAnalysisTaskPhiCount::UserExec(Option_t *)
     }
     
     // Looping over tracks
-    for (   Int_t iTrack(0); iTrack < nTrack; iTrack++ )
+    for ( Int_t iTrack(0); iTrack < nTrack; iTrack++ )
     {
-        // Protection for segmentation fault due to exceeding array size
-        if ( fnKaon > 1024 ) break;
-        
         // Recovering Track
         auto    fCurrent_Track  =   static_cast<AliAODTrack*>(fAOD->GetTrack(iTrack));
         
@@ -473,64 +457,43 @@ void    AliAnalysisTaskPhiCount::UserExec(Option_t *)
         fKaonPx[fnKaon] =   fCurrent_Track->Px();
         fKaonPy[fnKaon] =   fCurrent_Track->Py();
         fKaonPz[fnKaon] =   fCurrent_Track->Pz();
-        fCharge[fnKaon] =   fCurrent_Track->GetSign();
+        fCharge[fnKaon] =   static_cast<Char_t>(fCurrent_Track->GetSign());
         fnKaon++;
     }
        
-    /*
     //Coupling Kaons
     for ( Int_t iKaon(0); iKaon < fnKaon; iKaon++)
     {
-        // Discarding the event with over 1024 Kaons
-        if ( fnKaon >= 1024 ) break;
-        
         // Storing first Kaon kinematics and sign
-        AliAODTrack* itrack = static_cast<AliAODTrack*>(fAOD->GetTrack(faKaon[iKaon]));
-        fKaon1.SetXYZM(itrack->Px(),itrack->Py(),itrack->Pz(),.493677);
-        nKaon1_sign = (fAOD->GetTrack(faKaon[iKaon]))->GetSign();
+        fKaon1.SetXYZM(fKaonPx[iKaon],fKaonPy[iKaon],fKaonPz[iKaon],.493677);
         
         for ( Int_t jKaon(iKaon+1); jKaon < fnKaon; jKaon++)
         {
-            // Protection for segmentation fault due to exceeding array size
-            if ( fnKaonCouple >= 1024 ) break;
-            
-            //Storing second Kaon Sign
-            nKaon2_sign = (fAOD->GetTrack(faKaon[jKaon]))->GetSign();
-            
-            if ( nKaon1_sign == nKaon2_sign ) continue;
+            if ( fCharge[iKaon] == fCharge[jKaon] ) continue;
             
             // Storing second Kaon Kinematics and combining the two
-            AliAODTrack* jtrack = static_cast<AliAODTrack*>(fAOD->GetTrack(faKaon[jKaon]));
-            fKaon2.SetXYZM(jtrack->Px(),jtrack->Py(),jtrack->Pz(),.493677);
+            fKaon2.SetXYZM(fKaonPx[jKaon],fKaonPy[jKaon],fKaonPz[jKaon],.493677);
             
             // Check the Phi is a good candidate
             fPhi = (fKaon1 + fKaon2);
             if ( !fIsPhiCandidate(fPhi) ) continue;
             
-            fKbEta[fnKaonCouple]        = (std::fabs(fPhi.Rapidity()) <= 0.5);
-            fiKaon[fnKaonCouple]        = iKaon;
-            fjKaon[fnKaonCouple]        = jKaon;
-            fInvMass[fnKaonCouple]      = (fPhi).Mag();
-            fKpT[fnKaonCouple]          = (fPhi).Pt();
-            
-            if ( kMCbool )  //  -   -   -   -   -   -   -   To implement
-            {
-                auto fParticleiKaon = static_cast<AliAODMCParticle*>(AODMCTrackArray->At(abs(itrack->GetLabel())));
-                auto fParticlejKaon = static_cast<AliAODMCParticle*>(AODMCTrackArray->At(abs(jtrack->GetLabel())));
-                fKbPhi[fnKaonCouple]        = fIsKaonTruPhi( fParticleiKaon, fParticlejKaon );
-            }
-            
-            fnKaonCouple++;
+            fPhiPx[fnPhi]       =   fPhi.Px();
+            fPhiPy[fnPhi]       =   fPhi.Py();
+            fPhiPz[fnPhi]       =   fPhi.Pz();
+            fInvMass[fnPhi]     =   (fPhi).Mag();
+            fiKaon[fnPhi]       =   iKaon;
+            fjKaon[fnPhi]       =   jKaon;
+            fnPhi++;
         }
     }
     
     // Loop over all primary MC particle
     if ( kMCbool )
     {
-        for(Long_t i = 0; i < AODMCTrackArray->GetEntriesFast(); i++)
+        Int_t           nTrack(AODMCTrackArray->GetEntriesFast());
+        for ( Int_t iTrack(0); iTrack < nTrack; iTrack++ )
         {
-            if ( fnPhi >= 1024 ) break;
-            
             AliAODMCParticle* particle = static_cast<AliAODMCParticle*>(AODMCTrackArray->At(i));
             
             if ( !fIsPhiValid( particle ) ) continue;
@@ -548,7 +511,7 @@ void    AliAnalysisTaskPhiCount::UserExec(Option_t *)
             fnPhi++;
         }
     }
- */
+    
     // Saving output
     fFillVtxHist(4);
     fPostData();

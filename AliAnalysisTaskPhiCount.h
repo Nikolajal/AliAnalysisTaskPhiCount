@@ -62,29 +62,29 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
         Float_t                 fMultiplicity;      //! Event Multiplicity
          
         // Tree Variables ( PhiCandidate )
-        Int_t                   fnPhi;              //! Number of Phis produced found
+        UChar_t                 fnPhi;              //! Number of Phis produced found
         Float_t                 fInvMass    [1024]; //! Invariant Mass
         Float_t                 fPhiPx      [1024]; //! Phi Px
         Float_t                 fPhiPy      [1024]; //! Phi Py
         Float_t                 fPhiPz      [1024]; //! Phi Pz
-        short unsigned int      fiKaon      [1024]; //! iKaon
-        short unsigned int      fjKaon      [1024]; //! jKaon
+        UChar_t                 fiKaon      [1024]; //! iKaon
+        UChar_t                 fjKaon      [1024]; //! jKaon
     
         // Tree Variables ( KaonCandidate )
-        Int_t                   fnKaon;              //! Number of Phis produced found
+        UChar_t                 fnKaon;             //! Number of Phis produced found
         Float_t                 fKaonPx     [1024]; //! Kaon Px
         Float_t                 fKaonPy     [1024]; //! Kaon Py
         Float_t                 fKaonPz     [1024]; //! Kaon Pz
-        short signed int        fCharge     [1024]; //! Kaon Charge
-        short signed int        fTOFSigma   [1024]; //! PID TOF
-        short signed int        fTPCSigma   [1024]; //! PID TPC
+        Char_t                  fCharge     [1024]; //! Kaon Charge
+        Char_t                  fTOFSigma   [1024]; //! PID TOF
+        Char_t                  fTPCSigma   [1024]; //! PID TPC
          
         // Tree Variables ( PhiEfficiency )
-        Int_t                   fnPhiTru;              //! Number of Phis produced found
-        Bool_t                  fPbEta      [1024]; //! bEta
-        Bool_t                  fPbRec      [1024]; //! bRec
-        Bool_t                  fPbKdc      [1024]; //! bKdc
-        Float_t                 fPpT        [1024]; //! Transverse Momentum
+        UShort_t                fnPhiTru;           //! Number of Phis produced found
+        Float_t                 fPhiTruPx   [1024]; //! Phi Px
+        Float_t                 fPhiTruPy   [1024]; //! Phi Py
+        Float_t                 fPhiTruPz   [1024]; //! Phi Pz
+        UChar_t                 fSelection  [1024]; //! Selection integer
         
         // List
         TList*                  fAnalysisOutputList;//! Analysis output list
