@@ -1,7 +1,7 @@
 // TODO LIST
 // TODO: You're all set!
 
-AliAnalysisTaskPhiCount* AddMyTask( Bool_t MCFlag, Bool_t PhiFlag = true, Bool_t KaonFlag = true, TString name = "name" )
+AliAnalysisTaskPhiCount* AddMyTask( Bool_t MCFlag, Bool_t PhiFlag, Bool_t KaonFlag, TString name = "name" )
 {
     // Analysis Manager
     AliAnalysisManager *mgr = AliAnalysisManager::GetAnalysisManager();
@@ -21,7 +21,9 @@ AliAnalysisTaskPhiCount* AddMyTask( Bool_t MCFlag, Bool_t PhiFlag = true, Bool_t
     task->SelectCollisionCandidates(AliVEvent::kAnyINT);
     
     // MC option
-    task -> fSetMCFlag(MCFlag);
+    task-> fSetMCFlag(MCFlag);
+    task-> fSetPhiFlag(PhiFlag);
+    task-> fSetKaonFlag(KaonFlag);
     
     // Input
     mgr->ConnectInput(task,0,mgr->GetCommonInputContainer());

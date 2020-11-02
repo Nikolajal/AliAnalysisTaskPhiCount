@@ -19,8 +19,10 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
         virtual void            UserCreateOutputObjects     ( );
         virtual void            UserExec                    ( Option_t*         option );
         virtual void            Terminate                   ( Option_t*         option );
-        
+    
         void                    fSetMCFlag                  ( Bool_t MCFlag )           { kMCbool = MCFlag; }
+        void                    fSetPhiFlag                 ( Bool_t PhiFlag )          { kPhibool = PhiFlag; }
+        void                    fSetKaonFlag                ( Bool_t KaonFlag )         { kKaonbool = KaonFlag; }
     
     private:
         bool                    fIsPrimaryVertexCandidate   ( AliAODEvent*      event );
@@ -40,6 +42,8 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
         TClonesArray*           AODMCTrackArray;    //! MC Tracks Array
 
         Bool_t                  kMCbool;            // MC Flag
+        Bool_t                  kPhibool;            // Phi tree Flag
+        Bool_t                  kKaonbool;            // Kaon tree Flag
         
         // Tree
         TTree*                  fKaonCandidate;  //! output tree for Signal
