@@ -88,6 +88,42 @@ AliAnalysisTaskPhiCount::fSetZero()
 
 //_____________________________________________________________________________
 
+AliAnalysisTaskPhiCount::fPostData()
+{
+    // Setting postdata options
+    
+    // Post-data for TLists
+    PostData(1, fAnalysisOutputList);
+    PostData(2, fQCOutputList);
+    
+    // Discarding events with over 1024 Kaons
+    if ( fnKaon <= 1024 && fnPhi <= 1024 )  fPhiCandidate   ->  Fill();
+    if ( fnKaon <= 1024 )                   fKaonCandidate  ->  Fill();
+    if ( fnPhiTru <= 1024 )                 fPhiEfficiency  ->  Fill();
+                                            fKaonEfficiency ->  Fill();
+    
+    // Post-data for TTrees
+    if ( kPhibool )                 PostData(3, fPhiCandidate);
+    if ( kKaonbool )                PostData(4, fKaonCandidate);
+    if ( kPhibool   &&  kMCbool )   PostData(5, fPhiEfficiency);
+    if ( kKaonbool  &&  kMCbool )   PostData(6, fKaonEfficiency);
+    
+    
+    if ( fnKaon <= 1024 && fnPhi <= 1024 ) fPhiCandidate -> Fill();
+    if ( fnPhiTru <= 1024 ) fPhiEfficiency -> Fill();
+    if ( kMCbool ) PostData(4, fPhiEfficiency);
+    PostData(3, fPhiCandidate);
+    
+    
+    fPhiCandidate -> Fill();
+    PostData(3, fPhiCandidate);
+    if ( kMCbool ) fPhiEfficiency -> Fill();
+    if ( kMCbool ) PostData(4, fPhiEfficiency);
+    fFillVtxHist(2);
+}
+
+//_____________________________________________________________________________
+
 void AliAnalysisTaskPhiCount::UserCreateOutputObjects()
 {
     // PhiCandidate Tree Set-Up
@@ -101,7 +137,7 @@ void AliAnalysisTaskPhiCount::UserCreateOutputObjects()
     fPhiCandidate->Branch       ("iKaon",           &fiKaon,            "fiKaon[fnPhi]/I");
     fPhiCandidate->Branch       ("jKaon",           &fjKaon,            "fjKaon[fnPhi]/I");
     
-    PostData(3, fPhiCandidate);
+    if ( kPhibool )                 PostData(3, fPhiCandidate);
     
     // KaonCandidate Tree Set-Up
     fKaonCandidate = new TTree ("KaonCandidate",    "Data Tree for Kaon Candidates");
@@ -111,25 +147,20 @@ void AliAnalysisTaskPhiCount::UserCreateOutputObjects()
     fKaonCandidate->Branch     ("Py",               &fKaonPy,           "fKaonPy[fnKaon]/F");
     fKaonCandidate->Branch     ("Pz",               &fKaonPz,           "fKaonPz[fnKaon]/F");
     
-    PostData(4, fKaonCandidate);
+    if ( kKaonbool )                PostData(4, fKaonCandidate);
 
-    fPhiEfficiency = new TTree  ("PhiEfficiency",   "Data Tree for Phi Efficiency");
+    fPhiEfficiency = new TTree  ("PhiEfficiency",   "MC Tree for Phi Efficiency");
     fPhiEfficiency->Branch      ("nPhi",            &fnPhiTru,          "fnPhi/I");
     fPhiEfficiency->Branch      ("bEta",            &fPbEta,            "fPbEta[fnPhi]/O");
     fPhiEfficiency->Branch      ("bRec",            &fPbRec,            "fPbRec[fnPhi]/O");
     fPhiEfficiency->Branch      ("bKdc",            &fPbKdc,            "fPbKdc[fnPhi]/O");
     fPhiEfficiency->Branch      ("pT",              &fPpT,              "fPpT[fnPhi]/F");
     
-    if ( kMCbool ) PostData(5, fPhiEfficiency);
+    if ( kPhibool   &&  kMCbool )   PostData(5, fPhiEfficiency);
     
-    fKaonEfficiency = new TTree ("TRU_Phi__Tree",   "A ROOT tree for pythia MC - Phi");
-    fKaonEfficiency->Branch     ("nPhi",            &fnPhi,             "fnPhi/I");
-    fKaonEfficiency->Branch     ("bEta",            &fPbEta,            "fPbEta[fnPhi]/O");
-    fKaonEfficiency->Branch     ("bRec",            &fPbRec,            "fPbRec[fnPhi]/O");
-    fKaonEfficiency->Branch     ("bKdc",            &fPbKdc,            "fPbKdc[fnPhi]/O");
-    fKaonEfficiency->Branch     ("pT",              &fPpT,              "fPpT[fnPhi]/F");
+    fKaonEfficiency = new TTree ("KaonEfficiency",   "MC Tree for Kaon Efficiency");
     
-    if ( kMCbool ) PostData(6, fPhiEfficiency);
+    if ( kKaonbool  &&  kMCbool )   PostData(6, fKaonEfficiency);
     
     fAnalysisOutputList     = new TList();
     fAnalysisOutputList     ->SetOwner(kTRUE);
@@ -523,15 +554,6 @@ void AliAnalysisTaskPhiCount::UserExec(Option_t *)
         }
     }
     
-    // Post-data for TLists
-    PostData(1, fAnalysisOutputList);
-    PostData(2, fQCOutputList);
-    
-    // Discarding the event with over 1024 Kaons
-    if ( fnKaon <= 1024 && fnKaonCouple <= 1024 ) fPhiCandidate -> Fill();
-    if ( kMCbool        && fnPhi <= 1024 ) fPhiEfficiency -> Fill();
-    if ( kMCbool ) PostData(4, fPhiEfficiency);
-    PostData(3, fPhiCandidate);
 }
 
 //_____________________________________________________________________________
