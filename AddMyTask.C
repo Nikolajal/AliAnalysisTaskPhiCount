@@ -1,7 +1,7 @@
 // TODO LIST
 // TODO: You're all set!
 
-AliAnalysisTaskPhiCount* AddMyTask( Bool_t MCFlag, TString name = "name" )
+AliAnalysisTaskPhiCount* AddMyTask( Bool_t MCFlag, Bool_t PhiFlag = true, Bool_t KaonFlag = true, TString name = "name" )
 {
     // Analysis Manager
     AliAnalysisManager *mgr = AliAnalysisManager::GetAnalysisManager();
@@ -34,8 +34,13 @@ AliAnalysisTaskPhiCount* AddMyTask( Bool_t MCFlag, TString name = "name" )
     
     // - // TTrees
     
-    mgr->ConnectOutput(task,3,mgr->CreateContainer("MyOutputContainerTreeSIG", TTree::Class(), AliAnalysisManager::kOutputContainer, fileName.Data()));
-    if ( MCFlag ) mgr->ConnectOutput(task,4,mgr->CreateContainer("MyOutputContainerTreeTRU", TTree::Class(), AliAnalysisManager::kOutputContainer, fileName.Data()));
+    if ( PhiFlag )   mgr->ConnectOutput(task,3,mgr->CreateContainer("OutContainer3", TTree::Class(), AliAnalysisManager::kOutputContainer, fileName.Data()));
+    if ( KaonFlag )   mgr->ConnectOutput(task,4,mgr->CreateContainer("OutContainer4", TTree::Class(), AliAnalysisManager::kOutputContainer, fileName.Data()));
+    if ( MCFlag )
+    {
+        if ( PhiFlag )   mgr->ConnectOutput(task,5,mgr->CreateContainer("OutContainer5", TTree::Class(), AliAnalysisManager::kOutputContainer, fileName.Data()));
+        if ( KaonFlag )   mgr->ConnectOutput(task,6,mgr->CreateContainer("OutContainer6", TTree::Class(), AliAnalysisManager::kOutputContainer, fileName.Data()));
+    }
     
     // Add task
     mgr->AddTask(task);

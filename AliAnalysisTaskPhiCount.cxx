@@ -41,6 +41,7 @@ AliAnalysisTaskPhiCount::AliAnalysisTaskPhiCount(const char* name) : AliAnalysis
     DefineOutput(3, TTree::Class());
     DefineOutput(4, TTree::Class());
     DefineOutput(5, TTree::Class());
+    DefineOutput(6, TTree::Class());
 }
 
 //_____________________________________________________________________________
@@ -85,7 +86,6 @@ void AliAnalysisTaskPhiCount::UserCreateOutputObjects()
     fPhiCandidate->Branch     ("InvMass"          ,&fInvMass,         "fInvMass[fnKaonCouple]/F");
     fPhiCandidate->Branch     ("bEta"             ,&fKbEta,           "fKbEta[fnKaonCouple]/O");
     fPhiCandidate->Branch     ("pT"               ,&fKpT,             "fKpT[fnKaonCouple]/F");
-    if ( kMCbool ) fPhiCandidate->Branch     ("bPhi"             ,&fKbPhi,           "fKbPhi[fnKaonCouple]/O");
     
     PostData(3, fPhiCandidate);
     

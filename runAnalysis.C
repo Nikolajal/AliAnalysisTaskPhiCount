@@ -18,8 +18,43 @@ std::vector<int>    LHC10d = { 126158 , 126097, 126090, 126088, 126082, 126081, 
 // MC Correspondant: LHC14j4e
 std::vector<int>    LHC10e = { 130850, 130848, 130847, 130844, 130842, 130840, 130834, 130799, 130798, 130795, 130793, 130704, 130696, 130628, 130623, 130621, 130620, 130609, 130608, 130524, 130520, 130519, 130517, 130481, 130480, 130479, 130375, 130178, 130172, 130168, 130158, 130157, 130149, 129983, 129966, 129962, 129961, 129960, 129744, 129742, 129738, 129736, 129735, 129734, 129729, 129726, 129725, 129723, 129666, 129659, 129653, 129652, 129651, 129650, 129647, 129641, 129639, 129599, 129587, 129586, 129540, 129536, 129528, 129527, 129525, 129524, 129523, 129521, 129520, 129514, 129513, 129512, 129042, 128913, 128855, 128853, 128850, 128843, 128836, 128835, 128834, 128833, 128824, 128823, 128820, 128819, 128778, 128777, 128678, 128677, 128621, 128615, 128611, 128609, 128605, 128582, 128506, 128505, 128504, 128503, 128498, 128495, 128494, 128486 };
 
-void runAnalysis( Bool_t MCFlag = false, Bool_t local = true, Bool_t gridTest = true, Int_t kPeriod = -1)
+void runAnalysis( string fOption = "", Int_t kPeriod = -1)
 {
+    Bool_t MCFlag = false;
+    Bool_t local = true;
+    Bool_t gridTest = true;
+    Bool_t KaonFlag = false;
+    Bool_t PhiFlag = true;
+    if ( fOption.find("Full") != -1 )
+    {
+        local = false;
+        gridTest = false;
+    }
+    if ( fOption.find("Test") != -1 )
+    {
+        local = false;
+        gridTest = true;
+    }
+    if ( fOption.find("MC") != -1 )
+    {
+        MCFlag = true;
+    }
+    if ( fOption.find("Kaon") != -1 )
+    {
+        KaonFlag = true;
+        PhiFlag = false;
+    }
+    if ( fOption.find("AllTree") != -1 )
+    {
+        KaonFlag = true;
+        PhiFlag = true;
+    }
+    if ( fOption.find("Stat") != -1 )
+    {
+        KaonFlag = false;
+        PhiFlag = false;
+    }
+        
     std::vector<int> RunList;
     auto RunYear = "";
     auto RunName = "";
@@ -36,19 +71,6 @@ void runAnalysis( Bool_t MCFlag = false, Bool_t local = true, Bool_t gridTest = 
     
     switch ( kPeriod )
     {
-    case 0:
-        if ( MCFlag )
-        {
-            RunYear = "2014";
-            RunName = "LHC14j4b";
-        }
-        else
-        {
-            RunYear = "2010";
-            RunName = "LHC10b";
-        }
-        RunList = LHC10b;
-        break;
     case 1:
         if ( MCFlag )
         {
@@ -91,7 +113,7 @@ void runAnalysis( Bool_t MCFlag = false, Bool_t local = true, Bool_t gridTest = 
                 
         break;
     default:
-        cout << "[info]: Default Settings ENABLED" << endl;
+        cout << "[info]: Default Period ENABLED" << endl;
         if ( MCFlag )
         {
             RunYear = "2014";
@@ -103,7 +125,6 @@ void runAnalysis( Bool_t MCFlag = false, Bool_t local = true, Bool_t gridTest = 
             RunName = "LHC10b";
         }
         RunList = LHC10b;
-        
         break;
     }
     cout << "[info]: " << RunName << " Period chose" << endl;
@@ -136,8 +157,7 @@ void runAnalysis( Bool_t MCFlag = false, Bool_t local = true, Bool_t gridTest = 
     if ( MCFlag )   PIDk = reinterpret_cast<AliAnalysisTaskPIDResponse*>(PIDadd.Exec("kTRUE,kTRUE,kTRUE,4,kFALSE,\"\",kFALSE,kFALSE"));
     else            PIDk = reinterpret_cast<AliAnalysisTaskPIDResponse*>(PIDadd.Exec("kFALSE,kTRUE,kTRUE,4,kFALSE,\"\",kFALSE,kFALSE"));
     AliAnalysisTaskPhiCount *task;
-    if ( MCFlag )   task = reinterpret_cast<AliAnalysisTaskPhiCount*>(gInterpreter->ExecuteMacro("AddMyTask.C(true)"));
-    else            task = reinterpret_cast<AliAnalysisTaskPhiCount*>(gInterpreter->ExecuteMacro(Form("AddMyTask.C(false)")));
+    task = reinterpret_cast<AliAnalysisTaskPhiCount*>(gInterpreter->ExecuteMacro(Form("AddMyTask.C(%d,%d,%d)",MCFlag,PhiFlag,KaonFlag)));
 #else
     gROOT                       ->LoadMacro("AliAnalysisTaskPhiCount.cxx++g");
     gROOT                       ->LoadMacro("$ALICE_ROOT/ANALYSIS/macros/AddTaskPIDResponse.C");
