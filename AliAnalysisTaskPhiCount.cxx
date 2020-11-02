@@ -77,6 +77,17 @@ AliAnalysisTaskPhiCount::~AliAnalysisTaskPhiCount()
 
 //_____________________________________________________________________________
 
+AliAnalysisTaskPhiCount::fSetZero()
+{
+    //Setting all counters and global variables to zero
+    fMultiplicity   =   0;
+    fnPhi           =   0;
+    fnKaon          =   0;
+    fnPhiTru        =   0;
+}
+
+//_____________________________________________________________________________
+
 void AliAnalysisTaskPhiCount::UserCreateOutputObjects()
 {
     // PhiCandidate Tree Set-Up
@@ -102,17 +113,14 @@ void AliAnalysisTaskPhiCount::UserCreateOutputObjects()
     
     PostData(4, fKaonCandidate);
 
-    
     fPhiEfficiency = new TTree  ("PhiEfficiency",   "Data Tree for Phi Efficiency");
-    fPhiEfficiency->Branch      ("nPhi",            &fnPhi,             "fnPhi/I");
+    fPhiEfficiency->Branch      ("nPhi",            &fnPhiTru,          "fnPhi/I");
     fPhiEfficiency->Branch      ("bEta",            &fPbEta,            "fPbEta[fnPhi]/O");
     fPhiEfficiency->Branch      ("bRec",            &fPbRec,            "fPbRec[fnPhi]/O");
     fPhiEfficiency->Branch      ("bKdc",            &fPbKdc,            "fPbKdc[fnPhi]/O");
     fPhiEfficiency->Branch      ("pT",              &fPpT,              "fPpT[fnPhi]/F");
     
     if ( kMCbool ) PostData(5, fPhiEfficiency);
-    
-
     
     fKaonEfficiency = new TTree ("TRU_Phi__Tree",   "A ROOT tree for pythia MC - Phi");
     fKaonEfficiency->Branch     ("nPhi",            &fnPhi,             "fnPhi/I");
@@ -412,6 +420,12 @@ void AliAnalysisTaskPhiCount::UserExec(Option_t *)
     if ( kMCbool )      AODMCTrackArray = dynamic_cast<TClonesArray*>(fInputEvent->FindListObject(AliAODMCParticle::StdBranchName()));
     if ( !AODMCTrackArray && kMCbool )     return;
     
+    // Setting zero all counters and global variables, setting utility variables
+    fSetZero()
+    Int_t           nTrack(fAOD->GetNumberOfTracks());
+    Int_t           nKaon1_sign, nKaon2_sign;
+    TLorentzVector  fKaon1, fKaon2, fPhi;
+    
     // Check the event is there and has a primary vertex with due requirements
     if ( !fIsPrimaryVertexCandidate(dynamic_cast<AliAODEvent*>(InputEvent())) ) return;
     fFillVtxHist(4);
@@ -423,14 +437,6 @@ void AliAnalysisTaskPhiCount::UserExec(Option_t *)
         AliInputEventHandler* inputHandler = (AliInputEventHandler*)(man->GetInputEventHandler());
         if (inputHandler)   fPIDResponse = inputHandler->GetPIDResponse();
     }
-    
-    // Utility variables
-    Int_t           nTrack(fAOD->GetNumberOfTracks());
-                    fnKaon      = 0;
-                    fnPhi       = 0;
-                    fnKaonCouple= 0;
-    Int_t           nKaon1_sign, nKaon2_sign;
-    TLorentzVector  fKaon1, fKaon2, fPhi;
     
     // Looping over tracks
     for (   Int_t iTrack(0); iTrack < nTrack; iTrack++ )

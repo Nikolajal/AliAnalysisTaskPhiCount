@@ -12,19 +12,24 @@ class AliAODTrack;
 class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
 {
     public:
+    // Constructors
                                 AliAnalysisTaskPhiCount     ( );
                                 AliAnalysisTaskPhiCount     ( const char *      name );
         virtual                 ~AliAnalysisTaskPhiCount    ( );
 
+    // Required implementations
         virtual void            UserCreateOutputObjects     ( );
         virtual void            UserExec                    ( Option_t*         option );
         virtual void            Terminate                   ( Option_t*         option );
     
+    // Setters
         void                    fSetMCFlag                  ( Bool_t MCFlag )           { kMCbool = MCFlag; }
         void                    fSetPhiFlag                 ( Bool_t PhiFlag )          { kPhibool = PhiFlag; }
         void                    fSetKaonFlag                ( Bool_t KaonFlag )         { kKaonbool = KaonFlag; }
     
     private:
+        void                    fSetZero                    ();
+        void                    fPostData                   ();
         bool                    fIsPrimaryVertexCandidate   ( AliAODEvent*      event );
         bool                    fIsKaonCandidate            ( AliAODTrack *     track );
         bool                    fIsPhiCandidate             ( TLorentzVector    fPhi );
@@ -75,7 +80,7 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
         short signed Int_t      fTPCSigma   [1024]; //! PID TPC
          
         // Tree Variables ( PhiEfficiency )
-        Int_t                   fnPhi;              //! Number of Phis produced found
+        Int_t                   fnPhiTru;              //! Number of Phis produced found
         Bool_t                  fPbEta      [1024]; //! bEta
         Bool_t                  fPbRec      [1024]; //! bRec
         Bool_t                  fPbKdc      [1024]; //! bKdc
