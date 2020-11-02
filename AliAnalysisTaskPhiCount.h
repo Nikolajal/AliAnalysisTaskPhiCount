@@ -31,6 +31,8 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
         void                    fSetZero                    ();
         void                    fPostData                   ();
         bool                    fIsPrimaryVertexCandidate   ( AliAODEvent*      event );
+        bool                    fIsTrackCandidate           ( AliAODTrack *     track );
+        void                    fSetKaonPID                 ( AliAODTrack *     track );
         bool                    fIsKaonCandidate            ( AliAODTrack *     track );
         bool                    fIsPhiCandidate             ( TLorentzVector    fPhi );
         bool                    fIsPhiGen                   ( AliAODMCParticle* particle );
@@ -71,7 +73,6 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
     
         // Tree Variables ( KaonCandidate )
         Int_t                   fnKaon;              //! Number of Phis produced found
-        Float_t                 fInvMass    [1024]; //! Invariant Mass
         Float_t                 fKaonPx     [1024]; //! Kaon Px
         Float_t                 fKaonPy     [1024]; //! Kaon Py
         Float_t                 fKaonPz     [1024]; //! Kaon Pz

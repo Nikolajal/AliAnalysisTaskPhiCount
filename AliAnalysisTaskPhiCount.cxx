@@ -77,6 +77,81 @@ AliAnalysisTaskPhiCount::~AliAnalysisTaskPhiCount()
 
 //_____________________________________________________________________________
 
+void AliAnalysisTaskPhiCount::UserCreateOutputObjects()
+{
+    // Various utility Histograms TList initialisation
+    fAnalysisOutputList     = new TList();
+    fAnalysisOutputList     ->SetOwner(kTRUE);
+    fHistVertex0    = new TH1F("fHistVertex0", "Collision Vertex (FULL)", 1000, -15, 15);
+    fHistVertex1    = new TH1F("fHistVertex1", "Collision Vertex (CUTS)", 1000, -15, 15);
+    fHistTPCPID0    = new TH2F("fHistTPCPID0", "TPC Response (ALL)"     , 100, 0, 4, 200, 0, 400);
+    fHistTPCPID1    = new TH2F("fHistTPCPID1", "TPC Response (Sel1)"    , 100, 0, 4, 200, 0, 400);
+    fHistTPCPID2    = new TH2F("fHistTPCPID2", "TPC Response (Sel2)"    , 100, 0, 4, 200, 0, 400);
+    fHistTOFPID0    = new TH2F("fHistTOFPID0", "TOF Response (ALL)"     , 100, 0, 4, 100, 0, 1.2);
+    fHistTOFPID1    = new TH2F("fHistTOFPID1", "TOF Response (Sel1)"    , 100, 0, 4, 100, 0, 1.2);
+    fHistTOFPID2    = new TH2F("fHistTOFPID2", "TOF Response (Sel2)"    , 100, 0, 4, 100, 0, 1.2);
+    fHistEvntEff    = new TH1F("fHistEvntEff", "fHistEvntEff"           , 4,   0.5, 4.5);
+    fAnalysisOutputList->Add(fHistEvntEff);
+    fAnalysisOutputList->Add(fHistVertex0);
+    fAnalysisOutputList->Add(fHistTPCPID0);
+    fAnalysisOutputList->Add(fHistTOFPID0);
+    fAnalysisOutputList->Add(fHistVertex1);
+    fAnalysisOutputList->Add(fHistTPCPID1);
+    fAnalysisOutputList->Add(fHistTOFPID1);
+    fAnalysisOutputList->Add(fHistTPCPID2);
+    fAnalysisOutputList->Add(fHistTOFPID2);
+    
+    PostData(1, fAnalysisOutputList);
+    
+    // QC utility Histograms TList initialisation
+    fQCOutputList     = new TList();
+    fQCOutputList     ->SetOwner(kTRUE);
+    fHistTPCPID3    = new TH2F("fHistTPCPID3", "TPC Response (Sel3)"    , 100, 0, 4, 200, -10, 10);
+    fHistTOFPID3    = new TH2F("fHistTOFPID3", "TOF Response (Sel3)"    , 100, 0, 4, 200, -10, 10);
+    fQCOutputList->Add(fHistTPCPID3);
+    fQCOutputList->Add(fHistTOFPID3);
+    
+    PostData(2, fQCOutputList);
+    
+    // PhiCandidate Tree Set-Up
+    fPhiCandidate = new TTree   ("PhiCandidate",    "Data Tree for Phi Candidates");
+    fPhiCandidate->Branch       ("fMultiplicity",   &fMultiplicity,     "fMultiplicity/F");
+    fPhiCandidate->Branch       ("nPhi",            &fnPhi,             "fnPhi/I");
+    fPhiCandidate->Branch       ("Px",              &fPhiPx,            "fPhiPx[fnPhi]/F");
+    fPhiCandidate->Branch       ("Py",              &fPhiPy,            "fPhiPy[fnPhi]/F");
+    fPhiCandidate->Branch       ("Pz",              &fPhiPz,            "fPhiPz[fnPhi]/F");
+    fPhiCandidate->Branch       ("InvMass",         &fInvMass,          "fInvMass[fnPhi]/F");
+    fPhiCandidate->Branch       ("iKaon",           &fiKaon,            "fiKaon[fnPhi]/I");
+    fPhiCandidate->Branch       ("jKaon",           &fjKaon,            "fjKaon[fnPhi]/I");
+    
+    if ( kPhibool )                 PostData(3, fPhiCandidate);
+    
+    // KaonCandidate Tree Set-Up
+    fKaonCandidate = new TTree ("KaonCandidate",    "Data Tree for Kaon Candidates");
+    fKaonCandidate->Branch     ("fMultiplicity",    &fMultiplicity,     "fMultiplicity/F");
+    fKaonCandidate->Branch     ("fnKaon",           &fnKaon,            "fnKaon/I");
+    fKaonCandidate->Branch     ("Px",               &fKaonPx,           "fKaonPx[fnKaon]/F");
+    fKaonCandidate->Branch     ("Py",               &fKaonPy,           "fKaonPy[fnKaon]/F");
+    fKaonCandidate->Branch     ("Pz",               &fKaonPz,           "fKaonPz[fnKaon]/F");
+    
+    if ( kKaonbool )                PostData(4, fKaonCandidate);
+
+    fPhiEfficiency = new TTree  ("PhiEfficiency",   "MC Tree for Phi Efficiency");
+    fPhiEfficiency->Branch      ("nPhi",            &fnPhiTru,          "fnPhi/I");
+    fPhiEfficiency->Branch      ("bEta",            &fPbEta,            "fPbEta[fnPhi]/O");
+    fPhiEfficiency->Branch      ("bRec",            &fPbRec,            "fPbRec[fnPhi]/O");
+    fPhiEfficiency->Branch      ("bKdc",            &fPbKdc,            "fPbKdc[fnPhi]/O");
+    fPhiEfficiency->Branch      ("pT",              &fPpT,              "fPpT[fnPhi]/F");
+    
+    if ( kPhibool   &&  kMCbool )   PostData(5, fPhiEfficiency);
+    
+    fKaonEfficiency = new TTree ("KaonEfficiency",   "MC Tree for Kaon Efficiency");
+    
+    if ( kKaonbool  &&  kMCbool )   PostData(6, fKaonEfficiency);
+}
+
+//_____________________________________________________________________________
+
 AliAnalysisTaskPhiCount::fSetZero()
 {
     //Setting all counters and global variables to zero
@@ -120,79 +195,6 @@ AliAnalysisTaskPhiCount::fPostData()
     if ( kMCbool ) fPhiEfficiency -> Fill();
     if ( kMCbool ) PostData(4, fPhiEfficiency);
     fFillVtxHist(2);
-}
-
-//_____________________________________________________________________________
-
-void AliAnalysisTaskPhiCount::UserCreateOutputObjects()
-{
-    // PhiCandidate Tree Set-Up
-    fPhiCandidate = new TTree   ("PhiCandidate",    "Data Tree for Phi Candidates");
-    fPhiCandidate->Branch       ("fMultiplicity",   &fMultiplicity,     "fMultiplicity/F");
-    fPhiCandidate->Branch       ("nPhi",            &fnPhi,             "fnPhi/I");
-    fPhiCandidate->Branch       ("Px",              &fPhiPx,            "fPhiPx[fnPhi]/F");
-    fPhiCandidate->Branch       ("Py",              &fPhiPy,            "fPhiPy[fnPhi]/F");
-    fPhiCandidate->Branch       ("Pz",              &fPhiPz,            "fPhiPz[fnPhi]/F");
-    fPhiCandidate->Branch       ("InvMass",         &fInvMass,          "fInvMass[fnPhi]/F");
-    fPhiCandidate->Branch       ("iKaon",           &fiKaon,            "fiKaon[fnPhi]/I");
-    fPhiCandidate->Branch       ("jKaon",           &fjKaon,            "fjKaon[fnPhi]/I");
-    
-    if ( kPhibool )                 PostData(3, fPhiCandidate);
-    
-    // KaonCandidate Tree Set-Up
-    fKaonCandidate = new TTree ("KaonCandidate",    "Data Tree for Kaon Candidates");
-    fKaonCandidate->Branch     ("fMultiplicity",    &fMultiplicity,     "fMultiplicity/F");
-    fKaonCandidate->Branch     ("fnKaon",           &fnKaon,            "fnKaon/I");
-    fKaonCandidate->Branch     ("Px",               &fKaonPx,           "fKaonPx[fnKaon]/F");
-    fKaonCandidate->Branch     ("Py",               &fKaonPy,           "fKaonPy[fnKaon]/F");
-    fKaonCandidate->Branch     ("Pz",               &fKaonPz,           "fKaonPz[fnKaon]/F");
-    
-    if ( kKaonbool )                PostData(4, fKaonCandidate);
-
-    fPhiEfficiency = new TTree  ("PhiEfficiency",   "MC Tree for Phi Efficiency");
-    fPhiEfficiency->Branch      ("nPhi",            &fnPhiTru,          "fnPhi/I");
-    fPhiEfficiency->Branch      ("bEta",            &fPbEta,            "fPbEta[fnPhi]/O");
-    fPhiEfficiency->Branch      ("bRec",            &fPbRec,            "fPbRec[fnPhi]/O");
-    fPhiEfficiency->Branch      ("bKdc",            &fPbKdc,            "fPbKdc[fnPhi]/O");
-    fPhiEfficiency->Branch      ("pT",              &fPpT,              "fPpT[fnPhi]/F");
-    
-    if ( kPhibool   &&  kMCbool )   PostData(5, fPhiEfficiency);
-    
-    fKaonEfficiency = new TTree ("KaonEfficiency",   "MC Tree for Kaon Efficiency");
-    
-    if ( kKaonbool  &&  kMCbool )   PostData(6, fKaonEfficiency);
-    
-    fAnalysisOutputList     = new TList();
-    fAnalysisOutputList     ->SetOwner(kTRUE);
-    fHistVertex0    = new TH1F("fHistVertex0", "Collision Vertex (FULL)", 1000, -15, 15);
-    fHistVertex1    = new TH1F("fHistVertex1", "Collision Vertex (CUTS)", 1000, -15, 15);
-    fHistTPCPID0    = new TH2F("fHistTPCPID0", "TPC Response (ALL)"     , 100, 0, 4, 200, 0, 400);
-    fHistTPCPID1    = new TH2F("fHistTPCPID1", "TPC Response (Sel1)"    , 100, 0, 4, 200, 0, 400);
-    fHistTPCPID2    = new TH2F("fHistTPCPID2", "TPC Response (Sel2)"    , 100, 0, 4, 200, 0, 400);
-    fHistTOFPID0    = new TH2F("fHistTOFPID0", "TOF Response (ALL)"     , 100, 0, 4, 100, 0, 1.2);
-    fHistTOFPID1    = new TH2F("fHistTOFPID1", "TOF Response (Sel1)"    , 100, 0, 4, 100, 0, 1.2);
-    fHistTOFPID2    = new TH2F("fHistTOFPID2", "TOF Response (Sel2)"    , 100, 0, 4, 100, 0, 1.2);
-    fHistEvntEff    = new TH1F("fHistEvntEff", "fHistEvntEff"           , 4,   0.5, 4.5);
-    fAnalysisOutputList->Add(fHistEvntEff);
-    fAnalysisOutputList->Add(fHistVertex0);
-    fAnalysisOutputList->Add(fHistTPCPID0);
-    fAnalysisOutputList->Add(fHistTOFPID0);
-    fAnalysisOutputList->Add(fHistVertex1);
-    fAnalysisOutputList->Add(fHistTPCPID1);
-    fAnalysisOutputList->Add(fHistTOFPID1);
-    fAnalysisOutputList->Add(fHistTPCPID2);
-    fAnalysisOutputList->Add(fHistTOFPID2);
-    
-    PostData(1, fAnalysisOutputList);
-    
-    fQCOutputList     = new TList();
-    fQCOutputList     ->SetOwner(kTRUE);
-    fHistTPCPID3    = new TH2F("fHistTPCPID3", "TPC Response (Sel3)"    , 100, 0, 4, 200, -10, 10);
-    fHistTOFPID3    = new TH2F("fHistTOFPID3", "TOF Response (Sel3)"    , 100, 0, 4, 200, -10, 10);
-    fQCOutputList->Add(fHistTPCPID3);
-    fQCOutputList->Add(fHistTOFPID3);
-    
-    PostData(2, fQCOutputList);
 }
 
 //_____________________________________________________________________________
@@ -249,12 +251,17 @@ bool AliAnalysisTaskPhiCount::fIsPrimaryVertexCandidate ( AliAODEvent* event )
 
 //_____________________________________________________________________________
 
-bool AliAnalysisTaskPhiCount::fIsKaonCandidate ( AliAODTrack* track )
+bool AliAnalysisTaskPhiCount::fIsTrackCandidate ( AliAODTrack* track )
 {
     // Check the track is there and has proper kinematics
     if ( !track                         || !track->TestFilterBit(5)         ) return false;
     if (  std::fabs(track->Pt()) < 0.15 ||  std::fabs(track->Eta()) > 0.80  ) return false;
-    
+}
+
+//_____________________________________________________________________________
+
+void AliAnalysisTaskPhiCount::fSetKaonPID ( AliAODTrack* track )
+{
     fFillPIDHist(track,0);
     fFillPIDHist(track,3);
     
@@ -265,30 +272,15 @@ bool AliAnalysisTaskPhiCount::fIsKaonCandidate ( AliAODTrack* track )
     auto ffSigTOF    = std::fabs(fPIDResponse->NumberOfSigmasTOF(track,AliPID::kKaon));
     auto ffSigTPC    = std::fabs(fPIDResponse->NumberOfSigmasTPC(track,AliPID::kKaon));
     
-    /*  STANDARD
-    if ( !fbTPC || ffSigTPC > 5. ) return false;
-    if (  fbTOF && ffSigTOF < 3. )
-    {
-        fFillPIDHist(track,1);
-        return true;
-    }
-    if ( !fbTOF && ffSigTPC < 3. )
-    {
-        fFillPIDHist(track,2);
-        return true;
-    }
-    return false;
-    */
-    
-    /*   PAPER
+    fTOFSigma[fnKaon]= static_cast<Int_t>(ffSigTOF*10);
+    fTPCSigma[fnKaon]= static_cast<Int_t>(ffSigTPC*10);
+}
 
-        if (    !fbTPC      ||  ffSigTPC > 5.   )   return false;
-        if (    fbTOF       &&  ffSigTOF > 3.   )   return false;
-        if (    track->P()   >=  0.35 && ffSigTPC    >   3.  )   return false;
-        return true;
-*/
+//_____________________________________________________________________________
 
-    /*  CUSTOM */
+bool AliAnalysisTaskPhiCount::fIsKaonCandidate ( AliAODTrack* track )
+{
+    /*  CUSTOM
     if ( !fbTPC || (fbTOF && ffSigTOF > 3) )      return false;
     if ( track->Pt() >= 0.28 &&  fbTOF && ffSigTPC > 5. )   return false;
     if ( track->Pt() >= 0.28 && !fbTOF && ffSigTPC > 3. )   return false;
@@ -298,6 +290,7 @@ bool AliAnalysisTaskPhiCount::fIsKaonCandidate ( AliAODTrack* track )
     if ( track->Pt() <  0.16  && track->Pt() >=  0.00  && ffSigTPC > 7.5 )    return false;
     fFillPIDHist(track,2);
     return true;
+     */
 }
 
 //_____________________________________________________________________________
@@ -453,11 +446,15 @@ void AliAnalysisTaskPhiCount::UserExec(Option_t *)
         // Protection for segmentation fault due to exceeding array size
         if ( fnKaon >= 1024 ) break;
         
-        // Check the track is a Kaon and has due requirements
-        if ( !fIsKaonCandidate(static_cast<AliAODTrack*>(fAOD->GetTrack(iTrack))) ) continue;
+        // Recovering Track
+        auto    fCurrent_Track  =   static_cast<AliAODTrack*>(fAOD->GetTrack(iTrack));
         
-        // Storing for later recovery the track ID
-        faKaon[fnKaon] = iTrack;
+        // Check the track has due requirements
+        if ( !fIsTrackCandidate(fCurrent_Track) ) continue;
+        
+        // Filling the Kaon Tree
+        fSetKaonPID(fCurrent_Track);
+        
         fnKaon++;
     }
        
