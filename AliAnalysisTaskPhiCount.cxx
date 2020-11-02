@@ -207,15 +207,8 @@ bool AliAnalysisTaskPhiCount::fIsPrimaryVertexCandidate ( AliAODEvent* event )
     // Requires the vertex is reconstructed by the SPD
     if ( !PrimaryVertexSPD  ||  PrimaryVertexSPD->GetNContributors() < 1 )
     {
-        fnPhi       = 0;
-        fnKaonCouple= 0;
-        fPhiCandidate -> Fill();
-        PostData(3, fPhiCandidate);
-        if ( kMCbool ) fPhiEfficiency -> Fill();
-        if ( kMCbool ) PostData(4, fPhiEfficiency);
         fFillVtxHist(1);
-        PostData(1, fAnalysisOutputList);
-        PostData(2, fQCOutputList);
+        fPostData();
         return false;
     }
 
@@ -232,15 +225,8 @@ bool AliAnalysisTaskPhiCount::fIsPrimaryVertexCandidate ( AliAODEvent* event )
         auto VertexZTRK = PrimaryVertexTRK->GetZ();
         if ( std::fabs(VertexZSPD-VertexZTRK) > 0.5 )
         {
-            fnPhi       = 0;
-            fnKaonCouple= 0;
-            fPhiCandidate -> Fill();
-            PostData(3, fPhiCandidate);
-            if ( kMCbool ) fPhiEfficiency -> Fill();
-            if ( kMCbool ) PostData(4, fPhiEfficiency);
             fFillVtxHist(2);
-            PostData(1, fAnalysisOutputList);
-            PostData(2, fQCOutputList);
+            fPostData();
             return false;
         }
     }
@@ -250,15 +236,8 @@ bool AliAnalysisTaskPhiCount::fIsPrimaryVertexCandidate ( AliAODEvent* event )
     
     if ( std::fabs(fPrimaryVertex->GetZ()) > 10. )
     {
-        fnPhi       = 0;
-        fnKaonCouple= 0;
-        fPhiCandidate -> Fill();
-        PostData(3, fPhiCandidate);
-        if ( kMCbool ) fPhiEfficiency -> Fill();
-        if ( kMCbool ) PostData(4, fPhiEfficiency);
         fFillVtxHist(3);
-        PostData(1, fAnalysisOutputList);
-        PostData(2, fQCOutputList);
+        fPostData();
         return false;
     }
     
@@ -459,7 +438,6 @@ void AliAnalysisTaskPhiCount::UserExec(Option_t *)
     
     // Check the event is there and has a primary vertex with due requirements
     if ( !fIsPrimaryVertexCandidate(dynamic_cast<AliAODEvent*>(InputEvent())) ) return;
-    fFillVtxHist(4);
      
     // Define and Fetch PID with Manager
     AliAnalysisManager *man = AliAnalysisManager::GetAnalysisManager();
@@ -553,6 +531,10 @@ void AliAnalysisTaskPhiCount::UserExec(Option_t *)
             fnPhi++;
         }
     }
+ 
+    // Saving output
+    fFillVtxHist(4);
+    fPostData();
     
 }
 
