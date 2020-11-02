@@ -22,7 +22,7 @@ using namespace std;
 ClassImp(AliAnalysisTaskPhiCount)
 
 AliAnalysisTaskPhiCount::AliAnalysisTaskPhiCount() : AliAnalysisTaskSE(),
-fAOD(0), fMCD(0), fAnalysisOutputList(0), fQCOutputList(0), fPhiCandidate(0), fPhiEfficiency(0), fHistVertex0(0), fHistVertex1(0), fHistTPCPID0(0), fHistTPCPID1(0), fHistTPCPID2(0), fHistTOFPID0(0), fHistTOFPID1(0), fHistTOFPID2(0), fPIDResponse(0), AODMCTrackArray(0)
+fAOD(0), fMCD(0), AODMCTrackArray(0), fKaonCandidate(0), fPhiCandidate(0), fKaonEfficiency(0), fPhiEfficiency(0), fAnalysisOutputList(0), fQCOutputList(0), fHistVertex0(0), fHistVertex1(0), fHistTPCPID0(0), fHistTPCPID1(0), fHistTPCPID2(0), fHistTOFPID0(0), fHistTOFPID1(0), fHistTOFPID2(0), fHistTOFPID3(0), fHistTPCPID3(0), fPIDResponse(0)
 {
     
 }
@@ -30,7 +30,7 @@ fAOD(0), fMCD(0), fAnalysisOutputList(0), fQCOutputList(0), fPhiCandidate(0), fP
 //_____________________________________________________________________________
 
 AliAnalysisTaskPhiCount::AliAnalysisTaskPhiCount(const char* name) : AliAnalysisTaskSE(name),
-   fAOD(0), fMCD(0), fAnalysisOutputList(0), fQCOutputList(0), fPhiCandidate(0), fPhiEfficiency(0), fHistVertex0(0), fHistVertex1(0), fHistTPCPID0(0), fHistTPCPID1(0), fHistTPCPID2(0), fHistTOFPID0(0), fHistTOFPID1(0), fHistTOFPID2(0), fPIDResponse(0), AODMCTrackArray(0)
+fAOD(0), fMCD(0), AODMCTrackArray(0), fKaonCandidate(0), fPhiCandidate(0), fKaonEfficiency(0), fPhiEfficiency(0), fAnalysisOutputList(0), fQCOutputList(0), fHistVertex0(0), fHistVertex1(0), fHistTPCPID0(0), fHistTPCPID1(0), fHistTPCPID2(0), fHistTOFPID0(0), fHistTOFPID1(0), fHistTOFPID2(0), fHistTOFPID3(0), fHistTPCPID3(0), fPIDResponse(0)
 {
     // Define Input
     DefineInput(0, TChain::Class());
@@ -77,7 +77,7 @@ AliAnalysisTaskPhiCount::~AliAnalysisTaskPhiCount()
 
 //_____________________________________________________________________________
 
-void AliAnalysisTaskPhiCount::UserCreateOutputObjects()
+void    AliAnalysisTaskPhiCount::UserCreateOutputObjects()
 {
     // Various utility Histograms TList initialisation
     fAnalysisOutputList     = new TList();
@@ -133,6 +133,9 @@ void AliAnalysisTaskPhiCount::UserCreateOutputObjects()
     fKaonCandidate->Branch     ("Px",               &fKaonPx,           "fKaonPx[fnKaon]/F");
     fKaonCandidate->Branch     ("Py",               &fKaonPy,           "fKaonPy[fnKaon]/F");
     fKaonCandidate->Branch     ("Pz",               &fKaonPz,           "fKaonPz[fnKaon]/F");
+    fKaonCandidate->Branch     ("Charge",           &fCharge,           "fCharge[fnKaon]/I");
+    fKaonCandidate->Branch     ("TOFSigma",         &fTOFSigma,         "fTOFSigma[fnKaon]/I");
+    fKaonCandidate->Branch     ("TPCSigma",         &fTPCSigma,         "fTPCSigma[fnKaon]/I");
     
     if ( kKaonbool )                PostData(4, fKaonCandidate);
 
@@ -152,7 +155,7 @@ void AliAnalysisTaskPhiCount::UserCreateOutputObjects()
 
 //_____________________________________________________________________________
 
-AliAnalysisTaskPhiCount::fSetZero()
+void    AliAnalysisTaskPhiCount::fSetZero()
 {
     //Setting all counters and global variables to zero
     fMultiplicity   =   0;
@@ -163,7 +166,7 @@ AliAnalysisTaskPhiCount::fSetZero()
 
 //_____________________________________________________________________________
 
-AliAnalysisTaskPhiCount::fPostData()
+void    AliAnalysisTaskPhiCount::fPostData()
 {
     // Setting postdata options
     
@@ -199,7 +202,7 @@ AliAnalysisTaskPhiCount::fPostData()
 
 //_____________________________________________________________________________
 
-bool AliAnalysisTaskPhiCount::fIsPrimaryVertexCandidate ( AliAODEvent* event )
+bool    AliAnalysisTaskPhiCount::fIsPrimaryVertexCandidate ( AliAODEvent* event )
 {
     // Recovering Primary Vertex from General methods and SPD
     auto    PrimaryVertexSPD    = fAOD->GetPrimaryVertexSPD();
@@ -246,25 +249,23 @@ bool AliAnalysisTaskPhiCount::fIsPrimaryVertexCandidate ( AliAODEvent* event )
     // Fill the Vertex Z position histogram
     fHistVertex1->Fill(fPrimaryVertex->GetZ());
     
-    return true;
+    return  true;
 }
 
 //_____________________________________________________________________________
 
-bool AliAnalysisTaskPhiCount::fIsTrackCandidate ( AliAODTrack* track )
+bool    AliAnalysisTaskPhiCount::fIsTrackCandidate ( AliAODTrack* track )
 {
     // Check the track is there and has proper kinematics
     if ( !track                         || !track->TestFilterBit(5)         ) return false;
     if (  std::fabs(track->Pt()) < 0.15 ||  std::fabs(track->Eta()) > 0.80  ) return false;
+    return  true;
 }
 
 //_____________________________________________________________________________
 
-void AliAnalysisTaskPhiCount::fSetKaonPID ( AliAODTrack* track )
+bool    AliAnalysisTaskPhiCount::fIsKaonCandidate ( AliAODTrack* track )
 {
-    fFillPIDHist(track,0);
-    fFillPIDHist(track,3);
-    
     // Check the PID is present and within desired parameters
     if ( !fPIDResponse ) return false;
     auto fbTPC       = (fPIDResponse->CheckPIDStatus(AliPIDResponse::kTPC, track) == AliPIDResponse::kDetPidOk);
@@ -272,15 +273,7 @@ void AliAnalysisTaskPhiCount::fSetKaonPID ( AliAODTrack* track )
     auto ffSigTOF    = std::fabs(fPIDResponse->NumberOfSigmasTOF(track,AliPID::kKaon));
     auto ffSigTPC    = std::fabs(fPIDResponse->NumberOfSigmasTPC(track,AliPID::kKaon));
     
-    fTOFSigma[fnKaon]= static_cast<Int_t>(ffSigTOF*10);
-    fTPCSigma[fnKaon]= static_cast<Int_t>(ffSigTPC*10);
-}
-
-//_____________________________________________________________________________
-
-bool AliAnalysisTaskPhiCount::fIsKaonCandidate ( AliAODTrack* track )
-{
-    /*  CUSTOM
+    //  CUSTOM
     if ( !fbTPC || (fbTOF && ffSigTOF > 3) )      return false;
     if ( track->Pt() >= 0.28 &&  fbTOF && ffSigTPC > 5. )   return false;
     if ( track->Pt() >= 0.28 && !fbTOF && ffSigTPC > 3. )   return false;
@@ -290,12 +283,31 @@ bool AliAnalysisTaskPhiCount::fIsKaonCandidate ( AliAODTrack* track )
     if ( track->Pt() <  0.16  && track->Pt() >=  0.00  && ffSigTPC > 7.5 )    return false;
     fFillPIDHist(track,2);
     return true;
-     */
 }
 
 //_____________________________________________________________________________
 
-bool AliAnalysisTaskPhiCount::fIsKaonTruPhi ( AliAODMCParticle* piKaon, AliAODMCParticle* pjKaon )
+bool    AliAnalysisTaskPhiCount::fSetKaonPID ( AliAODTrack* track )
+{
+    fFillPIDHist(track,0);
+    fFillPIDHist(track,3);
+    
+    // Check the PID is present
+    if ( !fPIDResponse ) return false;
+    auto fbTPC       = (fPIDResponse->CheckPIDStatus(AliPIDResponse::kTPC, track) == AliPIDResponse::kDetPidOk);
+    auto fbTOF       = (fPIDResponse->CheckPIDStatus(AliPIDResponse::kTOF, track) == AliPIDResponse::kDetPidOk);
+    auto ffSigTOF    = std::fabs(fPIDResponse->NumberOfSigmasTOF(track,AliPID::kKaon));
+    auto ffSigTPC    = std::fabs(fPIDResponse->NumberOfSigmasTPC(track,AliPID::kKaon));
+    
+    fTOFSigma[fnKaon]= static_cast<Int_t>(ffSigTOF*10);
+    fTPCSigma[fnKaon]= static_cast<Int_t>(ffSigTPC*10);
+    
+    return  fIsKaonCandidate(track);
+}
+
+//_____________________________________________________________________________
+
+bool    AliAnalysisTaskPhiCount::fIsKaonTruPhi ( AliAODMCParticle* piKaon, AliAODMCParticle* pjKaon )
 {
     if ( !piKaon || !pjKaon ) return false;
     if ( piKaon->GetMother() == pjKaon->GetMother() && (static_cast<AliAODMCParticle*>(AODMCTrackArray->At(pjKaon->GetMother()))->GetPdgCode() == 333 ) ) return true;
@@ -304,7 +316,7 @@ bool AliAnalysisTaskPhiCount::fIsKaonTruPhi ( AliAODMCParticle* piKaon, AliAODMC
 
 //_____________________________________________________________________________
 
-bool AliAnalysisTaskPhiCount::fIsPhiCandidate ( TLorentzVector fPhi )
+bool    AliAnalysisTaskPhiCount::fIsPhiCandidate ( TLorentzVector fPhi )
 {
     if ( fPhi.Mag() < 0.75 || fPhi.Mag() > 1.25 ) return false;
     return true;
@@ -312,7 +324,7 @@ bool AliAnalysisTaskPhiCount::fIsPhiCandidate ( TLorentzVector fPhi )
 
 //_____________________________________________________________________________
 
-bool AliAnalysisTaskPhiCount::fIsPhiGen ( AliAODMCParticle* particle )
+bool    AliAnalysisTaskPhiCount::fIsPhiGen ( AliAODMCParticle* particle )
 {
     if ( particle->GetNDaughters() != 2 ) return false;
     auto const Dau1                 =   static_cast<AliAODMCParticle*>  (AODMCTrackArray->At(particle->GetDaughterFirst()));
@@ -325,8 +337,9 @@ bool AliAnalysisTaskPhiCount::fIsPhiGen ( AliAODMCParticle* particle )
 
 //_____________________________________________________________________________
 
-bool AliAnalysisTaskPhiCount::fIsPhiRec ( AliAODMCParticle* particle )
+bool    AliAnalysisTaskPhiCount::fIsPhiRec ( AliAODMCParticle* particle )
 {
+    /*
     // To be recrodable, it must come from a K^+k^- decay
     if ( !fIsPhiGen(particle) ) return false;
     
@@ -351,12 +364,13 @@ bool AliAnalysisTaskPhiCount::fIsPhiRec ( AliAODMCParticle* particle )
         if ( abs(track->GetLabel()) == Dau1->GetLabel() ) fCheckDau1 = true;
         if ( abs(track->GetLabel()) == Dau2->GetLabel() ) fCheckDau2 = true;
     }
-    return fCheckDau1 && fCheckDau2;
+    return fCheckDau1 && fCheckDau2;*/
+    return true;
 }
 
 //_____________________________________________________________________________
 
-bool AliAnalysisTaskPhiCount::fIsPhiValid ( AliAODMCParticle* particle )
+bool    AliAnalysisTaskPhiCount::fIsPhiValid ( AliAODMCParticle* particle )
 {
     if ( !particle ) return false;
     if ( particle->GetPdgCode() == 333 ) return true;
@@ -365,7 +379,7 @@ bool AliAnalysisTaskPhiCount::fIsPhiValid ( AliAODMCParticle* particle )
 
 //_____________________________________________________________________________
 
-void AliAnalysisTaskPhiCount::fFillPIDHist ( AliAODTrack * track , Int_t iIndex )
+void    AliAnalysisTaskPhiCount::fFillPIDHist ( AliAODTrack * track , Int_t iIndex )
 {
     if ( !track ) return;
     if ( (fPIDResponse->CheckPIDStatus(AliPIDResponse::kTPC, track) == AliPIDResponse::kDetPidOk) )
@@ -399,7 +413,7 @@ void AliAnalysisTaskPhiCount::fFillPIDHist ( AliAODTrack * track , Int_t iIndex 
 
 //_____________________________________________________________________________
 
-void AliAnalysisTaskPhiCount::fFillVtxHist ( Int_t iIndex )
+void    AliAnalysisTaskPhiCount::fFillVtxHist ( Int_t iIndex )
 {
     for ( Int_t iFill = 1; iFill <= iIndex; iFill++ )
     {
@@ -409,7 +423,7 @@ void AliAnalysisTaskPhiCount::fFillVtxHist ( Int_t iIndex )
 
 //_____________________________________________________________________________
 
-void AliAnalysisTaskPhiCount::UserExec(Option_t *)
+void    AliAnalysisTaskPhiCount::UserExec(Option_t *)
 {
     // Recovering Event Data
     fAOD = dynamic_cast<AliAODEvent*>(InputEvent());
@@ -424,7 +438,7 @@ void AliAnalysisTaskPhiCount::UserExec(Option_t *)
     if ( !AODMCTrackArray && kMCbool )     return;
     
     // Setting zero all counters and global variables, setting utility variables
-    fSetZero()
+    fSetZero();
     Int_t           nTrack(fAOD->GetNumberOfTracks());
     Int_t           nKaon1_sign, nKaon2_sign;
     TLorentzVector  fKaon1, fKaon2, fPhi;
@@ -444,7 +458,7 @@ void AliAnalysisTaskPhiCount::UserExec(Option_t *)
     for (   Int_t iTrack(0); iTrack < nTrack; iTrack++ )
     {
         // Protection for segmentation fault due to exceeding array size
-        if ( fnKaon >= 1024 ) break;
+        if ( fnKaon > 1024 ) break;
         
         // Recovering Track
         auto    fCurrent_Track  =   static_cast<AliAODTrack*>(fAOD->GetTrack(iTrack));
@@ -452,12 +466,18 @@ void AliAnalysisTaskPhiCount::UserExec(Option_t *)
         // Check the track has due requirements
         if ( !fIsTrackCandidate(fCurrent_Track) ) continue;
         
-        // Filling the Kaon Tree
-        fSetKaonPID(fCurrent_Track);
+        // Check the PID is present and within requirements
+        if ( !fSetKaonPID(fCurrent_Track) ) continue;
         
+        // Filling the Kaon Tree
+        fKaonPx[fnKaon] =   fCurrent_Track->Px();
+        fKaonPy[fnKaon] =   fCurrent_Track->Py();
+        fKaonPz[fnKaon] =   fCurrent_Track->Pz();
+        fCharge[fnKaon] =   fCurrent_Track->GetSign();
         fnKaon++;
     }
        
+    /*
     //Coupling Kaons
     for ( Int_t iKaon(0); iKaon < fnKaon; iKaon++)
     {
@@ -528,7 +548,7 @@ void AliAnalysisTaskPhiCount::UserExec(Option_t *)
             fnPhi++;
         }
     }
- 
+ */
     // Saving output
     fFillVtxHist(4);
     fPostData();
@@ -537,7 +557,7 @@ void AliAnalysisTaskPhiCount::UserExec(Option_t *)
 
 //_____________________________________________________________________________
 
-void AliAnalysisTaskPhiCount::Terminate(Option_t *)
+void    AliAnalysisTaskPhiCount::Terminate(Option_t *)
 {
 
 }

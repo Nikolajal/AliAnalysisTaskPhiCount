@@ -163,7 +163,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1)
     gROOT                       ->LoadMacro("$ALICE_ROOT/ANALYSIS/macros/AddTaskPIDResponse.C");
     gROOT                       ->LoadMacro("AddMyTask.C");
     AddTaskPIDResponse();
-    AliAnalysisTaskPhiCount *task = AddMyTask();
+    AliAnalysisTaskPhiCount *task = AddMyTask(MCFlag,PhiFlag,KaonFlag);
     
 #endif
 

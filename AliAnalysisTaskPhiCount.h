@@ -32,8 +32,8 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
         void                    fPostData                   ();
         bool                    fIsPrimaryVertexCandidate   ( AliAODEvent*      event );
         bool                    fIsTrackCandidate           ( AliAODTrack *     track );
-        void                    fSetKaonPID                 ( AliAODTrack *     track );
         bool                    fIsKaonCandidate            ( AliAODTrack *     track );
+        bool                    fSetKaonPID                 ( AliAODTrack *     track );
         bool                    fIsPhiCandidate             ( TLorentzVector    fPhi );
         bool                    fIsPhiGen                   ( AliAODMCParticle* particle );
         bool                    fIsPhiRec                   ( AliAODMCParticle* particle );
@@ -60,7 +60,6 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
 
         // Event Variables
         Float_t                 fMultiplicity;      //! Event Multiplicity
-        Int_t                   faKaon      [1024];
          
         // Tree Variables ( PhiCandidate )
         Int_t                   fnPhi;              //! Number of Phis produced found
@@ -68,17 +67,17 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
         Float_t                 fPhiPx      [1024]; //! Phi Px
         Float_t                 fPhiPy      [1024]; //! Phi Py
         Float_t                 fPhiPz      [1024]; //! Phi Pz
-        short unsigned Int_t    fiKaon      [1024]; //! iKaon
-        short unsigned Int_t    fjKaon      [1024]; //! jKaon
+        short unsigned int      fiKaon      [1024]; //! iKaon
+        short unsigned int      fjKaon      [1024]; //! jKaon
     
         // Tree Variables ( KaonCandidate )
         Int_t                   fnKaon;              //! Number of Phis produced found
         Float_t                 fKaonPx     [1024]; //! Kaon Px
         Float_t                 fKaonPy     [1024]; //! Kaon Py
         Float_t                 fKaonPz     [1024]; //! Kaon Pz
-        short signed Int_t      fCharge     [1024]; //! Kaon Charge
-        short signed Int_t      fTOFSigma   [1024]; //! PID TOF
-        short signed Int_t      fTPCSigma   [1024]; //! PID TPC
+        short signed int        fCharge     [1024]; //! Kaon Charge
+        short signed int        fTOFSigma   [1024]; //! PID TOF
+        short signed int        fTPCSigma   [1024]; //! PID TPC
          
         // Tree Variables ( PhiEfficiency )
         Int_t                   fnPhiTru;              //! Number of Phis produced found
