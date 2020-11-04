@@ -37,16 +37,18 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
         bool                    fIsPhiCandidate             ( TLorentzVector    fPhi );
         bool                    fIsPhiGen                   ( AliAODMCParticle* particle );
         bool                    fIsPhiRec                   ( AliAODMCParticle* particle );
-        bool                    fIsPhiValid                 ( AliAODMCParticle* particle );
+        bool                    fIsPhi                      ( AliAODMCParticle* particle );
         bool                    fIsKaonTruPhi               ( AliAODMCParticle* piKaon, AliAODMCParticle* pjKaon );
         void                    fFillPIDHist                ( AliAODTrack *     track, Int_t iIndex );
         void                    fFillVtxHist                ( Int_t iIndex );
         AliAODVertex*           fGetPrimaryVertex           ( AliAODEvent*      event ) { return fIsPrimaryVertexCandidate(event) ? fPrimaryVertex : nullptr; };
     
-        AliAODEvent*            fAOD;               //! input event
+        AliAODEvent*            fAOD;               //! input event AOD Format
+        AliESDEvent*            fESD;               //! input event ESD Format
         AliMCEvent*             fMCD;               //! input event MC
 
         TClonesArray*           AODMCTrackArray;    //! MC Tracks Array
+        AliMultSelection*       fMultSel;           //! Multiplicity Selection
 
         Bool_t                  kMCbool;            // MC Flag
         Bool_t                  kPhibool;           // Phi tree Flag
@@ -60,6 +62,7 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
 
         // Event Variables
         Float_t                 fMultiplicity;      //! Event Multiplicity
+        Int_t                   fKaonLabels [1024]; //! Kaon Labels
          
         // Tree Variables ( PhiCandidate )
         UChar_t                 fnPhi;              //! Number of Phis produced found
@@ -80,7 +83,7 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
         Char_t                  fTPCSigma   [1024]; //! PID TPC
          
         // Tree Variables ( PhiEfficiency )
-        UShort_t                fnPhiTru;           //! Number of Phis produced found
+        UChar_t                 fnPhiTru;           //! Number of Phis produced found
         Float_t                 fPhiTruPx   [1024]; //! Phi Px
         Float_t                 fPhiTruPy   [1024]; //! Phi Py
         Float_t                 fPhiTruPz   [1024]; //! Phi Pz

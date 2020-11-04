@@ -152,10 +152,18 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1)
 #if !defined (__CINT__) || defined (__CLING__)
     gInterpreter                ->LoadMacro("AliAnalysisTaskPhiCount.cxx++g");
     
+    // PID Task
     TMacro PIDadd(gSystem->ExpandPathName("$ALICE_ROOT/ANALYSIS/macros/AddTaskPIDResponse.C"));
     AliAnalysisTaskPIDResponse *PIDk;
     if ( MCFlag )   PIDk = reinterpret_cast<AliAnalysisTaskPIDResponse*>(PIDadd.Exec("kTRUE,kTRUE,kTRUE,4,kFALSE,\"\",kFALSE,kFALSE"));
     else            PIDk = reinterpret_cast<AliAnalysisTaskPIDResponse*>(PIDadd.Exec("kFALSE,kTRUE,kTRUE,4,kFALSE,\"\",kFALSE,kFALSE"));
+    
+    // Multiplicty Task
+    TMacro MLTadd(gSystem->ExpandPathName("$ALICE_PHYSICS/OADB/COMMON/MULTIPLICITY/macros/AddTaskMultSelection.C"));
+    AliMultSelectionTask *MLTk;
+    MLTk = reinterpret_cast<AliMultSelectionTask*>(MLTadd.Exec());
+    
+    // Custom analysis task
     AliAnalysisTaskPhiCount *task;
     task = reinterpret_cast<AliAnalysisTaskPhiCount*>(gInterpreter->ExecuteMacro(Form("AddMyTask.C(%d,%d,%d)",MCFlag,PhiFlag,KaonFlag)));
 #else
