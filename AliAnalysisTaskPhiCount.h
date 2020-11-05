@@ -48,7 +48,6 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
         AliMCEvent*             fMCD;               //! input event MC
 
         TClonesArray*           AODMCTrackArray;    //! MC Tracks Array
-        AliMultSelection*       fMultSel;           //! Multiplicity Selection
 
         Bool_t                  kMCbool;            // MC Flag
         Bool_t                  kPhibool;           // Phi tree Flag

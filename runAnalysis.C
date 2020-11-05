@@ -159,7 +159,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1)
     else            PIDk = reinterpret_cast<AliAnalysisTaskPIDResponse*>(PIDadd.Exec("kFALSE,kTRUE,kTRUE,4,kFALSE,\"\",kFALSE,kFALSE"));
     
     // Multiplicty Task
-    TMacro MLTadd(gSystem->ExpandPathName("$ALICE_PHYSICS/OADB/COMMON/MULTIPLICITY/macros/AddTaskMultSelection.C"));
+    TMacro MLTadd(gSystem->ExpandPathName("$ALICE PHYSICS/OADB/COMMON/MULTIPLICITY/macros/AddTaskMultSelection.C"));
     AliMultSelectionTask *MLTk;
     MLTk = reinterpret_cast<AliMultSelectionTask*>(MLTadd.Exec());
     

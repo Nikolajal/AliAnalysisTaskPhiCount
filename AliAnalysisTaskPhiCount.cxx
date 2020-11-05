@@ -9,12 +9,9 @@
 #include "AliAnalysisTask.h"
 #include "AliAnalysisManager.h"
 #include "AliAODEvent.h"
-#include "AliESDEvent.h"
 #include "AliAODInputHandler.h"
 #include "AliAODMCParticle.h"
 #include "AliPIDResponse.h"
-#include "AliMultSelection.h"
-#include "AliMultSelectionTask.h"
 #include "AliAnalysisTaskPhiCount.h"
 
 class AliAnalysisTaskPhiCount;
@@ -25,15 +22,15 @@ using namespace std;
 ClassImp(AliAnalysisTaskPhiCount)
 
 AliAnalysisTaskPhiCount::AliAnalysisTaskPhiCount() : AliAnalysisTaskSE(),
-fAOD(0), fESD(0), fMCD(0), AODMCTrackArray(0), fMultSel(0), kMCbool(0), kPhibool(0), kKaonbool(0), fKaonCandidate(0), fPhiCandidate(0), fKaonEfficiency(0), fPhiEfficiency(0), fMultiplicity(0), fAnalysisOutputList(0), fQCOutputList(0), fHistVertex0(0), fHistVertex1(0), fHistTPCPID0(0), fHistTPCPID1(0), fHistTPCPID2(0), fHistTOFPID0(0), fHistTOFPID1(0), fHistTOFPID2(0), fHistTOFPID3(0), fHistTPCPID3(0), fPIDResponse(0)
+fAOD(0), fMCD(0), AODMCTrackArray(0), fKaonCandidate(0), fPhiCandidate(0), fKaonEfficiency(0), fPhiEfficiency(0), fAnalysisOutputList(0), fQCOutputList(0), fHistVertex0(0), fHistVertex1(0), fHistTPCPID0(0), fHistTPCPID1(0), fHistTPCPID2(0), fHistTOFPID0(0), fHistTOFPID1(0), fHistTOFPID2(0), fHistTOFPID3(0), fHistTPCPID3(0), fPIDResponse(0)
 {
     
 }
 
 //_____________________________________________________________________________
 
-AliAnalysisTaskPhiCount::AliAnalysisTaskPhiCount(const char* name) : AliAnalysisTaskSE(),
-fAOD(0), fESD(0), fMCD(0), AODMCTrackArray(0), fMultSel(0), kMCbool(0), kPhibool(0), kKaonbool(0), fKaonCandidate(0), fPhiCandidate(0), fKaonEfficiency(0), fPhiEfficiency(0), fMultiplicity(0), fAnalysisOutputList(0), fQCOutputList(0), fHistVertex0(0), fHistVertex1(0), fHistTPCPID0(0), fHistTPCPID1(0), fHistTPCPID2(0), fHistTOFPID0(0), fHistTOFPID1(0), fHistTOFPID2(0), fHistTOFPID3(0), fHistTPCPID3(0), fPIDResponse(0)
+AliAnalysisTaskPhiCount::AliAnalysisTaskPhiCount(const char* name) : AliAnalysisTaskSE(name),
+fAOD(0), fMCD(0), AODMCTrackArray(0), fKaonCandidate(0), fPhiCandidate(0), fKaonEfficiency(0), fPhiEfficiency(0), fAnalysisOutputList(0), fQCOutputList(0), fHistVertex0(0), fHistVertex1(0), fHistTPCPID0(0), fHistTPCPID1(0), fHistTPCPID2(0), fHistTOFPID0(0), fHistTOFPID1(0), fHistTOFPID2(0), fHistTOFPID3(0), fHistTPCPID3(0), fPIDResponse(0)
 {
     // Define Input
     DefineInput(0, TChain::Class());
@@ -411,46 +408,26 @@ void    AliAnalysisTaskPhiCount::fFillVtxHist ( Int_t iIndex )
 
 void    AliAnalysisTaskPhiCount::UserExec(Option_t *)
 {
-    //-//-//    Recovering the event objects Task     //-//-//    -------------
-    
     // Recovering Event Data
-    fAOD    =   dynamic_cast<AliAODEvent*>  (InputEvent());
-    fESD    =   dynamic_cast<AliESDEvent*>  (InputEvent());
-    fMCD    =   dynamic_cast<AliMCEvent*>   (MCEvent());
-    
-    // Eventually recover the MC tracks
-    if ( kMCbool )  AODMCTrackArray = dynamic_cast<TClonesArray*>(fInputEvent->FindListObject(AliAODMCParticle::StdBranchName()));
-    
-    //-//-//    Check everygthing is there and working     //-//-// -------------
+    fAOD = dynamic_cast<AliAODEvent*>(InputEvent());
+    fMCD = dynamic_cast<AliMCEvent*>(MCEvent());
     
     // Check the event is there
-    if ( !fAOD && !fESD && !fMultSel )   return;
+    if ( !fAOD ) return;
+    if ( !fMCD && kMCbool ) return;
     
-    // Check the Monte Carlo event is there
-    if ( !fMCD && !AODMCTrackArray && kMCbool )   return;
-    
-    //-//-//    Setting-Up the Task     //-//-//    ------------------------------
+    // Recover the MC tracks
+    if ( kMCbool )      AODMCTrackArray = dynamic_cast<TClonesArray*>(fInputEvent->FindListObject(AliAODMCParticle::StdBranchName()));
+    if ( !AODMCTrackArray && kMCbool )     return;
     
     // Setting zero all counters and global variables, setting utility variables
     fSetZero();
     Int_t           nTrack(fAOD->GetNumberOfTracks());
     TLorentzVector  fKaon1, fKaon2, fPhi;
     
-    //-//-//    Starting the analysis   //-//-//    ------------------------------
-    
-    //-//       Event wide
-    
     // Check the event is there and has a primary vertex with due requirements
     if ( !fIsPrimaryVertexCandidate(dynamic_cast<AliAODEvent*>(InputEvent())) ) return;
-    
-    // Multiplicity of the event through the V0M
-    fMultSel = (AliMultSelection*) fESD->FindListObject("MultSelection");
-    
-    // Checking everything is ok
-    if ( !fMultSel )    return;
-    
-    fMultiplicity = fMultSel -> GetMultiplicityPercentile("V0M");
-    
+     
     // Define and Fetch PID with Manager
     AliAnalysisManager *man = AliAnalysisManager::GetAnalysisManager();
     if (man)
@@ -458,8 +435,6 @@ void    AliAnalysisTaskPhiCount::UserExec(Option_t *)
         AliInputEventHandler* inputHandler = (AliInputEventHandler*)(man->GetInputEventHandler());
         if (inputHandler)   fPIDResponse = inputHandler->GetPIDResponse();
     }
-    
-    //-//       Track by track
     
     // Looping over tracks
     for ( Int_t iTrack(0); iTrack < nTrack; iTrack++ )
