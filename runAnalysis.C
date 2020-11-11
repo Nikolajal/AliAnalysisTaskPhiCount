@@ -136,9 +136,11 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1)
 #if !defined (__CINT__) || defined (__CLING__)
     gInterpreter                ->ProcessLine(".include $ROOTSYS/include");
     gInterpreter                ->ProcessLine(".include $ALICE_ROOT/include");
+    gInterpreter                ->ProcessLine(".include $ALICE_PHYSICS/include");
 #else
     gROOT                       ->ProcessLine(".include $ROOTSYS/include");
     gROOT                       ->ProcessLine(".include $ALICE_ROOT/include");
+    gROOT                       ->ProcessLine(".include $ALICE_PHYSICS/include");
 #endif
      
     // create the analysis manager
@@ -151,6 +153,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1)
     // PID Response
 #if !defined (__CINT__) || defined (__CLING__)
     gInterpreter                ->LoadMacro("AliAnalysisTaskPhiCount.cxx++g");
+    gInterpreter                ->LoadMacro("$ALICE_ROOT/ANALYSIS/AliPPVsMultUtils.cxx++g");
     
     // PID Task
     TMacro PIDadd(gSystem->ExpandPathName("$ALICE_ROOT/ANALYSIS/macros/AddTaskPIDResponse.C"));
@@ -159,7 +162,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1)
     else            PIDk = reinterpret_cast<AliAnalysisTaskPIDResponse*>(PIDadd.Exec("kFALSE,kTRUE,kTRUE,4,kFALSE,\"\",kFALSE,kFALSE"));
     
     // Multiplicty Task
-    TMacro MLTadd(gSystem->ExpandPathName("$ALICE PHYSICS/OADB/COMMON/MULTIPLICITY/macros/AddTaskMultSelection.C"));
+    TMacro MLTadd(gSystem->ExpandPathName("$ALICE_PHYSICS/OADB/COMMON/MULTIPLICITY/macros/AddTaskMultSelection.C"));
     AliMultSelectionTask *MLTk;
     MLTk = reinterpret_cast<AliMultSelectionTask*>(MLTadd.Exec());
     
@@ -247,7 +250,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1)
         if(gridTest)
         {
             // speficy on how many files you want to run
-            alienHandler->SetNtestFiles(1);
+            alienHandler->SetNtestFiles(20);
             // and launch the analysis
             alienHandler->SetRunMode("test");
             mgr->StartAnalysis("grid");

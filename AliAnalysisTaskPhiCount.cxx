@@ -9,10 +9,13 @@
 #include "AliAnalysisTask.h"
 #include "AliAnalysisManager.h"
 #include "AliAODEvent.h"
+#include "AliESDEvent.h"
 #include "AliAODInputHandler.h"
 #include "AliAODMCParticle.h"
+#include "AliAODHeader.h"
 #include "AliPIDResponse.h"
 #include "AliAnalysisTaskPhiCount.h"
+#include "AliPPVsMultUtils.h"
 
 class AliAnalysisTaskPhiCount;
 class AliPIDResponse;
@@ -116,6 +119,8 @@ void    AliAnalysisTaskPhiCount::UserCreateOutputObjects()
     // PhiCandidate Tree Set-Up
     fPhiCandidate = new TTree   ("PhiCandidate",    "Data Tree for Phi Candidates");
     fPhiCandidate->Branch       ("fMultiplicity",   &fMultiplicity,     "fMultiplicity/F");
+    fPhiCandidate->Branch       ("fMultiplicit2",   &fMultiplicit2,     "fMultiplicit2/F");
+    fPhiCandidate->Branch       ("fMultiplicit3",   &fMultiplicit3,     "fMultiplicit3/F");
     fPhiCandidate->Branch       ("nPhi",            &fnPhi,             "fnPhi/b");
     fPhiCandidate->Branch       ("Px",              &fPhiPx,            "fPhiPx[fnPhi]/F");
     fPhiCandidate->Branch       ("Py",              &fPhiPy,            "fPhiPy[fnPhi]/F");
@@ -174,11 +179,11 @@ void    AliAnalysisTaskPhiCount::fPostData()
     PostData(1, fAnalysisOutputList);
     PostData(2, fQCOutputList);
     
-    // Discarding events with over 1024 Kaons
-    if ( fnKaon <= 1024 && fnPhi <= 1024 )  fPhiCandidate   ->  Fill();
-    if ( fnKaon <= 1024 )                   fKaonCandidate  ->  Fill();
-    if ( fnPhiTru <= 1024 )                 fPhiEfficiency  ->  Fill();
-                                            fKaonEfficiency ->  Fill();
+    // Filling data for TTrees
+    fPhiCandidate   ->  Fill();
+    fKaonCandidate  ->  Fill();
+    fPhiEfficiency  ->  Fill();
+    fKaonEfficiency ->  Fill();
     
     // Post-data for TTrees
     if ( kPhibool )                 PostData(3, fPhiCandidate);
@@ -408,6 +413,9 @@ void    AliAnalysisTaskPhiCount::fFillVtxHist ( Int_t iIndex )
 
 void    AliAnalysisTaskPhiCount::UserExec(Option_t *)
 {
+    // Setting zero all counters and global variables
+    fSetZero();
+    
     // Recovering Event Data
     fAOD = dynamic_cast<AliAODEvent*>(InputEvent());
     fMCD = dynamic_cast<AliMCEvent*>(MCEvent());
@@ -420,8 +428,7 @@ void    AliAnalysisTaskPhiCount::UserExec(Option_t *)
     if ( kMCbool )      AODMCTrackArray = dynamic_cast<TClonesArray*>(fInputEvent->FindListObject(AliAODMCParticle::StdBranchName()));
     if ( !AODMCTrackArray && kMCbool )     return;
     
-    // Setting zero all counters and global variables, setting utility variables
-    fSetZero();
+    // Setting utility variables
     Int_t           nTrack(fAOD->GetNumberOfTracks());
     TLorentzVector  fKaon1, fKaon2, fPhi;
     
@@ -435,6 +442,12 @@ void    AliAnalysisTaskPhiCount::UserExec(Option_t *)
         AliInputEventHandler* inputHandler = (AliInputEventHandler*)(man->GetInputEventHandler());
         if (inputHandler)   fPIDResponse = inputHandler->GetPIDResponse();
     }
+    
+    fMultiplicity = ((AliAODHeader*)fAOD->GetHeader()) -> GetRefMultiplicityComb08();
+    
+    fMultUtil = new AliPPVsMultUtils();
+    fMultiplicit2 = fMultUtil->GetMultiplicityPercentile(fAOD,"V0M",kFALSE);
+    fMultiplicit3 = fMultUtil->GetStandardReferenceMultiplicity(fAOD,kFALSE);
     
     // Looping over tracks
     for ( Int_t iTrack(0); iTrack < nTrack; iTrack++ )

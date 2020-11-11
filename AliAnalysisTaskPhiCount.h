@@ -5,6 +5,7 @@
 #define AliAnalysisTaskPhiCount_H
 
 #include "AliAnalysisTaskSE.h"
+#include "AliPPVsMultUtils.h"
 
 class AliPIDResponse;
 class AliAODTrack;
@@ -48,7 +49,8 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
         AliMCEvent*             fMCD;               //! input event MC
 
         TClonesArray*           AODMCTrackArray;    //! MC Tracks Array
-
+        AliPPVsMultUtils*       fMultUtil;          //! ww
+        
         Bool_t                  kMCbool;            // MC Flag
         Bool_t                  kPhibool;           // Phi tree Flag
         Bool_t                  kKaonbool;          // Kaon tree Flag
@@ -61,6 +63,8 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
 
         // Event Variables
         Float_t                 fMultiplicity;      //! Event Multiplicity
+        Float_t                 fMultiplicit2;      //! Event Multiplicity
+        Float_t                 fMultiplicit3;      //! Event Multiplicity
         Int_t                   fKaonLabels [1024]; //! Kaon Labels
          
         // Tree Variables ( PhiCandidate )
