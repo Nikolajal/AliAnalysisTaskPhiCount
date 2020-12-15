@@ -7,16 +7,17 @@
 // MC Correspondant: LHC14j4b
 std::vector<int>    LHC10b = { 117222, 117220, 117116, 117112, 117099, 117092, 117063, 117060, 117059, 117053, 117052, 117050, 117048, 116645, 116643, 116574, 116571, 116562, 116403, 116402, 116288, 116102, 116081, 116079, 115414, 115401, 115399, 115393, 115345, 115335, 115328, 115322, 115318, 115310, 115193, 115186, 114931, 114930, 114924, 114918, 114798, 114786 };
 
-
 // MC Correspondant: LHC14j4c
 std::vector<int>    LHC10c = { 121040, 121039, 120829, 120825, 120824, 120823, 120822, 120821, 120758, 120750, 120741, 120671, 120617, 120616, 120505, 120503, 120244, 120079, 120076, 120073, 120072, 120069, 120067, 119862, 119859, 119856, 119853, 119849, 119846, 119845, 119844, 119842, 119841, 118561, 118560, 118558, 118556, 118518, 118506 };
-
 
 // MC Correspondant: LHC14j4d
 std::vector<int>    LHC10d = { 126158 , 126097, 126090, 126088, 126082, 126081, 126078, 126073, 126008, 126007, 126004, 125855, 125851, 125850, 125849, 125848, 125847, 125844, 125843, 125842, 125633, 125632, 125630, 125628, 125296, 125134, 125101, 125100, 125097, 125085, 125083, 125023, 122375, 122374 };
 
 // MC Correspondant: LHC14j4e
 std::vector<int>    LHC10e = { 130850, 130848, 130847, 130844, 130842, 130840, 130834, 130799, 130798, 130795, 130793, 130704, 130696, 130628, 130623, 130621, 130620, 130609, 130608, 130524, 130520, 130519, 130517, 130481, 130480, 130479, 130375, 130178, 130172, 130168, 130158, 130157, 130149, 129983, 129966, 129962, 129961, 129960, 129744, 129742, 129738, 129736, 129735, 129734, 129729, 129726, 129725, 129723, 129666, 129659, 129653, 129652, 129651, 129650, 129647, 129641, 129639, 129599, 129587, 129586, 129540, 129536, 129528, 129527, 129525, 129524, 129523, 129521, 129520, 129514, 129513, 129512, 129042, 128913, 128855, 128853, 128850, 128843, 128836, 128835, 128834, 128833, 128824, 128823, 128820, 128819, 128778, 128777, 128678, 128677, 128621, 128615, 128611, 128609, 128605, 128582, 128506, 128505, 128504, 128503, 128498, 128495, 128494, 128486 };
+
+// MC Correspondant: LHC14j4f
+std::vector<int>    LHC10f = { 134297, 133982, 133969, 133920, 133800, 133762, 133670, 133563, 133414, 133330, 133329, 133327, 133010, 133007, 133006 };
 
 void runAnalysis( string fOption = "", Int_t kPeriod = -1)
 {
@@ -158,8 +159,8 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1)
     // PID Task
     TMacro PIDadd(gSystem->ExpandPathName("$ALICE_ROOT/ANALYSIS/macros/AddTaskPIDResponse.C"));
     AliAnalysisTaskPIDResponse *PIDk;
-    if ( MCFlag )   PIDk = reinterpret_cast<AliAnalysisTaskPIDResponse*>(PIDadd.Exec("kTRUE,kTRUE,kTRUE,4,kFALSE,\"\",kFALSE,kFALSE"));
-    else            PIDk = reinterpret_cast<AliAnalysisTaskPIDResponse*>(PIDadd.Exec("kFALSE,kTRUE,kTRUE,4,kFALSE,\"\",kFALSE,kFALSE"));
+    if ( MCFlag )   PIDk = reinterpret_cast<AliAnalysisTaskPIDResponse*>(PIDadd.Exec("kTRUE,kTRUE,kTRUE,4,kFALSE,\"\",kTRUE,kTRUE"));
+    else            PIDk = reinterpret_cast<AliAnalysisTaskPIDResponse*>(PIDadd.Exec("kFALSE,kTRUE,kTRUE,4,kFALSE,\"\",kTRUE,kTRUE"));
     
     // Multiplicty Task
     TMacro MLTadd(gSystem->ExpandPathName("$ALICE_PHYSICS/OADB/COMMON/MULTIPLICITY/macros/AddTaskMultSelection.C"));
@@ -168,13 +169,16 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1)
     
     // Custom analysis task
     AliAnalysisTaskPhiCount *task;
-    task = reinterpret_cast<AliAnalysisTaskPhiCount*>(gInterpreter->ExecuteMacro(Form("AddMyTask.C(%d,%d,%d)",MCFlag,PhiFlag,KaonFlag)));
+    task = reinterpret_cast<AliAnalysisTaskPhiCount*>(gInterpreter->ExecuteMacro(Form("AddAnalysisTaskPhiCount.C(%d,%d,%d)",MCFlag,PhiFlag,KaonFlag)));
 #else
     gROOT                       ->LoadMacro("AliAnalysisTaskPhiCount.cxx++g");
+    gROOT                       ->LoadMacro("$ALICE_ROOT/ANALYSIS/AliPPVsMultUtils.cxx++g");
     gROOT                       ->LoadMacro("$ALICE_ROOT/ANALYSIS/macros/AddTaskPIDResponse.C");
-    gROOT                       ->LoadMacro("AddMyTask.C");
-    AddTaskPIDResponse();
-    AliAnalysisTaskPhiCount *task = AddMyTask(MCFlag,PhiFlag,KaonFlag);
+    gROOT                       ->LoadMacro("$ALICE_PHYSICS/OADB/COMMON/MULTIPLICITY/macros/AddTaskMultSelection.C");
+    gROOT                       ->LoadMacro("AddAnalysisTaskPhiCount.C");
+    AddTaskPIDResponse(kTRUE,kTRUE,kTRUE,4,kFALSE,"",kTRUE,kTRUE);
+    AddTaskMultSelection();
+    AliAnalysisTaskPhiCount *task = AddAnalysisTaskPhiCount(MCFlag,PhiFlag,KaonFlag);
     
 #endif
 
@@ -250,7 +254,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1)
         if(gridTest)
         {
             // speficy on how many files you want to run
-            alienHandler->SetNtestFiles(20);
+            alienHandler->SetNtestFiles(6);
             // and launch the analysis
             alienHandler->SetRunMode("test");
             mgr->StartAnalysis("grid");
