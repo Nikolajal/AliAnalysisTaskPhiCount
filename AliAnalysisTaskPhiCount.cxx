@@ -119,9 +119,9 @@ void    AliAnalysisTaskPhiCount::UserCreateOutputObjects()
     
     // PhiCandidate Tree Set-Up
     fPhiCandidate = new TTree   ("PhiCandidate",    "Data Tree for Phi Candidates");
-    fPhiCandidate->Branch       ("Multiplicity",   &fMultiplicity,     "fMultiplicity/F");
-    fPhiCandidate->Branch       ("Multiplicit2",   &fMultiplicit2,     "fMultiplicit2/F");
-    fPhiCandidate->Branch       ("Multiplicit3",   &fMultiplicit3,     "fMultiplicit3/F");
+    fPhiCandidate->Branch       ("fMultiplicity",   &fMultiplicity,     "fMultiplicity/F");
+    fPhiCandidate->Branch       ("fMultiplicit2",   &fMultiplicit2,     "fMultiplicit2/F");
+    fPhiCandidate->Branch       ("fMultiplicit3",   &fMultiplicit3,     "fMultiplicit3/F");
     fPhiCandidate->Branch       ("nPhi",            &fnPhi,             "fnPhi/b");
     fPhiCandidate->Branch       ("Px",              &fPhiPx,            "fPhiPx[fnPhi]/F");
     fPhiCandidate->Branch       ("Py",              &fPhiPy,            "fPhiPy[fnPhi]/F");
@@ -134,8 +134,8 @@ void    AliAnalysisTaskPhiCount::UserCreateOutputObjects()
     
     // KaonCandidate Tree Set-Up
     fKaonCandidate = new TTree ("KaonCandidate",    "Data Tree for Kaon Candidates");
-    fKaonCandidate->Branch     ("Multiplicity",     &fMultiplicity,     "fMultiplicity/F");
-    fKaonCandidate->Branch     ("nKaon",            &fnKaon,            "fnKaon/b");
+    fKaonCandidate->Branch     ("fMultiplicity",    &fMultiplicity,     "fMultiplicity/F");
+    fKaonCandidate->Branch     ("fnKaon",           &fnKaon,            "fnKaon/b");
     fKaonCandidate->Branch     ("Px",               &fKaonPx,           "fKaonPx[fnKaon]/F");
     fKaonCandidate->Branch     ("Py",               &fKaonPy,           "fKaonPy[fnKaon]/F");
     fKaonCandidate->Branch     ("Pz",               &fKaonPz,           "fKaonPz[fnKaon]/F");
@@ -540,7 +540,7 @@ void    AliAnalysisTaskPhiCount::UserExec(Option_t *)
     }
     
     // Saving output
-    fPostData();
+    fPostData(kFALSE);
     
 }
 

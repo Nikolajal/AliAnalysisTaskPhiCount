@@ -30,7 +30,7 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
     
     private:
         void                    fSetZero                    ();
-        void                    fPostData                   ();
+        void                    fPostData                   ( Bool_t            fEventEfficiency );
         bool                    fIsPrimaryVertexCandidate   ( AliAODEvent*      event );
         bool                    fIsTrackCandidate           ( AliAODTrack *     track );
         bool                    fIsKaonCandidate            ( AliAODTrack *     track );
