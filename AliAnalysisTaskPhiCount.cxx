@@ -15,7 +15,7 @@
 #include "AliAODHeader.h"
 #include "AliPIDResponse.h"
 #include "AliAnalysisTaskPhiCount.h"
-#include "AliPPVsMultUtils.h"
+#include "AliMultSelection.h"
 #include "AliESDtrackCuts.h"
 
 class AliAnalysisTaskPhiCount;
@@ -120,8 +120,6 @@ void    AliAnalysisTaskPhiCount::UserCreateOutputObjects()
     // PhiCandidate Tree Set-Up
     fPhiCandidate = new TTree   ("PhiCandidate",    "Data Tree for Phi Candidates");
     fPhiCandidate->Branch       ("fMultiplicity",   &fMultiplicity,     "fMultiplicity/F");
-    fPhiCandidate->Branch       ("fMultiplicit2",   &fMultiplicit2,     "fMultiplicit2/F");
-    fPhiCandidate->Branch       ("fMultiplicit3",   &fMultiplicit3,     "fMultiplicit3/F");
     fPhiCandidate->Branch       ("nPhi",            &fnPhi,             "fnPhi/b");
     fPhiCandidate->Branch       ("Px",              &fPhiPx,            "fPhiPx[fnPhi]/F");
     fPhiCandidate->Branch       ("Py",              &fPhiPy,            "fPhiPy[fnPhi]/F");
@@ -463,17 +461,14 @@ void    AliAnalysisTaskPhiCount::UserExec(Option_t *)
     }
     
     // Setting zero all counters and global variables
-    fMultiplicity   =   0;
+    fMultiplicity   =   -666.;
     fnPhi           =   0;
     fnPhiTru        =   0;
     fnKaon          =   0;
     fnPhiTru        =   0;
     
-    fMultiplicity = ((AliAODHeader*)fAOD->GetHeader()) -> GetRefMultiplicityComb08();
-    
-    fMultUtil = new AliPPVsMultUtils();
-    fMultiplicit2 = fMultUtil->GetMultiplicityPercentile(fAOD,"V0M",kFALSE);
-    fMultiplicit3 = fMultUtil->GetStandardReferenceMultiplicity(fAOD,kFALSE);
+    AliMultSelection   *MultSelection = (AliMultSelection*) fAOD->FindListObject("MultSelection");
+    if ( MultSelection )   fMultiplicity   =   MultSelection->GetMultiplicityPercentile("V0M");
     
     // Looping over tracks
     for ( Int_t iTrack(0); iTrack < nTrack; iTrack++ )
