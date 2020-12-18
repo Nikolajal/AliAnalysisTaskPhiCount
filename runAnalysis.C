@@ -19,6 +19,9 @@ std::vector<int>    LHC10e = { 130850, 130848, 130847, 130844, 130842, 130840, 1
 // MC Correspondant: LHC14j4f
 std::vector<int>    LHC10f = { 134297, 133982, 133969, 133920, 133800, 133762, 133670, 133563, 133414, 133330, 133329, 133327, 133010, 133007, 133006 };
 
+// MC Correspondant: LHC14j4f
+std::vector<int>    LHC15n = { 244340, 244343, 244351, 244355, 244359, 244364, 244377, 244411, 244416, 244418, 244421, 244453, 244456, 244480, 244481, 244482, 244483, 244484, 244531, 244540, 244542, 244617, 244618, 244619, 244626, 244627, 244628 };
+
 void runAnalysis( string fOption = "", Int_t kPeriod = -1)
 {
     Bool_t MCFlag = false;
@@ -111,6 +114,34 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1)
             RunName = "LHC10e";
         }
         RunList = LHC10e;
+                
+        break;
+    case 4:
+        if ( MCFlag )
+        {
+            RunYear = "2014";
+            RunName = "LHC14j4f";
+        }
+        else
+        {
+            RunYear = "2010";
+            RunName = "LHC10f";
+        }
+        RunList = LHC10f;
+                
+        break;
+    case 5:
+        if ( MCFlag )
+        {
+            RunYear = "-";
+            RunName = "-";
+        }
+        else
+        {
+            RunYear = "2015";
+            RunName = "LHC15n";
+        }
+        RunList = LHC15n;
                 
         break;
     default:
