@@ -117,6 +117,7 @@ void    AliAnalysisTaskPhiCount::UserCreateOutputObjects()
     
     PostData(2, fQCOutputList);
     
+    OpenFile(3); // where i is the index of the slot that writes to a tree
     // PhiCandidate Tree Set-Up
     fPhiCandidate = new TTree   ("PhiCandidate",    "Data Tree for Phi Candidates");
     fPhiCandidate->Branch       ("fMultiplicity",   &fMultiplicity,     "fMultiplicity/F");
