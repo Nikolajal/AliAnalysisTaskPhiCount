@@ -63,6 +63,8 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
 
         // Event Variables
         Float_t                 fMultiplicity;      //! Event Multiplicity
+        Float_t                 fMultiplicit2;      //! Event Multiplicity
+        Float_t                 fMultiplicit3;      //! Event Multiplicity
         Int_t                   fKaonLabels [1024]; //! Kaon Labels
          
         // Tree Variables ( PhiCandidate )

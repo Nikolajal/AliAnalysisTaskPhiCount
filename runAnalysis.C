@@ -20,7 +20,7 @@ std::vector<int>    LHC10e = { 130850, 130848, 130847, 130844, 130842, 130840, 1
 std::vector<int>    LHC10f = { 134297, 133982, 133969, 133920, 133800, 133762, 133670, 133563, 133414, 133330, 133329, 133327, 133010, 133007, 133006 };
 
 // MC Correspondant: LHC14j4f
-std::vector<int>    LHC15n = { 244340, 244343, 244351, 244355, 244359, 244364, 244377, 244411, 244416, 244418, 244421, 244453, 244456, 244480, 244481, 244482, 244483, 244484, 244531, 244540, 244542, 244617, 244618, 244619, 244626, 244627, 244628 };
+std::vector<int>    LHC15n = { 244340, 244343, 244351, 244355, 244359, 244364, 244377, 244416, 244418, 244421, 244453, 244456, 244480, 244481, 244482, 244483, 244484, 244531, 244540, 244542, 244617, 244618, 244619, 244626, 244627, 244628 };
 
 void runAnalysis( string fOption = "", Int_t kPeriod = -1)
 {
@@ -62,6 +62,11 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1)
     std::vector<int> RunList;
     auto RunYear = "";
     auto RunName = "";
+    auto RunPass = "";
+    auto RunAODn = "";
+    auto RunDDir = "";
+    if ( MCFlag )   RunDDir = "sim";
+    else            RunDDir = "data";
     
     if ( MCFlag )   cout << "[info]: MC Run ENABLED" << endl;
     else            cout << "[info]: MC Run DISABLED" << endl;
@@ -80,11 +85,15 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1)
         {
             RunYear = "2014";
             RunName = "LHC14j4c";
+            RunPass = "pass4";
+            RunAODn = "AOD222";
         }
         else
         {
             RunYear = "2010";
             RunName = "LHC10c";
+            RunPass = "pass4";
+            RunAODn = "AOD221";
             
         }
         RunList = LHC10c;
@@ -94,11 +103,15 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1)
         {
             RunYear = "2014";
             RunName = "LHC14j4d";
+            RunPass = "pass4";
+            RunAODn = "AOD222";
         }
         else
         {
             RunYear = "2010";
             RunName = "LHC10d";
+            RunPass = "pass4";
+            RunAODn = "AOD221";
         }
         RunList = LHC10d;
         break;
@@ -107,11 +120,15 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1)
         {
             RunYear = "2014";
             RunName = "LHC14j4e";
+            RunPass = "pass4";
+            RunAODn = "AOD222";
         }
         else
         {
             RunYear = "2010";
             RunName = "LHC10e";
+            RunPass = "pass4";
+            RunAODn = "AOD221";
         }
         RunList = LHC10e;
                 
@@ -121,11 +138,15 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1)
         {
             RunYear = "2014";
             RunName = "LHC14j4f";
+            RunPass = "pass4";
+            RunAODn = "AOD222";
         }
         else
         {
             RunYear = "2010";
             RunName = "LHC10f";
+            RunPass = "pass4";
+            RunAODn = "AOD221";
         }
         RunList = LHC10f;
                 
@@ -135,11 +156,14 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1)
         {
             RunYear = "-";
             RunName = "-";
+            RunAODn = "sim";
         }
         else
         {
             RunYear = "2015";
             RunName = "LHC15n";
+            RunPass = "pass4";
+            RunAODn = "AOD208";
         }
         RunList = LHC15n;
                 
@@ -150,11 +174,15 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1)
         {
             RunYear = "2014";
             RunName = "LHC14j4b";
+            RunPass = "pass4";
+            RunAODn = "AOD221";
         }
         else
         {
             RunYear = "2010";
             RunName = "LHC10b";
+            RunPass = "pass4";
+            RunAODn = "AOD221";
         }
         RunList = LHC10b;
         break;
@@ -243,10 +271,9 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1)
         // set the Alien API version
         alienHandler->SetAPIVersion("V1.1x");
         // select the input data
-        if ( MCFlag )   alienHandler->SetGridDataDir(Form("/alice/sim/%s/%s",RunYear,RunName));
-        else            alienHandler->SetGridDataDir(Form("/alice/data/%s/%s",RunYear,RunName));
-        if ( MCFlag )   alienHandler->SetDataPattern("*AOD222/*AOD.root");
-        else            alienHandler->SetDataPattern("*pass4/AOD221/*AOD.root");
+        alienHandler->SetGridDataDir(Form("/alice/%s/%s/%s",RunDDir,RunYear,RunName));
+        if ( MCFlag )       alienHandler->SetDataPattern(Form("*%s/*AOD.root",RunAODn));
+        else                alienHandler->SetDataPattern(Form("*%s/%s/*AOD.root",RunPass,RunAODn));
         // MC has no prefix, data has prefix 000
         if ( !MCFlag ) alienHandler->SetRunPrefix("000");
         // runnumber
@@ -285,7 +312,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1)
         if(gridTest)
         {
             // speficy on how many files you want to run
-            alienHandler->SetNtestFiles(4);
+            alienHandler->SetNtestFiles(1);
             // and launch the analysis
             alienHandler->SetRunMode("test");
             mgr->StartAnalysis("grid");
