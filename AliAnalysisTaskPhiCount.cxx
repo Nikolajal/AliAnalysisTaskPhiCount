@@ -26,7 +26,7 @@ using namespace std;
 ClassImp(AliAnalysisTaskPhiCount)
 
 AliAnalysisTaskPhiCount::AliAnalysisTaskPhiCount() : AliAnalysisTaskSE(),
-fAOD(0), fMCD(0), AODMCTrackArray(0), fKaonCandidate(0), fPhiCandidate(0), fKaonEfficiency(0), fPhiEfficiency(0), fAnalysisOutputList(0), fQCOutputList(0), fHistVertex0(0), fHistVertex1(0), fHistTPCPID0(0), fHistTPCPID1(0), fHistTPCPID2(0), fHistTOFPID0(0), fHistTOFPID1(0), fHistTOFPID2(0), fHistTOFPID3(0), fHistTPCPID3(0), fPIDResponse(0)
+fAOD(0), fMCD(0), AODMCTrackArray(0), fKaonCandidate(0), fPhiCandidate(0), fKaonEfficiency(0), fPhiEfficiency(0), fAnalysisOutputList(0), fQCOutputList(0), fQCOutputList_K(0), fQCOutputList_Ev(0), fHistVertex0(0), fHistVertex1(0), fHistTPCPID0(0), fHistTPCPID1(0), fHistTPCPID2(0), fHistTOFPID0(0), fHistTOFPID1(0), fHistTOFPID2(0), fHistTOFPID3(0), fHistTPCPID3(0), fPIDResponse(0)
 {
     
 }
@@ -34,7 +34,7 @@ fAOD(0), fMCD(0), AODMCTrackArray(0), fKaonCandidate(0), fPhiCandidate(0), fKaon
 //_____________________________________________________________________________
 
 AliAnalysisTaskPhiCount::AliAnalysisTaskPhiCount(const char* name) : AliAnalysisTaskSE(name),
-fAOD(0), fMCD(0), AODMCTrackArray(0), fKaonCandidate(0), fPhiCandidate(0), fKaonEfficiency(0), fPhiEfficiency(0), fAnalysisOutputList(0), fQCOutputList(0), fHistVertex0(0), fHistVertex1(0), fHistTPCPID0(0), fHistTPCPID1(0), fHistTPCPID2(0), fHistTOFPID0(0), fHistTOFPID1(0), fHistTOFPID2(0), fHistTOFPID3(0), fHistTPCPID3(0), fPIDResponse(0)
+fAOD(0), fMCD(0), AODMCTrackArray(0), fKaonCandidate(0), fPhiCandidate(0), fKaonEfficiency(0), fPhiEfficiency(0), fAnalysisOutputList(0), fQCOutputList(0), fQCOutputList_K(0), fQCOutputList_Ev(0), fHistVertex0(0), fHistVertex1(0), fHistTPCPID0(0), fHistTPCPID1(0), fHistTPCPID2(0), fHistTOFPID0(0), fHistTOFPID1(0), fHistTOFPID2(0), fHistTOFPID3(0), fHistTPCPID3(0), fPIDResponse(0)
 {
     // Define Input
     DefineInput(0, TChain::Class());
@@ -60,6 +60,14 @@ AliAnalysisTaskPhiCount::~AliAnalysisTaskPhiCount()
     if( fQCOutputList )
     {
         delete fQCOutputList;
+    }
+    if( fQCOutputList_K )
+    {
+        delete fQCOutputList_K;
+    }
+    if( fQCOutputList_Ev )
+    {
+        delete fQCOutputList_Ev;
     }
     if( fKaonCandidate )
     {
@@ -106,14 +114,33 @@ void    AliAnalysisTaskPhiCount::UserCreateOutputObjects()
     PostData(1, fAnalysisOutputList);
     
     // QC utility Histograms TList initialisation
-    fQCOutputList   = new TList();
-    fQCOutputList   ->SetOwner(kTRUE);
-    fHistTPCPID3    = new TH2F("fHistTPCPID3", "TPC Response (Sel3)"    , 50, 0.15, 4.15, 100, -10, 10);
-    fHistTOFPID3    = new TH2F("fHistTOFPID3", "TOF Response (Sel3)"    , 50, 0.15, 4.15, 100, -10, 10);
+    fQCOutputList       = new TList();
+    fQCOutputList       ->SetOwner(kTRUE);
+    
+    // - // List for Event variables
+    fQCOutputList_Ev    = new TList();
+    fQCOutputList_Ev   ->SetOwner(kTRUE);
+    
+    // - // - // Event Count
     fHistEvntEff    = new TH1F("fHistEvntEff", "fHistEvntEff"           , 13,   0.5, 13.5);
-    fQCOutputList->Add(fHistTPCPID3);
-    fQCOutputList->Add(fHistTOFPID3);
     fQCOutputList->Add(fHistEvntEff);
+    
+    fQCOutputList->Add(fQCOutputList_Ev);
+    
+    // - // List for Kaon Track variables
+    fQCOutputList_K     = new TList();
+    fQCOutputList_K     ->SetOwner(kTRUE);
+    
+    // - // - // TPC Check on Sigmas
+    fHistTPCPID3        = new TH2F("fHistTPCPID3", "TPC Response (Sel3)"    , 50, 0.15, 4.15, 100, -10, 10);
+    fQCOutputList->Add(fHistTPCPID3);
+    
+    // - // - // TOF Check on Sigmas
+    fHistTOFPID3        = new TH2F("fHistTOFPID3", "TOF Response (Sel3)"    , 50, 0.15, 4.15, 100, -10, 10);
+    fQCOutputList->Add(fHistTOFPID3);
+    
+    fQCOutputList->Add(fQCOutputList_K);
+    
     
     PostData(2, fQCOutputList);
     

@@ -49,7 +49,6 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
         AliMCEvent*             fMCD;               //! input event MC
 
         TClonesArray*           AODMCTrackArray;    //! MC Tracks Array
-        AliPPVsMultUtils*       fMultUtil;          //! ww
         
         Bool_t                  kMCbool;            // MC Flag
         Bool_t                  kPhibool;           // Phi tree Flag
@@ -63,8 +62,6 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
 
         // Event Variables
         Float_t                 fMultiplicity;      //! Event Multiplicity
-        Float_t                 fMultiplicit2;      //! Event Multiplicity
-        Float_t                 fMultiplicit3;      //! Event Multiplicity
         Int_t                   fKaonLabels [1024]; //! Kaon Labels
          
         // Tree Variables ( PhiCandidate )
@@ -95,6 +92,8 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
         // List
         TList*                  fAnalysisOutputList;//! Analysis output list
         TList*                  fQCOutputList;      //! Analysis output list
+        TList*                  fQCOutputList_Ev;   //! Analysis output list
+        TList*                  fQCOutputList_K;    //! Analysis output list
         
         // List Variables
         TH1F*                   fHistEvntEff;       //! histogram of Event Efficiency
