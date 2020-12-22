@@ -123,7 +123,7 @@ void    AliAnalysisTaskPhiCount::UserCreateOutputObjects()
     
     // - // - // Event Count
     fHistEvntEff    = new TH1F("fHistEvntEff", "fHistEvntEff"           , 13,   0.5, 13.5);
-    fQCOutputList->Add(fHistEvntEff);
+    fQCOutputList_Ev->Add(fHistEvntEff);
     
     fQCOutputList->Add(fQCOutputList_Ev);
     
@@ -132,11 +132,11 @@ void    AliAnalysisTaskPhiCount::UserCreateOutputObjects()
     
     // - // - // TPC Check on Sigmas
     fHistTPCPID3        = new TH2F("fSigma", "TPC Response (Sel3)"    , 50, 0.15, 4.15, 100, -10, 10);
-    fQCOutputList->Add(fHistTPCPID3);
+    fQCOutputList_K->Add(fHistTPCPID3);
     
     // - // - // TOF Check on Sigmas
     fHistTOFPID3        = new TH2F("fHistTOFPID3", "TOF Response (Sel3)"    , 50, 0.15, 4.15, 100, -10, 10);
-    fQCOutputList->Add(fHistTOFPID3);
+    fQCOutputList_K->Add(fHistTOFPID3);
     
     fQCOutputList->Add(fQCOutputList_K);
     
