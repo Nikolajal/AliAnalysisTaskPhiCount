@@ -92,8 +92,6 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
         // List
         TList*                  fAnalysisOutputList;//! Analysis output list
         TList*                  fQCOutputList;      //! Analysis output list
-        TList*                  fQCOutputList_Ev;   //! Analysis output list
-        TList*                  fQCOutputList_K;    //! Analysis output list
         
         // List Variables
         TH1F*                   fHistEvntEff;       //! histogram of Event Efficiency
