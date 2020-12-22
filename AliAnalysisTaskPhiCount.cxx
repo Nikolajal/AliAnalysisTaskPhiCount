@@ -133,7 +133,7 @@ void    AliAnalysisTaskPhiCount::UserCreateOutputObjects()
     fQCOutputList_K     ->SetOwner(kTRUE);
     
     // - // - // TPC Check on Sigmas
-    fHistTPCPID3        = new TH2F("fHistTPCPID3", "TPC Response (Sel3)"    , 50, 0.15, 4.15, 100, -10, 10);
+    fHistTPCPID3        = new TH2F("fSigma", "TPC Response (Sel3)"    , 50, 0.15, 4.15, 100, -10, 10);
     fQCOutputList->Add(fHistTPCPID3);
     
     // - // - // TOF Check on Sigmas
@@ -493,8 +493,6 @@ void    AliAnalysisTaskPhiCount::UserExec(Option_t *)
     
     // Setting zero all counters and global variables
     fMultiplicity   =   -100;
-    fMultiplicit2   =   -100;
-    fMultiplicit3   =   -100;
     fnPhi           =   0;
     fnPhiTru        =   0;
     fnKaon          =   0;
