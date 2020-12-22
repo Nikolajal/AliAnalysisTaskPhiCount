@@ -124,9 +124,6 @@ void    AliAnalysisTaskPhiCount::UserCreateOutputObjects()
     fHistTOFPID3        = new TH2F("fHistTOFPID3", "TOF Response (Sel3)"    , 50, 0.15, 4.15, 100, -10, 10);
     fQCOutputList       ->Add(fHistTOFPID3);
     
-    fQCOutputList->Add(fQCOutputList_K);
-    
-    
     PostData(2, fQCOutputList);
     
     // Where i is the slot that writes to a tree
