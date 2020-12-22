@@ -120,6 +120,7 @@ void    AliAnalysisTaskPhiCount::UserCreateOutputObjects()
     
     // - // List for Event variables
     fQCOutputList_Ev    = new TList();
+    fQCOutputList_Ev       ->SetOwner(kTRUE);
     
     // - // - // Event Count
     fHistEvntEff    = new TH1F("fHistEvntEff", "fHistEvntEff"           , 13,   0.5, 13.5);
@@ -129,6 +130,7 @@ void    AliAnalysisTaskPhiCount::UserCreateOutputObjects()
     
     // - // List for Kaon Track variables
     fQCOutputList_K     = new TList();
+    fQCOutputList_K       ->SetOwner(kTRUE);
     
     // - // - // TPC Check on Sigmas
     fHistTPCPID3        = new TH2F("fSigma", "TPC Response (Sel3)"    , 50, 0.15, 4.15, 100, -10, 10);
