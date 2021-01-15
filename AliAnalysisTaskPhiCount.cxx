@@ -700,13 +700,15 @@ Double_t    AliAnalysisTaskPhiCount::fTOFBeta( )                                
 //_____________________________________________________________________________
 
 bool        AliAnalysisTaskPhiCount::fIsKaonCandidate ( )                       {
-    auto fSigma_TOF    = std::fabs(fPIDResponse->NumberOfSigmasTOF(fCurrent_Track,AliPID::kKaon));
-    auto fSigma_TPC    = std::fabs(fPIDResponse->NumberOfSigmasTPC(fCurrent_Track,AliPID::kKaon));
+    auto fSigma_TOF     = std::fabs(fPIDResponse->NumberOfSigmasTOF(fCurrent_Track,AliPID::kKaon));
+    auto fSigma_TPC     = std::fabs(fPIDResponse->NumberOfSigmasTPC(fCurrent_Track,AliPID::kKaon));
     
     //  CUSTOM
-    if ( !fIsTPCAvailable || ( fIsTOFAvailable && fSigma_TOF >= 3 ) )       return false;
-    if (  fIsTOFAvailable && fSigma_TPC > 5. )                              return false;
-    if ( !fIsTOFAvailable && fSigma_TPC > 3. )                              return false;
+    if ( !fIsTPCAvailable || ( fIsTOFAvailable && fSigma_TOF >= 4 ) )       return false;
+    if (  fIsTOFAvailable && fSigma_TPC > 6. )                              return false;
+    if ( !fIsTOFAvailable && fSigma_TPC > 4. )                              return false;
+    fTOFSigma[fnKaon]   =   (Char_t)(fSigma_TOF*10.);
+    fTPCSigma[fnKaon]   =   (Char_t)(fSigma_TPC*10.);
     return true;
 }
 
