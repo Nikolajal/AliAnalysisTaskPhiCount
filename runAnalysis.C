@@ -19,8 +19,11 @@ std::vector<int>    LHC10e = { 130850, 130848, 130847, 130844, 130842, 130840, 1
 // MC Correspondant: LHC14j4f
 std::vector<int>    LHC10f = { 134297, 133982, 133969, 133920, 133800, 133762, 133670, 133563, 133414, 133330, 133329, 133327, 133010, 133007, 133006 };
 
-// MC Correspondant: LHC14j4f
+// MC Correspondant: --
 std::vector<int>    LHC15n = { 244340, 244343, 244351, 244355, 244359, 244364, 244377, 244416, 244418, 244421, 244453, 244456, 244480, 244481, 244482, 244483, 244484, 244531, 244540, 244542, 244617, 244618, 244619, 244626, 244627, 244628 };
+
+// MC Correspondant: LHC16d3
+std::vector<int>    LHC15f = { 226500, 226495, 226483, 226476, 226472, 226468, 226466, 226452, 226445, 226444, 226225, 226220, 226170, 226062, 225768, 225766, 225763, 225762, 225757, 225753, 225719, 225717, 225716, 225710, 225709, 225708, 225707, 225705, 225587, 225586, 225579, 225578, 225576, 225322, 225315, 225314, 225313, 225310 };
 
 void runAnalysis( string fOption = "", Int_t kPeriod = -1)
 {
@@ -157,6 +160,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1)
             RunYear = "-";
             RunName = "-";
             RunAODn = "sim";
+            RunAODn = "-";
         }
         else
         {
@@ -167,6 +171,24 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1)
         }
         RunList = LHC15n;
                 
+        break;
+    case 6:
+        if ( MCFlag )
+        {
+            RunYear = "2016";
+            RunName = "LHC16d3";
+            RunAODn = "sim";
+            RunAODn = "AOD235";
+        }
+        else
+        {
+            RunYear = "2015";
+            RunName = "LHC15f";
+            RunPass = "pass2";
+            RunAODn = "AOD234";
+        }
+        RunList = LHC15f;
+            
         break;
     default:
         cout << "[info]: Default Period ENABLED" << endl;
