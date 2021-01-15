@@ -25,7 +25,7 @@ std::vector<int>    LHC15n = { 244340, 244343, 244351, 244355, 244359, 244364, 2
 // MC Correspondant: LHC16d3
 std::vector<int>    LHC15f = { 226500, 226495, 226483, 226476, 226472, 226468, 226466, 226452, 226445, 226444, 226225, 226220, 226170, 226062, 225768, 225766, 225763, 225762, 225757, 225753, 225719, 225717, 225716, 225710, 225709, 225708, 225707, 225705, 225587, 225586, 225579, 225578, 225576, 225322, 225315, 225314, 225313, 225310 };
 
-void runAnalysis( string fOption = "", Int_t kPeriod = -1)
+void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0 )
 {
     Bool_t MCFlag = false;
     Bool_t local = true;
@@ -257,7 +257,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1)
     gROOT                       ->LoadMacro("AddAnalysisTaskPhiCount.C");
     AddTaskPIDResponse(kTRUE,kTRUE,kTRUE,4,kFALSE,"",kTRUE,kTRUE);
     AddTaskMultSelection();
-    AliAnalysisTaskPhiCount *task = AddAnalysisTaskPhiCount(MCFlag,PhiFlag,KaonFlag);
+    AliAnalysisTaskPhiCount *task = AddAnalysisTaskPhiCount(MCFlag,PhiFlag,KaonFlag,kOption);
     
 #endif
 
