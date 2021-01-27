@@ -20,10 +20,13 @@ std::vector<int>    LHC10e = { 130850, 130848, 130847, 130844, 130842, 130840, 1
 std::vector<int>    LHC10f = { 134297, 133982, 133969, 133920, 133800, 133762, 133670, 133563, 133414, 133330, 133329, 133327, 133010, 133007, 133006 };
 
 // MC Correspondant: --
-std::vector<int>    LHC15n = { 244340, 244343, 244351, 244355, 244359, 244364, 244377, 244416, 244418, 244421, 244453, 244456, 244480, 244481, 244482, 244483, 244484, 244531, 244540, 244542, 244617, 244618, 244619, 244626, 244627, 244628 };
+std::vector<int>    LHC15n = { 244628, 244627, 244626, 244619, 244618, 244617, 244542, 244540, 244531, 244484, 244483, 244482, 244481, 244480, 244456, 244453, 244421, 244416, 244377, 244364, 244359, 244355, 244351, 244343, 244340 };
 
 // MC Correspondant: LHC16d3
 std::vector<int>    LHC15f = { 226500, 226495, 226483, 226476, 226472, 226468, 226466, 226452, 226445, 226444, 226225, 226220, 226170, 226062, 225768, 225766, 225763, 225762, 225757, 225753, 225719, 225717, 225716, 225710, 225709, 225708, 225707, 225705, 225587, 225586, 225579, 225578, 225576, 225322, 225315, 225314, 225313, 225310 };
+
+// MC Correspondant: --
+std::vector<int>    LHC17p = { 282343, 282342, 282341, 282340, 282314, 282313, 282312, 282309, 282307, 282306, 282305, 282304, 282303, 282302, 282247, 282230, 282229, 282227, 282224, 282206, 282189, 282147, 282146, 282127, 282126, 282125, 282123, 282122, 282120, 282119, 282118, 282099, 282098, 282078, 282051, 282050, 282031, 282030, 282025, 282021, 282016, 282008 };
 
 void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0 )
 {
@@ -190,6 +193,42 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0 )
         RunList = LHC15f;
             
         break;
+        case 7:
+            if ( MCFlag )
+            {
+                RunYear = "2018";
+                RunName = "LHC18j2_fast";
+                RunAODn = "sim";
+                RunAODn = "AOD209";
+            }
+            else
+            {
+                RunYear = "2017";
+                RunName = "LHC17p";
+                RunPass = "pass1_FAST";
+                RunAODn = "AOD208";
+            }
+        RunList = LHC17p;
+            
+            break;
+        case 8:
+            if ( MCFlag )
+            {
+                RunYear = "2018";
+                RunName = "LHC18j2_cent_woSDD";
+                RunAODn = "sim";
+                RunAODn = "AOD209";
+            }
+            else
+            {
+                RunYear = "2017";
+                RunName = "LHC17p";
+                RunPass = "pass1_CENT_woSDD";
+                RunAODn = "AOD208";
+            }
+        RunList = LHC17p;
+            
+            break;
     default:
         cout << "[info]: Default Period ENABLED" << endl;
         if ( MCFlag )
@@ -287,7 +326,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0 )
         alienHandler->SetAnalysisSource("AliAnalysisTaskPhiCount.cxx");
         // select the aliphysics version. all other packages
         // are LOADED AUTOMATICALLY!
-        alienHandler->SetAliPhysicsVersion("vAN-20200302_ROOT6-1");
+        alienHandler->SetAliPhysicsVersion("vAN-20200320_ROOT6-1");
         // set the Alien API version
         alienHandler->SetAPIVersion("V1.1x");
         // select the input data
@@ -320,8 +359,8 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0 )
         //alienHandler->SetMergeViaJDL(kFALSE);
 
         // define the output folders
-        alienHandler->SetGridWorkingDir(Form("%s_1",RunName));
-        alienHandler->SetGridOutputDir(Form("%s",RunName));
+        alienHandler->SetGridWorkingDir(Form("%s",RunName));
+        alienHandler->SetGridOutputDir(Form("%s",RunPass));
         
         // Submit policy
         //alienHandler->SetUseSubmitPolicy();
