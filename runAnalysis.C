@@ -100,7 +100,6 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0 )
             RunName = "LHC10c";
             RunPass = "pass4";
             RunAODn = "AOD221";
-            
         }
         RunList = LHC10c;
         break;
@@ -288,7 +287,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0 )
     
     // Custom analysis task
     AliAnalysisTaskPhiCount *task;
-    task = reinterpret_cast<AliAnalysisTaskPhiCount*>(gInterpreter->ExecuteMacro(Form("AddAnalysisTaskPhiCount.C(%d,%d,%d)",MCFlag,PhiFlag,KaonFlag)));
+    task = reinterpret_cast<AliAnalysisTaskPhiCount*>(gInterpreter->ExecuteMacro(Form("AddAnalysisTaskPhiCount.C(%d,%d,%d,%i)",MCFlag,PhiFlag,KaonFlag,kOption)));
 #else
     gROOT                       ->LoadMacro("AliAnalysisTaskPhiCount.cxx++g");
     gROOT                       ->LoadMacro("$ALICE_ROOT/ANALYSIS/macros/AddTaskPIDResponse.C");
