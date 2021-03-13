@@ -31,13 +31,17 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
                                 AliAnalysisTaskPhiCount     ( const AliAnalysisTaskPhiCount& );
     AliAnalysisTaskPhiCount&    operator =                  ( const AliAnalysisTaskPhiCount& );
     //
-    // Setters
+    // Setters & Getters
     //
     void                        SetMCFlag                   ( Bool_t    MCFlag )        { kMCbool = MCFlag; };
     void                        SetPhiFlag                  ( Bool_t    PhiFlag )       { kPhibool = PhiFlag; };
     void                        SetKaonFlag                 ( Bool_t    KaonFlag )      { kKaonbool = KaonFlag; };
     void                        SetFilterBit                ( Int_t     FilterBit )     { kFilterBit = FilterBit; };
     void                        SetVertexCut                ( Float_t   VertexCut )     { kVertexCut = VertexCut; };
+    void                        SetkSgTPC_Alone             ( Float_t   kTPCSigma )     { kSgTPC_Alone = kTPCSigma; };
+    void                        SetkSgTPC_TOFVt             ( Float_t   kTPCSigma )     { kSgTPC_TOFVt = kTPCSigma; };
+    void                        SetkSgTOF_Veto              ( Float_t   kTOFSigma )     { kSgTOF_Veto = kTOFSigma; };
+    void                        SetfRunName                 ( TString   kRunName )      { fRunName = kRunName; };
     Bool_t                      GetMCFlag                   ( )                         { return kMCbool; };
     Bool_t                      GetPhiFlag                  ( )                         { return kPhibool; };
     Bool_t                      GetKaonFlag                 ( )                         { return kKaonbool; };
@@ -54,11 +58,12 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
     void                        fSetZero                    ( );
     Double_t                   *fGetDCA                     ( );
     //
-    Bool_t                      kMCbool;                    // MC Flag
-    Bool_t                      kPhibool;                   // Phi tree Flag
-    Bool_t                      kKaonbool;                  // Kaon tree Flag
-    Int_t                       kFilterBit;                 // Filterbit
-    Float_t                     kVertexCut;                 // VertexCut
+    Bool_t                      kMCbool;                    //  MC Flag
+    Bool_t                      kPhibool;                   //  Phi tree Flag
+    Bool_t                      kKaonbool;                  //  Kaon tree Flag
+    Int_t                       kFilterBit;                 //  Filterbit
+    Float_t                     kVertexCut;                 //  VertexCut
+    TString                     fRunName;                   //  MultiRun name
     //
     //>->->->->->->->->->->->->->->->->->->->->->->->->->-> QC & Selection
     //
@@ -69,7 +74,10 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
     Bool_t                      fIsEventPileUp              ( );
     void                        fSetEventMask               ( Int_t iMaskBit );
     void                        fSetTrueEventMask           ( Int_t iMaskBit );
-    Bool_t                      fCheckINELgt0               ( );
+    bool                        fCheckMask                  ( Int_t iMaskBit );
+    bool                        fCheckTrueMask              ( Int_t iMaskBit );
+    void                        fStoreTruePhi               ( Int_t iMaskBit );
+    bool                        fCheckINELgt0               ( AliAODMCParticle* );
     void                        fFillEventEnumerate         ( Int_t iIndex );
     //
     AliAODEvent                *fAOD;                       //! input event AOD Format
@@ -117,6 +125,9 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
     Bool_t                      fIsTOFAvailable;            //! TOF availabilty flag
     Float_t                     fBetaFromTOFSignal;         //! Particle beta from TOF signal
     Float_t                     fTPCSignal;                 //! Particle dE/dX in TPC
+    Float_t                     kSgTPC_Alone;               //! TPC Alone Sigma limit
+    Float_t                     kSgTPC_TOFVt;               //! TPC Alone Sigma limit
+    Float_t                     kSgTOF_Veto;                //! TPC Alone Sigma limit
     //
     //>->->     PID Kaons QC
     //
@@ -158,6 +169,8 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
     TH1F                       *fQC_Kaons_M_TransMom;       //! Analysis output list
     TH1F                       *fQC_Kaons_M_Eta;            //! Analysis output list
     TH1F                       *fQC_Kaons_M_Phi;            //! Analysis output list
+    TH2F                       *fQC_Kaons_SigmaTPC_VETO_P;    //! gg
+    TH2F                       *fQC_Kaons_SigmaTPC_VETO_PT;    //! gg
     TH2F                       *fQC_Kaons_DCAXY_P;          //! Analysis output list
     TH2F                       *fQC_Kaons_DCAZ_P;           //! Analysis output list
     TH2F                       *fQC_Kaons_DCAXY_PT;         //! Analysis output list

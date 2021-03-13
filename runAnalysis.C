@@ -1,11 +1,13 @@
 // TODO LIST
 // TODO: You're all set!
-
+#include <iostream>
+#include <chrono>
+#include <ctime>
 #include "AliAnalysisTaskPhiCount.h"
 #include "AliAnalysisTaskPIDResponse.h"
 
 // MC Correspondant: LHC14j4b
-std::vector<int>    LHC10b = { 117222, 117220, 117116, 117112, 117099, 117092, 117063, 117060, 117059, 117053, 117052, 117050, 117048, 116645, 116643, 116574, 116571, 116562, 116403, 116402, 116288, 116102, 116081, 116079, 115414, 115401, 115399, 115393, 115345, 115335, 115328, 115322, 115318, 115310, 115193, 115186, 114931, 114930, 114924, 114918, 114798, 114786 };
+std::vector<int>    LHC10b = { 117220, 117116, 117112, 117099, 117092, 117063, 117060, 117059, 117053, 117052, 117050, 117048, 116645, 116643, 116574, 116571, 116562, 116403, 116402, 116288, 116102, 116081, 116079, 115414, 115401, 115399, 115393, 115345, 115335, 115328, 115322, 115318, 115310, 115193, 115186, 114931, 114930, 114924, 114918, 114798, 114786 };
 
 // MC Correspondant: LHC14j4c
 std::vector<int>    LHC10c = { 121040, 121039, 120829, 120825, 120824, 120823, 120822, 120821, 120758, 120750, 120741, 120671, 120617, 120616, 120505, 120503, 120244, 120079, 120076, 120073, 120072, 120069, 120067, 119862, 119859, 119856, 119853, 119849, 119846, 119845, 119844, 119842, 119841, 118561, 118560, 118558, 118556, 118518, 118506 };
@@ -28,13 +30,26 @@ std::vector<int>    LHC15f = { 226500, 226495, 226483, 226476, 226472, 226468, 2
 // MC Correspondant: --
 std::vector<int>    LHC17p = { 282343, 282342, 282341, 282340, 282314, 282313, 282312, 282309, 282307, 282306, 282305, 282304, 282303, 282302, 282247, 282230, 282229, 282227, 282224, 282206, 282189, 282147, 282146, 282127, 282126, 282125, 282123, 282122, 282120, 282119, 282118, 282099, 282098, 282078, 282051, 282050, 282031, 282030, 282025, 282021, 282016, 282008 };
 
+const std::string currentDateTime() {
+    time_t     now = time(0);
+    struct tm  tstruct;
+    char       buf[80];
+    tstruct = *localtime(&now);
+    // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
+    // for more information about date/time format
+    strftime(buf, sizeof(buf), "%Y_%m_%d", &tstruct);
+    return buf;
+}
+
 void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0 )
 {
-    Bool_t MCFlag = false;
-    Bool_t local = true;
-    Bool_t gridTest = true;
-    Bool_t KaonFlag = false;
-    Bool_t PhiFlag = true;
+    Bool_t MCFlag       =   false;
+    Bool_t local        =   true;
+    Bool_t gridTest     =   true;
+    Bool_t KaonFlag     =   false;
+    Bool_t PhiFlag      =   true;
+    Bool_t kTerm        =   false;
+    Bool_t kDown        =   true;
     if ( fOption.find("Full") != -1 )
     {
         local = false;
@@ -64,7 +79,20 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0 )
         KaonFlag = false;
         PhiFlag = false;
     }
-        
+    if ( fOption.find("Terminate") != -1 )
+    {
+        local = false;
+        gridTest = false;
+        kTerm = true;
+    }
+    if ( fOption.find("Download") != -1 )
+    {
+        local       = false;
+        gridTest    = false;
+        kTerm       = true;
+        kDown       = false;
+    }
+    
     std::vector<int> RunList;
     auto RunYear = "";
     auto RunName = "";
@@ -354,12 +382,11 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0 )
         // (see below) mode, set SetMergeViaJDL(kFALSE) 
         // to collect final results
         alienHandler->SetMaxMergeStages(1);
-        alienHandler->SetMergeViaJDL(kTRUE);
-        //alienHandler->SetMergeViaJDL(kFALSE);
+        alienHandler->SetMergeViaJDL(kDown);
 
         // define the output folders
-        alienHandler->SetGridWorkingDir(Form("%s",RunName));
-        alienHandler->SetGridOutputDir(Form("%s",RunPass));
+        alienHandler->SetGridWorkingDir(Form("%s_%s",RunName,currentDateTime().c_str()));
+        alienHandler->SetGridOutputDir(Form("%s_%s",RunPass,currentDateTime().c_str()));
         
         // Submit policy
         //alienHandler->SetUseSubmitPolicy();
@@ -370,7 +397,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0 )
         if(gridTest)
         {
             // speficy on how many files you want to run
-            alienHandler->SetNtestFiles(1);
+            alienHandler->SetNtestFiles(3);
             // and launch the analysis
             alienHandler->SetRunMode("test");
             mgr->StartAnalysis("grid");
@@ -379,7 +406,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0 )
         {
             // else launch the full grid analysis
             alienHandler->SetRunMode("full");
-            //alienHandler->SetRunMode("terminate");
+            if ( kTerm ) alienHandler->SetRunMode("terminate");
             mgr->StartAnalysis("grid");
         }
     }

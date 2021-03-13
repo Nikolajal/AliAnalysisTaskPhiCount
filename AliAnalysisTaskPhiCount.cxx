@@ -24,13 +24,13 @@ using namespace std;
 
 ClassImp(AliAnalysisTaskPhiCount)
 
-            AliAnalysisTaskPhiCount::AliAnalysisTaskPhiCount() : AliAnalysisTaskSE(), kMCbool(0), kPhibool(0), kKaonbool(0), kFilterBit(5), fAOD(0), fESD(0), fMCD(0), AODMCTrackArray(0), fPIDResponse(0), fPrimaryVertex(0), fCurrent_Track(0), fCurrent_Track_Charge(0), fCurrent_Track_Momentum(0),fCurrent_Track_TransMom(0), fCurrent_Track_Eta(0), fCurrent_Track_Phi(0), fCurrent_Track_DCAXY(0), fCurrent_Track_DCAZ(0), fIsTPCAvailable(0), fIsTOFAvailable(0), fBetaFromTOFSignal(0), fTPCSignal(0), fQCOutputList(0), fQC_Event_Enumerate(0), fQC_Event_Vertex_Fll(0), fQC_Event_Vertex_Cut(0), fQC_Event_Enum_Mult(0), fQC_Tracks_P_Momentum(0), fQC_Tracks_P_TransMom(0), fQC_Tracks_P_Eta(0), fQC_Tracks_P_Phi(0), fQC_Tracks_M_Momentum(0), fQC_Tracks_M_TransMom(0), fQC_Tracks_M_Eta(0), fQC_Tracks_M_Phi(0), fQC_Tracks_DCAXY_P(0), fQC_Tracks_DCAZ_P(0), fQC_Tracks_DCAXY_PT(0), fQC_Tracks_DCAZ_PT(0), fQC_Kaons_P_Momentum(0), fQC_Kaons_P_TransMom(0), fQC_Kaons_P_Eta(0), fQC_Kaons_P_Phi(0),fQC_Kaons_M_Momentum(0), fQC_Kaons_M_TransMom(0), fQC_Kaons_M_Eta(0), fQC_Kaons_M_Phi(0), fQC_Kaons_DCAXY_P(0), fQC_Kaons_DCAZ_P(0), fQC_Kaons_DCAXY_PT(0), fQC_Kaons_DCAZ_PT(0), fQC_PID_SignalTPC_P(0), fQC_PID_SignalTOF_P(0), fQC_PID_SignalTPC_PT(0), fQC_PID_SignalTOF_PT(0), fQC_Kaons_SigmaTPC_P(0), fQC_Kaons_SigmaTOF_P(0), fQC_Kaons_SigmaTPC_PT(0), fQC_Kaons_SigmaTOF_PT(0), fQC_Kaons_SigmaTOF_TPC(0), fQC_Kaons_SignalTPC_P(0), fQC_Kaons_SignalTOF_P(0), fQC_Kaons_SignalTPC_PT(0), fQC_Kaons_SignalTOF_PT(0), fMultiplicity(0), fPhiCandidate(0), fnPhi(0), fKaonCandidate(0), fnKaon(0), fPhiEfficiency(0), fnPhiTru(0), fKaonEfficiency(0), fnKaonTru(0), fAnalysisOutputList(0)   {
+            AliAnalysisTaskPhiCount::AliAnalysisTaskPhiCount() : AliAnalysisTaskSE(), kMCbool(0), kPhibool(0), kKaonbool(0), kFilterBit(5), fAOD(0), fESD(0), fMCD(0), AODMCTrackArray(0), fPIDResponse(0), fPrimaryVertex(0), fCurrent_Track(0), fCurrent_Track_Charge(0), fCurrent_Track_Momentum(0),fCurrent_Track_TransMom(0), fCurrent_Track_Eta(0), fCurrent_Track_Phi(0), fCurrent_Track_DCAXY(0), fCurrent_Track_DCAZ(0), fIsTPCAvailable(0), fIsTOFAvailable(0), fBetaFromTOFSignal(0), fTPCSignal(0), fQCOutputList(0), fQC_Event_Enumerate(0), fQC_Event_Vertex_Fll(0), fQC_Event_Vertex_Cut(0), fQC_Event_Enum_Mult(0), fQC_Tracks_P_Momentum(0), fQC_Tracks_P_TransMom(0), fQC_Tracks_P_Eta(0), fQC_Tracks_P_Phi(0), fQC_Tracks_M_Momentum(0), fQC_Tracks_M_TransMom(0), fQC_Tracks_M_Eta(0), fQC_Tracks_M_Phi(0), fQC_Tracks_DCAXY_P(0), fQC_Tracks_DCAZ_P(0), fQC_Tracks_DCAXY_PT(0), fQC_Tracks_DCAZ_PT(0), fQC_Kaons_P_Momentum(0), fQC_Kaons_P_TransMom(0), fQC_Kaons_P_Eta(0), fQC_Kaons_P_Phi(0),fQC_Kaons_M_Momentum(0), fQC_Kaons_M_TransMom(0), fQC_Kaons_M_Eta(0), fQC_Kaons_M_Phi(0), fQC_Kaons_DCAXY_P(0), fQC_Kaons_DCAZ_P(0), fQC_Kaons_DCAXY_PT(0), fQC_Kaons_DCAZ_PT(0), fQC_PID_SignalTPC_P(0), fQC_PID_SignalTOF_P(0), fQC_PID_SignalTPC_PT(0), fQC_PID_SignalTOF_PT(0), fQC_Kaons_SigmaTPC_P(0), fQC_Kaons_SigmaTOF_P(0), fQC_Kaons_SigmaTPC_PT(0), fQC_Kaons_SigmaTOF_PT(0), fQC_Kaons_SigmaTOF_TPC(0), fQC_Kaons_SignalTPC_P(0), fQC_Kaons_SignalTOF_P(0), fQC_Kaons_SignalTPC_PT(0), fQC_Kaons_SignalTOF_PT(0), fMultiplicity(0), fPhiCandidate(0), fnPhi(0), fKaonCandidate(0), fnKaon(0), fPhiEfficiency(0), fnPhiTru(0), fKaonEfficiency(0), fnKaonTru(0), fAnalysisOutputList(0), kSgTPC_Alone(5.), kSgTOF_Veto(3.), kSgTPC_TOFVt(3.), fQC_Kaons_SigmaTPC_VETO_P(0) ,fQC_Kaons_SigmaTPC_VETO_PT(0)     {
     
 }
 
 //_____________________________________________________________________________
 
-            AliAnalysisTaskPhiCount::AliAnalysisTaskPhiCount(const char* name) : AliAnalysisTaskSE(name), kMCbool(0), kPhibool(0), kKaonbool(0), kFilterBit(5), fAOD(0), fESD(0), fMCD(0), AODMCTrackArray(0), fPIDResponse(0), fPrimaryVertex(0), fCurrent_Track(0), fCurrent_Track_Charge(0), fCurrent_Track_Momentum(0),fCurrent_Track_TransMom(0), fCurrent_Track_Eta(0), fCurrent_Track_Phi(0), fCurrent_Track_DCAXY(0), fCurrent_Track_DCAZ(0), fIsTPCAvailable(0), fIsTOFAvailable(0), fBetaFromTOFSignal(0), fTPCSignal(0), fQCOutputList(0), fQC_Event_Enumerate(0), fQC_Event_Vertex_Fll(0), fQC_Event_Vertex_Cut(0), fQC_Event_Enum_Mult(0), fQC_Tracks_P_Momentum(0), fQC_Tracks_P_TransMom(0), fQC_Tracks_P_Eta(0), fQC_Tracks_P_Phi(0), fQC_Tracks_M_Momentum(0), fQC_Tracks_M_TransMom(0), fQC_Tracks_M_Eta(0), fQC_Tracks_M_Phi(0), fQC_Tracks_DCAXY_P(0), fQC_Tracks_DCAZ_P(0), fQC_Tracks_DCAXY_PT(0), fQC_Tracks_DCAZ_PT(0), fQC_Kaons_P_Momentum(0), fQC_Kaons_P_TransMom(0), fQC_Kaons_P_Eta(0), fQC_Kaons_P_Phi(0),fQC_Kaons_M_Momentum(0), fQC_Kaons_M_TransMom(0), fQC_Kaons_M_Eta(0), fQC_Kaons_M_Phi(0), fQC_Kaons_DCAXY_P(0), fQC_Kaons_DCAZ_P(0), fQC_Kaons_DCAXY_PT(0), fQC_Kaons_DCAZ_PT(0), fQC_PID_SignalTPC_P(0), fQC_PID_SignalTOF_P(0), fQC_PID_SignalTPC_PT(0), fQC_PID_SignalTOF_PT(0), fQC_Kaons_SigmaTPC_P(0), fQC_Kaons_SigmaTOF_P(0), fQC_Kaons_SigmaTPC_PT(0), fQC_Kaons_SigmaTOF_PT(0), fQC_Kaons_SigmaTOF_TPC(0), fQC_Kaons_SignalTPC_P(0), fQC_Kaons_SignalTOF_P(0), fQC_Kaons_SignalTPC_PT(0), fQC_Kaons_SignalTOF_PT(0), fMultiplicity(0), fPhiCandidate(0), fnPhi(0), fKaonCandidate(0), fnKaon(0), fPhiEfficiency(0), fnPhiTru(0), fKaonEfficiency(0), fnKaonTru(0), fAnalysisOutputList(0)    {
+            AliAnalysisTaskPhiCount::AliAnalysisTaskPhiCount(const char* name) : AliAnalysisTaskSE(name), kMCbool(0), kPhibool(0), kKaonbool(0), kFilterBit(5), fAOD(0), fESD(0), fMCD(0), AODMCTrackArray(0), fPIDResponse(0), fPrimaryVertex(0), fCurrent_Track(0), fCurrent_Track_Charge(0), fCurrent_Track_Momentum(0),fCurrent_Track_TransMom(0), fCurrent_Track_Eta(0), fCurrent_Track_Phi(0), fCurrent_Track_DCAXY(0), fCurrent_Track_DCAZ(0), fIsTPCAvailable(0), fIsTOFAvailable(0), fBetaFromTOFSignal(0), fTPCSignal(0), fQCOutputList(0), fQC_Event_Enumerate(0), fQC_Event_Vertex_Fll(0), fQC_Event_Vertex_Cut(0), fQC_Event_Enum_Mult(0), fQC_Tracks_P_Momentum(0), fQC_Tracks_P_TransMom(0), fQC_Tracks_P_Eta(0), fQC_Tracks_P_Phi(0), fQC_Tracks_M_Momentum(0), fQC_Tracks_M_TransMom(0), fQC_Tracks_M_Eta(0), fQC_Tracks_M_Phi(0), fQC_Tracks_DCAXY_P(0), fQC_Tracks_DCAZ_P(0), fQC_Tracks_DCAXY_PT(0), fQC_Tracks_DCAZ_PT(0), fQC_Kaons_P_Momentum(0), fQC_Kaons_P_TransMom(0), fQC_Kaons_P_Eta(0), fQC_Kaons_P_Phi(0),fQC_Kaons_M_Momentum(0), fQC_Kaons_M_TransMom(0), fQC_Kaons_M_Eta(0), fQC_Kaons_M_Phi(0), fQC_Kaons_DCAXY_P(0), fQC_Kaons_DCAZ_P(0), fQC_Kaons_DCAXY_PT(0), fQC_Kaons_DCAZ_PT(0), fQC_PID_SignalTPC_P(0), fQC_PID_SignalTOF_P(0), fQC_PID_SignalTPC_PT(0), fQC_PID_SignalTOF_PT(0), fQC_Kaons_SigmaTPC_P(0), fQC_Kaons_SigmaTOF_P(0), fQC_Kaons_SigmaTPC_PT(0), fQC_Kaons_SigmaTOF_PT(0), fQC_Kaons_SigmaTOF_TPC(0), fQC_Kaons_SignalTPC_P(0), fQC_Kaons_SignalTOF_P(0), fQC_Kaons_SignalTPC_PT(0), fQC_Kaons_SignalTOF_PT(0), fMultiplicity(0), fPhiCandidate(0), fnPhi(0), fKaonCandidate(0), fnKaon(0), fPhiEfficiency(0), fnPhiTru(0), fKaonEfficiency(0), fnKaonTru(0), fAnalysisOutputList(0), kSgTPC_Alone(5.), kSgTOF_Veto(3.), kSgTPC_TOFVt(3.), fQC_Kaons_SigmaTPC_VETO_P(0) ,fQC_Kaons_SigmaTPC_VETO_PT(0)    {
     // Define Input
     DefineInput(0, TChain::Class());
     
@@ -76,7 +76,7 @@ ClassImp(AliAnalysisTaskPhiCount)
 //_____________________________________________________________________________
 
 void        AliAnalysisTaskPhiCount::UserCreateOutputObjects()                  {
-    // Various utility Histograms TList initialisation
+    // Analysis Output Histograms TList initialisation
     fAnalysisOutputList     = new TList();
     fAnalysisOutputList     ->SetOwner(kTRUE);
     PostData(1, fAnalysisOutputList);
@@ -89,28 +89,28 @@ void        AliAnalysisTaskPhiCount::UserCreateOutputObjects()                  
     //
     // TODO: Acc Tracks in mult bins
     //
-    fQC_Event_Enumerate     = new TH1D("fQC_Event_Enumerate",   "Event Selection",                  29, -0.5, 28.5);
-    fQC_Event_Vertex_Fll    = new TH1F("fQC_Event_Vertex_Fll",  "Collision Vertex (FULL)",          300, -15, 15);
-    fQC_Event_Vertex_Cut    = new TH1F("fQC_Event_Vertex_Cut",  "Collision Vertex (CUTS)",          300, -15, 15);
-    fQC_Event_Enum_Mult     = new TH1F("fQC_Event_Enum_Mult",   "Collision Vertex (CUTS)",          202, -1., 201.);
+    fQC_Event_Enumerate     = new TH1D("fQC_Event_Enumerate",       "Event Selection",                                  29, -0.5, 28.5);
+    fQC_Event_Vertex_Fll    = new TH1F("fQC_Event_Vertex_Fll",      "Collision Vertex (FULL)",                          300, -15, 15);
+    fQC_Event_Vertex_Cut    = new TH1F("fQC_Event_Vertex_Cut",      "Collision Vertex (CUTS)",                          300, -15, 15);
+    fQC_Event_Enum_Mult     = new TH1F("fQC_Event_Enum_Mult",       "Collision Vertex (CUTS)",                          202, -1., 201.);
     fQCOutputList->Add(fQC_Event_Enumerate);
     fQCOutputList->Add(fQC_Event_Vertex_Fll);
     fQCOutputList->Add(fQC_Event_Vertex_Cut);
     fQCOutputList->Add(fQC_Event_Enum_Mult);
     
     //>->   Tracks
-    fQC_Tracks_P_Momentum   = new TH1F("fQC_Tracks_P_Momentum",   "Acc. Tracks Momentum",               100, 0., 10.);
-    fQC_Tracks_P_TransMom   = new TH1F("fQC_Tracks_P_TransMom",   "Acc. Tracks Trasnverse Momentum",    100, 0., 10.);
-    fQC_Tracks_P_Eta        = new TH1F("fQC_Tracks_P_Eta",        "Acc. Tracks Eta",                    100, -1., 1.);
-    fQC_Tracks_P_Phi        = new TH1F("fQC_Tracks_P_Phi",        "Acc. Tracks Phi",                    370, -5., 365.);
-    fQC_Tracks_M_Momentum   = new TH1F("fQC_Tracks_M_Momentum",   "Acc. Tracks Momentum",               100, 0., 10.);
-    fQC_Tracks_M_TransMom   = new TH1F("fQC_Tracks_M_TransMom",   "Acc. Tracks Trasnverse Momentum",    100, 0., 10.);
-    fQC_Tracks_M_Eta        = new TH1F("fQC_Tracks_M_Eta",        "Acc. Tracks Eta",                    100, -1., 1.);
-    fQC_Tracks_M_Phi        = new TH1F("fQC_Tracks_M_Phi",        "Acc. Tracks Phi",                    370, -5., 365.);
-    fQC_Tracks_DCAXY_P      = new TH2F("fQC_Tracks_DCAXY_P",    "Acc. Tracks DCAXY",                    100, 0., 10., 400, -2., 2.);
-    fQC_Tracks_DCAZ_P       = new TH2F("fQC_Tracks_DCAZ_P",     "Acc. Tracks DCAZ",                     100, 0., 10., 400, -2., 2.);
-    fQC_Tracks_DCAXY_PT     = new TH2F("fQC_Tracks_DCAXY_PT",   "Acc. Tracks DCAXY",                    100, 0., 10., 400, -2., 2.);
-    fQC_Tracks_DCAZ_PT      = new TH2F("fQC_Tracks_DCAZ_PT",    "Acc. Tracks DCAZ",                     100, 0., 10., 400, -2., 2.);
+    fQC_Tracks_P_Momentum   = new TH1F("fQC_Tracks_P_Momentum",     "Acc. Tracks Momentum",                             100, 0., 10.);
+    fQC_Tracks_P_TransMom   = new TH1F("fQC_Tracks_P_TransMom",     "Acc. Tracks Trasnverse Momentum",                  100, 0., 10.);
+    fQC_Tracks_P_Eta        = new TH1F("fQC_Tracks_P_Eta",          "Acc. Tracks Eta",                                  100, -1., 1.);
+    fQC_Tracks_P_Phi        = new TH1F("fQC_Tracks_P_Phi",          "Acc. Tracks Phi",                                  370, -5., 365.);
+    fQC_Tracks_M_Momentum   = new TH1F("fQC_Tracks_M_Momentum",     "Acc. Tracks Momentum",                             100, 0., 10.);
+    fQC_Tracks_M_TransMom   = new TH1F("fQC_Tracks_M_TransMom",     "Acc. Tracks Trasnverse Momentum",                  100, 0., 10.);
+    fQC_Tracks_M_Eta        = new TH1F("fQC_Tracks_M_Eta",          "Acc. Tracks Eta",                                  100, -1., 1.);
+    fQC_Tracks_M_Phi        = new TH1F("fQC_Tracks_M_Phi",          "Acc. Tracks Phi",                                  370, -5., 365.);
+    fQC_Tracks_DCAXY_P      = new TH2F("fQC_Tracks_DCAXY_P",        "Acc. Tracks DCAXY",                                100, 0., 10., 400, -2., 2.);
+    fQC_Tracks_DCAZ_P       = new TH2F("fQC_Tracks_DCAZ_P",         "Acc. Tracks DCAZ",                                 100, 0., 10., 400, -2., 2.);
+    fQC_Tracks_DCAXY_PT     = new TH2F("fQC_Tracks_DCAXY_PT",       "Acc. Tracks DCAXY",                                100, 0., 10., 400, -2., 2.);
+    fQC_Tracks_DCAZ_PT      = new TH2F("fQC_Tracks_DCAZ_PT",        "Acc. Tracks DCAZ",                                 100, 0., 10., 400, -2., 2.);
     fQCOutputList->Add(fQC_Tracks_P_Momentum);
     fQCOutputList->Add(fQC_Tracks_P_TransMom);
     fQCOutputList->Add(fQC_Tracks_P_Eta);
@@ -125,26 +125,26 @@ void        AliAnalysisTaskPhiCount::UserCreateOutputObjects()                  
     fQCOutputList->Add(fQC_Tracks_DCAZ_PT);
     
     //>->->     Kaons
-    fQC_Kaons_P_Momentum    = new TH1F("fQC_Kaons_P_Momentum",  "Acc. Kaons Momentum",                  100, 0., 10.);
-    fQC_Kaons_P_TransMom    = new TH1F("fQC_Kaons_P_TransMom",  "Acc. Kaons Trasnverse Momentum",       100, 0., 10.);
-    fQC_Kaons_P_Eta         = new TH1F("fQC_Kaons_P_Eta",       "Acc. Kaons Eta",                       100, -1., 1.);
-    fQC_Kaons_P_Phi         = new TH1F("fQC_Kaons_P_Phi",       "Acc. Kaons Phi",                       370, -5., 365.);
-    fQC_Kaons_M_Momentum    = new TH1F("fQC_Kaons_M_Momentum",  "Acc. Kaons Momentum",                  100, 0., 10.);
-    fQC_Kaons_M_TransMom    = new TH1F("fQC_Kaons_M_TransMom",  "Acc. Kaons Trasnverse Momentum",       100, 0., 10.);
-    fQC_Kaons_M_Eta         = new TH1F("fQC_Kaons_M_Eta",       "Acc. Kaons Eta",                       100, -1., 1.);
-    fQC_Kaons_M_Phi         = new TH1F("fQC_Kaons_M_Phi",       "Acc. Kaons Phi",                       370, -5., 365.);
-    fQC_Kaons_P_TPCSignal_P = new TH2F("fQC_Kaons_P_TPCSignal", "Acc. Kaons TPC Signal",                400, 0.15, 10., 100, 0., 500.);
-    fQC_Kaons_P_TOFSignal_P = new TH2F("fQC_Kaons_P_TOFSignal", "Acc. Kaons Phi",                       400, 0.15, 10., 120, 0., 1.2);
-    fQC_Kaons_M_TPCSignal_P = new TH2F("fQC_Kaons_M_TPCSignal", "Acc. Kaons Phi",                       400, 0.15, 10., 100, 0., 500.);
-    fQC_Kaons_M_TOFSignal_P = new TH2F("fQC_Kaons_M_TOFSignal", "Acc. Kaons Phi",                       400, 0.15, 10., 120, 0., 1.2);
-    fQC_Kaons_P_TPCSignal_PT= new TH2F("fQC_Kaons_P_TPCSignal", "Acc. Kaons TPC Signal",                400, 0.15, 10., 100, 0., 500.);
-    fQC_Kaons_P_TOFSignal_PT= new TH2F("fQC_Kaons_P_TOFSignal", "Acc. Kaons Phi",                       400, 0.15, 10., 120, 0., 1.2);
-    fQC_Kaons_M_TPCSignal_PT= new TH2F("fQC_Kaons_M_TPCSignal", "Acc. Kaons Phi",                       400, 0.15, 10., 100, 0., 500.);
-    fQC_Kaons_M_TOFSignal_PT= new TH2F("fQC_Kaons_M_TOFSignal", "Acc. Kaons Phi",                       400, 0.15, 10., 120, 0., 1.2);
-    fQC_Kaons_DCAXY_P       = new TH2F("fQC_Kaons_DCAXY_P",     "Acc. Kaons DCAXY",                     100, 0., 10., 400, -2., 2.);
-    fQC_Kaons_DCAZ_P        = new TH2F("fQC_Kaons_DCAZ_P",      "Acc. Kaons DCAZ",                      100, 0., 10., 400, -2., 2.);
-    fQC_Kaons_DCAXY_PT      = new TH2F("fQC_Kaons_DCAXY_PT",    "Acc. Kaons DCAXY",                     100, 0., 10., 400, -2., 2.);
-    fQC_Kaons_DCAZ_PT       = new TH2F("fQC_Kaons_DCAZ_PT",     "Acc. Kaons DCAZ",                      100, 0., 10., 400, -2., 2.);
+    fQC_Kaons_P_Momentum        = new TH1F("fQC_Kaons_P_Momentum",  "Acc. Kaons Momentum",                              100, 0., 10.);
+    fQC_Kaons_P_TransMom        = new TH1F("fQC_Kaons_P_TransMom",  "Acc. Kaons Trasnverse Momentum",                   100, 0., 10.);
+    fQC_Kaons_P_Eta             = new TH1F("fQC_Kaons_P_Eta",       "Acc. Kaons Eta",                                   100, -1., 1.);
+    fQC_Kaons_P_Phi             = new TH1F("fQC_Kaons_P_Phi",       "Acc. Kaons Phi",                                   370, -5., 365.);
+    fQC_Kaons_M_Momentum        = new TH1F("fQC_Kaons_M_Momentum",  "Acc. Kaons Momentum",                              100, 0., 10.);
+    fQC_Kaons_M_TransMom        = new TH1F("fQC_Kaons_M_TransMom",  "Acc. Kaons Trasnverse Momentum",                   100, 0., 10.);
+    fQC_Kaons_M_Eta             = new TH1F("fQC_Kaons_M_Eta",       "Acc. Kaons Eta",                                   100, -1., 1.);
+    fQC_Kaons_M_Phi             = new TH1F("fQC_Kaons_M_Phi",       "Acc. Kaons Phi",                                   370, -5., 365.);
+    fQC_Kaons_P_TPCSignal_P     = new TH2F("fQC_Kaons_P_TPCSignal", "Acc. Kaons TPC Signal",                            400, 0.15, 10., 100, 0., 500.);
+    fQC_Kaons_P_TOFSignal_P     = new TH2F("fQC_Kaons_P_TOFSignal", "Acc. Kaons Phi",                                   400, 0.15, 10., 120, 0., 1.2);
+    fQC_Kaons_M_TPCSignal_P     = new TH2F("fQC_Kaons_M_TPCSignal", "Acc. Kaons Phi",                                   400, 0.15, 10., 100, 0., 500.);
+    fQC_Kaons_M_TOFSignal_P     = new TH2F("fQC_Kaons_M_TOFSignal", "Acc. Kaons Phi",                                   400, 0.15, 10., 120, 0., 1.2);
+    fQC_Kaons_P_TPCSignal_PT    = new TH2F("fQC_Kaons_P_TPCSignal", "Acc. Kaons TPC Signal",                            400, 0.15, 10., 100, 0., 500.);
+    fQC_Kaons_P_TOFSignal_PT    = new TH2F("fQC_Kaons_P_TOFSignal", "Acc. Kaons Phi",                                   400, 0.15, 10., 120, 0., 1.2);
+    fQC_Kaons_M_TPCSignal_PT    = new TH2F("fQC_Kaons_M_TPCSignal", "Acc. Kaons Phi",                                   400, 0.15, 10., 100, 0., 500.);
+    fQC_Kaons_M_TOFSignal_PT    = new TH2F("fQC_Kaons_M_TOFSignal", "Acc. Kaons Phi",                                   400, 0.15, 10., 120, 0., 1.2);
+    fQC_Kaons_DCAXY_P           = new TH2F("fQC_Kaons_DCAXY_P",     "Acc. Kaons DCAXY",                                 100, 0., 10., 400, -2., 2.);
+    fQC_Kaons_DCAZ_P            = new TH2F("fQC_Kaons_DCAZ_P",      "Acc. Kaons DCAZ",                                  100, 0., 10., 400, -2., 2.);
+    fQC_Kaons_DCAXY_PT          = new TH2F("fQC_Kaons_DCAXY_PT",    "Acc. Kaons DCAXY",                                 100, 0., 10., 400, -2., 2.);
+    fQC_Kaons_DCAZ_PT           = new TH2F("fQC_Kaons_DCAZ_PT",     "Acc. Kaons DCAZ",                                  100, 0., 10., 400, -2., 2.);
     fQCOutputList->Add(fQC_Kaons_P_Momentum);
     fQCOutputList->Add(fQC_Kaons_P_TransMom);
     fQCOutputList->Add(fQC_Kaons_P_Eta);
@@ -167,41 +167,46 @@ void        AliAnalysisTaskPhiCount::UserCreateOutputObjects()                  
     fQCOutputList->Add(fQC_Kaons_DCAZ_PT);
     
     //>->   PID
-    fQC_PID_SignalTPC_P     = new TH2F("fQC_PID_SignalTPC_P",  "TPC Response",                          400, 0.15, 10., 100, 0., 500.);
-    fQC_PID_SignalTOF_P     = new TH2F("fQC_PID_SignalTOF_P",  "TOF Response",                          400, 0.15, 10., 120, 0., 1.2);
-    fQC_PID_SignalTPC_PT    = new TH2F("fQC_PID_SignalTPC_PT", "TPC Response",                          400, 0.15, 10., 100, 0., 500.);
-    fQC_PID_SignalTOF_PT    = new TH2F("fQC_PID_SignalTOF_PT", "TOF Response",                          400, 0.15, 10., 120, 0., 1.2);
+    fQC_PID_SignalTPC_P         = new TH2F("fQC_PID_SignalTPC_P",       "TPC Response",                                 400, 0.15, 10., 100, 0., 500.);
+    fQC_PID_SignalTOF_P         = new TH2F("fQC_PID_SignalTOF_P",       "TOF Response",                                 400, 0.15, 10., 120, 0., 1.2);
+    fQC_PID_SignalTPC_PT        = new TH2F("fQC_PID_SignalTPC_PT",      "TPC Response",                                 400, 0.15, 10., 100, 0., 500.);
+    fQC_PID_SignalTOF_PT        = new TH2F("fQC_PID_SignalTOF_PT",      "TOF Response",                                 400, 0.15, 10., 120, 0., 1.2);
     fQCOutputList->Add(fQC_PID_SignalTPC_P);
     fQCOutputList->Add(fQC_PID_SignalTPC_PT);
     fQCOutputList->Add(fQC_PID_SignalTOF_P);
     fQCOutputList->Add(fQC_PID_SignalTOF_PT);
     
     //>->->     Kaons
-    fQC_Kaons_SigmaTPC_P    = new TH2F("fQC_Kaons_SigmaTPC_P",  "#sigma_{TPC}(K) Response",             100, 0., 10., 100, -10, 10);
-    fQC_Kaons_SigmaTOF_P    = new TH2F("fQC_Kaons_SigmaTOF_P",  "#sigma_{TOF}(K) Response",             100, 0., 10., 100, -10, 10);
-    fQC_Kaons_SigmaTPC_PT   = new TH2F("fQC_Kaons_SigmaTPC_PT", "#sigma_{TPC}(K) Response",             100, 0., 10., 100, -10, 10);
-    fQC_Kaons_SigmaTOF_PT   = new TH2F("fQC_Kaons_SigmaTOF_PT", "#sigma_{TOF}(K) Response",             100, 0., 10., 100, -10, 10);
-    fQC_Kaons_SigmaTOF_TPC  = new TH2F("fQC_Kaons_SigmaTOF_TPC","#sigma_{TPC}(K) vs #sigma_{TOF}(K) Response",  100, -10., 10., 100, -10, 10);
-    fQC_Kaons_SignalTPC_P   = new TH2F("fQC_Kaons_SignalTPC_P",  "TPC Response",                        400, 0.15, 10., 100, 0., 500.);
-    fQC_Kaons_SignalTOF_P   = new TH2F("fQC_Kaons_SignalTOF_P",  "TOF Response",                        400, 0.15, 10., 120, 0., 1.2);
-    fQC_Kaons_SignalTPC_PT  = new TH2F("fQC_Kaons_SignalTPC_PT", "TPC Response",                        400, 0.15, 10., 100, 0., 500.);
-    fQC_Kaons_SignalTOF_PT  = new TH2F("fQC_Kaons_SignalTOF_PT", "TOF Response",                        400, 0.15, 10., 120, 0., 1.2);
-    fQCOutputList->Add(fQC_PID_SignalTPC_P);
-    fQCOutputList->Add(fQC_PID_SignalTPC_PT);
-    fQCOutputList->Add(fQC_PID_SignalTOF_P);
-    fQCOutputList->Add(fQC_PID_SignalTOF_PT);
+    fQC_Kaons_SigmaTPC_P        = new TH2F("fQC_Kaons_SigmaTPC_P",      "#sigma_{TPC}(K) Response",                     100, 0., 10., 100, -10, 10);
+    fQC_Kaons_SigmaTOF_P        = new TH2F("fQC_Kaons_SigmaTOF_P",      "#sigma_{TOF}(K) Response",                     100, 0., 10., 100, -10, 10);
+    fQC_Kaons_SigmaTPC_PT       = new TH2F("fQC_Kaons_SigmaTPC_PT",     "#sigma_{TPC}(K) Response",                     100, 0., 10., 100, -10, 10);
+    fQC_Kaons_SigmaTOF_PT       = new TH2F("fQC_Kaons_SigmaTOF_PT",     "#sigma_{TOF}(K) Response",                     100, 0., 10., 100, -10, 10);
+    fQC_Kaons_SigmaTOF_TPC      = new TH2F("fQC_Kaons_SigmaTOF_TPC",    "#sigma_{TPC}(K) vs #sigma_{TOF}(K) Response",  100, -10., 10., 100, -10, 10);
+    fQC_Kaons_SignalTPC_P       = new TH2F("fQC_Kaons_SignalTPC_P",     "TPC Response",                                 400, 0.15, 10., 100, 0., 500.);
+    fQC_Kaons_SignalTOF_P       = new TH2F("fQC_Kaons_SignalTOF_P",     "TOF Response",                                 400, 0.15, 10., 120, 0., 1.2);
+    fQC_Kaons_SignalTPC_PT      = new TH2F("fQC_Kaons_SignalTPC_PT",    "TPC Response",                                 400, 0.15, 10., 100, 0., 500.);
+    fQC_Kaons_SignalTOF_PT      = new TH2F("fQC_Kaons_SignalTOF_PT",    "TOF Response",                                 400, 0.15, 10., 120, 0., 1.2);
+    fQC_Kaons_SigmaTPC_VETO_PT  = new TH2F("fQC_Kaons_SigmaTPC_VETO_PT","TOF Response",                                 400, 0.15, 10., 100, 0., 500.);
+    fQC_Kaons_SigmaTPC_VETO_P   = new TH2F("fQC_Kaons_SigmaTPC_VETO_P", "TOF Response",                                 400, 0.15, 10., 100, 0., 500.);
     fQCOutputList->Add(fQC_Kaons_SigmaTPC_P);
     fQCOutputList->Add(fQC_Kaons_SigmaTOF_P);
     fQCOutputList->Add(fQC_Kaons_SigmaTPC_PT);
     fQCOutputList->Add(fQC_Kaons_SigmaTOF_PT);
     fQCOutputList->Add(fQC_Kaons_SigmaTOF_TPC);
+    fQCOutputList->Add(fQC_Kaons_SignalTPC_P);
+    fQCOutputList->Add(fQC_Kaons_SignalTOF_P);
+    fQCOutputList->Add(fQC_Kaons_SignalTPC_PT);
+    fQCOutputList->Add(fQC_Kaons_SignalTOF_PT);
+    fQCOutputList->Add(fQC_Kaons_SigmaTPC_VETO_P);
+    fQCOutputList->Add(fQC_Kaons_SigmaTPC_VETO_PT);
     
     PostData(2, fQCOutputList);
     
     // Where i is the slot that writes to a tree
     OpenFile(3);
+    
     // PhiCandidate Tree Set-Up
-    fPhiCandidate = new TTree   ("PhiCandidate",    "Data Tree for Phi Candidates");
+    fPhiCandidate = new TTree   (Form("PhiCandidate_%s",fRunName.Data()),    "Data Tree for Phi Candidates");
     fPhiCandidate->Branch       ("EventMask",       &fEventMask,        "fEventMask/b");
     fPhiCandidate->Branch       ("Multiplicity",    &fMultiplicity,     "fMultiplicity/F");
     fPhiCandidate->Branch       ("nPhi",            &fnPhi,             "fnPhi/b");
@@ -211,14 +216,12 @@ void        AliAnalysisTaskPhiCount::UserCreateOutputObjects()                  
     fPhiCandidate->Branch       ("InvMass",         &fInvMass,          "fInvMass[fnPhi]/F");
     fPhiCandidate->Branch       ("iKaon",           &fiKaon,            "fiKaon[fnPhi]/b");
     fPhiCandidate->Branch       ("jKaon",           &fjKaon,            "fjKaon[fnPhi]/b");
-    if ( kMCbool )  {
-        fPhiCandidate->Branch   ("Nature",          &fNature,           "fNature[fnPhi]/b");
-    }
+    if ( kMCbool )  fPhiCandidate->Branch   ("Nature",          &fNature,           "fNature[fnPhi]/b");
     
     if ( kPhibool )                 PostData(3, fPhiCandidate);
     
     // KaonCandidate Tree Set-Up
-    fKaonCandidate = new TTree ("KaonCandidate",    "Data Tree for Kaon Candidates");
+    fKaonCandidate = new TTree (Form("KaonCandidate_%s",fRunName.Data()),    "Data Tree for Kaon Candidates");
     fKaonCandidate->Branch     ("EventMask",        &fEventMask,        "fEventMask/b");
     fKaonCandidate->Branch     ("Multiplicity",     &fMultiplicity,     "fMultiplicity/F");
     fKaonCandidate->Branch     ("nKaon",            &fnKaon,            "fnKaon/b");
@@ -231,8 +234,9 @@ void        AliAnalysisTaskPhiCount::UserCreateOutputObjects()                  
     
     if ( kKaonbool )                PostData(4, fKaonCandidate);
 
-    fPhiEfficiency = new TTree  ("PhiEfficiency",   "MC Tree for Phi Efficiency");
+    fPhiEfficiency = new TTree  (Form("PhiEfficiency_%s",fRunName.Data()),   "MC Tree for Phi Efficiency");
     fPhiEfficiency->Branch      ("EventMask",       &fEventMask,        "fEventMask/b");
+    fPhiEfficiency->Branch      ("TrueEventMask",   &fTrueEventMask,    "fTrueEventMask/b");
     fPhiEfficiency->Branch      ("Multiplicity",    &fMultiplicity,     "fMultiplicity/F");
     fPhiEfficiency->Branch      ("nPhi",            &fnPhiTru,          "fnPhiTru/b");
     fPhiEfficiency->Branch      ("EventMask",       &fEventMask,        "fEventMask/b");
@@ -243,8 +247,9 @@ void        AliAnalysisTaskPhiCount::UserCreateOutputObjects()                  
     
     if ( kPhibool   &&  kMCbool )   PostData(5, fPhiEfficiency);
     
-    fKaonEfficiency = new TTree ("KaonEfficiency",  "MC Tree for Kaon Efficiency");
+    fKaonEfficiency = new TTree (Form("KaonEfficiency_%s",fRunName.Data()),  "MC Tree for Kaon Efficiency");
     fKaonEfficiency->Branch     ("EventMask",       &fEventMask,        "fEventMask/b");
+    fKaonEfficiency->Branch     ("TrueEventMask",   &fTrueEventMask,    "fTrueEventMask/b");
     fKaonEfficiency->Branch     ("Multiplicity",    &fMultiplicity,     "fMultiplicity/F");
     
     if ( kKaonbool  &&  kMCbool )   PostData(6, fKaonEfficiency);
@@ -372,6 +377,7 @@ bool        AliAnalysisTaskPhiCount::fIsEventCandidate ()                       
     //
     fQC_Event_Enumerate->Fill(0);
     //
+    //
     //>-> Starting Mandatory Checks
     //>->____________________________________________________________________//
     //
@@ -408,6 +414,18 @@ bool        AliAnalysisTaskPhiCount::fIsEventCandidate ()                       
         return false;
     }
     //
+    //  Setting to default Event Variables
+    fEventMask      =   0;
+    fTrueEventMask  =   0;
+    fMultiplicity   =   -2.;
+    fCurrentRun     =   fAOD->GetRunNumber();
+    fnPhi           =   0;
+    fnPhiTru        =   0;
+    fnPhiRec        =   0;
+    fnKaon          =   0;
+    fnPhiTru        =   0;
+    fnKaonTru       =   0;
+    //
     //<-<____________________________________________________________________//
     //
     //>-> Vertex Analysis Cuts
@@ -420,16 +438,6 @@ bool        AliAnalysisTaskPhiCount::fIsEventCandidate ()                       
     //
     //  Event Counting
     fFillEventEnumerate(7);
-    //
-    //  Setting to default Event Variables
-    fEventMask      =   0;
-    fMultiplicity   =   -2.;
-    fCurrentRun     =   fAOD->GetRunNumber();
-    fnPhi           =   0;
-    fnPhiTru        =   0;
-    fnPhiRec        =   0;
-    fnKaon          =   0;
-    fnPhiTru        =   0;
     //
     return true;
 }
@@ -446,6 +454,7 @@ bool        AliAnalysisTaskPhiCount::fIsPrimaryVertexCandidate ( )              
     if ( !PrimaryVertexSPD  ||  PrimaryVertexSPD->GetNContributors() < 1 )
     {
         fFillEventEnumerate(4);
+        fStoreTruePhi(4);
         fPostData();
         return false;
     }
@@ -464,6 +473,7 @@ bool        AliAnalysisTaskPhiCount::fIsPrimaryVertexCandidate ( )              
         if ( std::fabs(VertexZSPD-VertexZTRK) > 0.5 )
         {
             fFillEventEnumerate(5);
+            fStoreTruePhi(5);
             fPostData();
             return false;
         }
@@ -475,6 +485,7 @@ bool        AliAnalysisTaskPhiCount::fIsPrimaryVertexCandidate ( )              
     if ( std::fabs(fPrimaryVertex->GetZ()) > kVertexCut )
     {
         fFillEventEnumerate(6);
+        fStoreTruePhi(6);
         fPostData();
         return false;
     }
@@ -524,11 +535,14 @@ bool        AliAnalysisTaskPhiCount::fIsEventPileUp()                           
 
 //_____________________________________________________________________________
 
-bool        AliAnalysisTaskPhiCount::fCheckINELgt0()                            {
-    if ( fIsINELgt0 )   return true;
-    //if ( fMCD->IsPhysicalPrimary(fCurrent_Track) ) return false;
-    if ( fCurrent_Track_Charge   !=  0 ) return false;
-    if ( TMath::Abs(fCurrent_Track_Eta) > 1 ) return false;
+bool        AliAnalysisTaskPhiCount::fCheckINELgt0( AliAODMCParticle* fCurrent_Particle )   {
+    if ( fCheckTrueMask(3) )   return true;
+    if ( !fCurrent_Particle->IsPrimary() ) return false;
+    if ( !(fCurrent_Particle->Charge()   !=  0) ) return false;
+    if ( !(TMath::Abs(fCurrent_Particle->Eta()) <= 1) ) return false;
+    fQC_Event_Enumerate->Fill(11);
+    fSetEventMask(3);
+    fSetTrueEventMask(3);
     return true;
 }
 
@@ -544,10 +558,8 @@ void        AliAnalysisTaskPhiCount::fFillEventEnumerate ( Int_t iIndex )       
 
 bool        AliAnalysisTaskPhiCount::fIsTrackCandidate ( )                      {
     // Check the track is there and has proper kinematics
-    if ( !fCurrent_Track  || !fCurrent_Track->TestFilterBit(kFilterBit) )   return false;
+    if ( !fCurrent_Track->TestFilterBit(kFilterBit) )   return false;
     fCurrent_Track_TransMom = fCurrent_Track->Pt();
-    fCurrent_Track_Eta      = fCurrent_Track->Eta();
-    fCurrent_Track_Charge   = fCurrent_Track->Charge();
     fCurrent_Track_Momentum = fCurrent_Track->P();
     fCurrent_Track_Phi      = fCurrent_Track->Phi()*360/(2*TMath::Pi());
     auto fDCACoordinates    = fGetDCA( );
@@ -562,6 +574,8 @@ bool        AliAnalysisTaskPhiCount::fIsTrackCandidate ( )                      
 bool        AliAnalysisTaskPhiCount::fAssignTrack ( )                           {
     // Check the track is there
     if ( !fCurrent_Track )                              return false;
+    fCurrent_Track_Eta      = fCurrent_Track->Eta();
+    fCurrent_Track_Charge   = fCurrent_Track->Charge();
     return  true;
 }
 
@@ -647,6 +661,8 @@ void        AliAnalysisTaskPhiCount::fQC_PID_Kaons( )                           
     if ( fIsTPCAvailable && fIsTOFAvailable )
     {
         fQC_Kaons_SigmaTOF_TPC  ->  Fill(fSigma_TOF,            fSigma_TPC);
+        if ( fabs(fSigma_TOF) < kSgTOF_Veto ) fQC_Kaons_SigmaTPC_VETO_P  ->  Fill(fCurrent_Track_Momentum,   fSigma_TPC);
+        if ( fabs(fSigma_TOF) < kSgTOF_Veto ) fQC_Kaons_SigmaTPC_VETO_PT  ->  Fill(fCurrent_Track_TransMom,   fSigma_TPC);
     }
 }
 
@@ -693,24 +709,26 @@ Double_t    AliAnalysisTaskPhiCount::fTOFBeta( )                                
 //_____________________________________________________________________________
 
 bool        AliAnalysisTaskPhiCount::fIsKaonCandidate ( )                       {
-    auto fSigma_TOF     = std::fabs(fPIDResponse->NumberOfSigmasTOF(fCurrent_Track,AliPID::kKaon));
-    auto fSigma_TPC     = std::fabs(fPIDResponse->NumberOfSigmasTPC(fCurrent_Track,AliPID::kKaon));
+    auto fSigma_TOF     = fPIDResponse->NumberOfSigmasTOF(fCurrent_Track,AliPID::kKaon);
+    auto fSigma_TPC     = fPIDResponse->NumberOfSigmasTPC(fCurrent_Track,AliPID::kKaon);
     
-    if ( fSigma_TPC <= 10. && fSigma_TOF <= 10. )   {
+    if ( std::fabs(fSigma_TPC) <= 10. && std::fabs(fSigma_TOF) <= 10. )   {
         fTOFSigma[fnKaon]   =   (Char_t)(fSigma_TOF*10.);
         fTPCSigma[fnKaon]   =   (Char_t)(fSigma_TPC*10.);
     }
     if ( fCurrentRun >= 115881 && fCurrentRun <= 139513 )   {
         // Custom 2010
-        if ( !fIsTPCAvailable || (fIsTOFAvailable && fSigma_TOF > 3) )                  return false;
-        if ( fCurrent_Track_TransMom >= 0.28 &&  fIsTOFAvailable && fSigma_TPC > 5. )   return false;
-        if ( fCurrent_Track_TransMom >= 0.28 && !fIsTOFAvailable && fSigma_TPC > 3. )   return false;
-        if ( fCurrent_Track_TransMom <  0.28  && fSigma_TPC > 7. )                      return false;
+        if ( !fIsTPCAvailable || (fIsTOFAvailable && std::fabs(fSigma_TOF) > kSgTOF_Veto) )         return false;
+        if ( std::fabs(fSigma_TPC) > 7. )                                                           return false;
+        if ( fCurrent_Track_Momentum >= 0.28 )   {
+            if ( fIsTOFAvailable && std::fabs(fSigma_TPC) > kSgTPC_TOFVt )                          return false;
+            if (!fIsTOFAvailable && std::fabs(fSigma_TPC) > kSgTPC_Alone )                          return false;
+        }
     }   else    {
         // Standard
-        if ( !fIsTPCAvailable || ( fIsTOFAvailable && fSigma_TOF >= 3 ) )       return false;
-        if (  fIsTOFAvailable && fSigma_TPC > 5. )                              return false;
-        if ( !fIsTOFAvailable && fSigma_TPC > 3. )                              return false;
+        if ( !fIsTPCAvailable || ( fIsTOFAvailable && std::fabs(fSigma_TOF) >= kSgTOF_Veto ) )      return false;
+        if (  fIsTOFAvailable && std::fabs(fSigma_TPC) > kSgTPC_TOFVt )                             return false;
+        if ( !fIsTOFAvailable && std::fabs(fSigma_TPC) > kSgTPC_Alone )                             return false;
         return true;
     }
     return true;
@@ -772,13 +790,27 @@ void        AliAnalysisTaskPhiCount::Terminate( Option_t* )                     
 //_____________________________________________________________________________
 
 void        AliAnalysisTaskPhiCount::fSetEventMask( Int_t iMaskBit )            {
-    fEventMask += pow(2,iMaskBit);
+    auto    fResult =   fEventMask  |   (int)pow(2,iMaskBit);
+    fEventMask      =   fResult;
 }
 
 //_____________________________________________________________________________
 
 void        AliAnalysisTaskPhiCount::fSetTrueEventMask( Int_t iMaskBit )        {
-    fTrueEventMask += pow(2,iMaskBit);
+    auto    fResult     =   fTrueEventMask  |   (int)pow(2,iMaskBit);
+    fTrueEventMask      =   fResult;
+}
+
+//_____________________________________________________________________________
+
+bool        AliAnalysisTaskPhiCount::fCheckMask( Int_t iMaskBit )               {
+    return  ( ((int)pow(2,iMaskBit) & fEventMask)       ==  (int)pow(2,iMaskBit));
+}
+
+//_____________________________________________________________________________
+
+bool        AliAnalysisTaskPhiCount::fCheckTrueMask( Int_t iMaskBit )           {
+    return  ( ((int)pow(2,iMaskBit) & fTrueEventMask)   ==  (int)pow(2,iMaskBit));
 }
 
 //_____________________________________________________________________________
@@ -877,3 +909,31 @@ Double_t   *AliAnalysisTaskPhiCount::fGetDCA( )                                 
 }
 
 //_____________________________________________________________________________
+
+void        AliAnalysisTaskPhiCount::fStoreTruePhi ( Int_t iMaskBit )           {
+    // Loop over all primary MC particle
+    if ( !kMCbool ) return;
+    Int_t           nTrack(AODMCTrackArray->GetEntriesFast());
+    for ( Int_t iTrack(0); iTrack < nTrack; iTrack++ )
+    {
+        AliAODMCParticle* fPhiTru = static_cast<AliAODMCParticle*>(AODMCTrackArray->At(iTrack));
+        
+        fCheckINELgt0( fPhiTru );
+        
+        if ( !fIsPhi( fPhiTru ) ) continue;
+        
+        // Kinematics
+        fPhiTruPx[fnPhiTru]        =   fPhiTru->Px();
+        fPhiTruPy[fnPhiTru]        =   fPhiTru->Py();
+        fPhiTruPz[fnPhiTru]        =   fPhiTru->Pz();
+            
+        // Options
+        fSelection[fnPhiTru]       =   0;
+        if( fIsPhiGen(fPhiTru) )    fSelection[fnPhiTru] = 1;
+        
+        fnPhiTru++;
+    }
+    iMaskBit -= 4;
+    fSetTrueEventMask(iMaskBit);
+    fPhiEfficiency  ->Fill();
+}
