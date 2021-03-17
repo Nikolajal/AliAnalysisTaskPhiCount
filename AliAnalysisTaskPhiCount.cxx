@@ -186,12 +186,12 @@ void        AliAnalysisTaskPhiCount::UserCreateOutputObjects()                  
     fQC_Kaons_SignalTOF_P       = new TH2F("fQC_Kaons_SignalTOF_P",     "TOF Response",                                 400, 0.15, 10., 120, 0., 1.2);
     fQC_Kaons_SignalTPC_PT      = new TH2F("fQC_Kaons_SignalTPC_PT",    "TPC Response",                                 400, 0.15, 10., 100, 0., 500.);
     fQC_Kaons_SignalTOF_PT      = new TH2F("fQC_Kaons_SignalTOF_PT",    "TOF Response",                                 400, 0.15, 10., 120, 0., 1.2);
-    fQC_Kaon2_SigmaTPC_VETO_PT  = new TH2F("fQC_Kaons_SigmaTPC_VETO_PT","TOF Response",                                 1000, 0., 10., 100, -10, 10);
-    fQC_Kaon2_SigmaTPC_VETO_P   = new TH2F("fQC_Kaons_SigmaTPC_VETO_P", "TOF Response",                                 1000, 0., 10., 100, -10, 10);
-    fQC_Kaon2_SigmaTPC_P        = new TH2F("fQC_Kaons_SigmaTPC_P",      "TOF Response",                                 1000, 0., 10., 100, -10, 10);
-    fQC_Kaon2_SigmaTPC_PT       = new TH2F("fQC_Kaons_SigmaTPC_PT",     "TOF Response",                                 1000, 0., 10., 100, -10, 10);
-    fQC_Kaon2_SigmaTOF_P        = new TH2F("fQC_Kaons_SigmaTOF_P",      "TOF Response",                                 1000, 0., 10., 100, -10, 10);
-    fQC_Kaon2_SigmaTOF_PT       = new TH2F("fQC_Kaons_SigmaTOF_PT",     "TOF Response",                                 1000, 0., 10., 100, -10, 10);
+    fQC_Kaon2_SigmaTPC_VETO_PT  = new TH2F("fQC_Kaon2_SigmaTPC_VETO_PT","TOF Response",                                 1000, 0., 10., 100, -10, 10);
+    fQC_Kaon2_SigmaTPC_VETO_P   = new TH2F("fQC_Kaon2_SigmaTPC_VETO_P", "TOF Response",                                 1000, 0., 10., 100, -10, 10);
+    fQC_Kaon2_SigmaTPC_P        = new TH2F("fQC_Kaon2_SigmaTPC_P",      "TOF Response",                                 1000, 0., 10., 100, -10, 10);
+    fQC_Kaon2_SigmaTPC_PT       = new TH2F("fQC_Kaon2_SigmaTPC_PT",     "TOF Response",                                 1000, 0., 10., 100, -10, 10);
+    fQC_Kaon2_SigmaTOF_P        = new TH2F("fQC_Kaon2_SigmaTOF_P",      "TOF Response",                                 1000, 0., 10., 100, -10, 10);
+    fQC_Kaon2_SigmaTOF_PT       = new TH2F("fQC_Kaon2_SigmaTOF_PT",     "TOF Response",                                 1000, 0., 10., 100, -10, 10);
     fQC_Kaon2_SigmaTOF_TPC      = new TH2F("fQC_Kaon2_SigmaTOF_TPC",    "#sigma_{TPC}(K) vs #sigma_{TOF}(K) Response",  100, -10., 10., 100, -10, 10);
     fQCOutputList->Add(fQC_Kaons_SigmaTPC_P);
     fQCOutputList->Add(fQC_Kaons_SigmaTOF_P);
