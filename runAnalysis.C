@@ -41,7 +41,7 @@ const std::string currentDateTime() {
     return buf;
 }
 
-void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0 )
+void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0, Float_t kTPCAlone = 3., Float_t kTPCVeto = 5., Float_t kTOFVeto = 3.  )
 {
     Bool_t MCFlag       =   false;
     Bool_t local        =   true;
@@ -323,7 +323,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0 )
     gROOT                       ->LoadMacro("AddAnalysisTaskPhiCount.C");
     AddTaskPIDResponse(kTRUE,kTRUE,kTRUE,4,kFALSE,"",kTRUE,kTRUE);
     AddTaskMultSelection();
-    AliAnalysisTaskPhiCount *task = AddAnalysisTaskPhiCount(MCFlag,PhiFlag,KaonFlag,kOption);
+    AliAnalysisTaskPhiCount *task = AddAnalysisTaskPhiCount(MCFlag,PhiFlag,KaonFlag,kOption,kTPCAlone,kTPCVeto,kTOFVeto);
     
 #endif
 
