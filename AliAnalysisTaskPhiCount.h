@@ -203,10 +203,10 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
     TH2F                       *fQC_Kaons_SigmaTOF_PT;      //! Analysis output list
     TH2F                       *fQC_Kaons_SigmaTOF_TPC;     //! Analysis output list
     TH2F                       *fQC_Kaon2_SigmaTOF_TPC;     //! edede
-    TH2F                       *fQC_Kaons_SignalTPC_P;      //! Analysis output list
-    TH2F                       *fQC_Kaons_SignalTOF_P;      //! Analysis output list
-    TH2F                       *fQC_Kaons_SignalTPC_PT;     //! Analysis output list
-    TH2F                       *fQC_Kaons_SignalTOF_PT;     //! Analysis output list
+    TH2F                       *fQC_Kaon2_SignalTPC_P;      //! Analysis output list
+    TH2F                       *fQC_Kaon2_SignalTOF_P;      //! Analysis output list
+    TH2F                       *fQC_Kaon2_SignalTPC_PT;     //! Analysis output list
+    TH2F                       *fQC_Kaon2_SignalTOF_PT;     //! Analysis output list
     //
     //>->->->->->->->->->->->->->->->->->->->->->->->->->-> Output
     //
