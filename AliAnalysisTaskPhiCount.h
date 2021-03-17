@@ -125,9 +125,9 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
     Bool_t                      fIsTOFAvailable;            //! TOF availabilty flag
     Float_t                     fBetaFromTOFSignal;         //! Particle beta from TOF signal
     Float_t                     fTPCSignal;                 //! Particle dE/dX in TPC
-    Float_t                     kSgTPC_Alone;               //! TPC Alone Sigma limit
-    Float_t                     kSgTPC_TOFVt;               //! TPC Alone Sigma limit
-    Float_t                     kSgTOF_Veto;                //! TPC Alone Sigma limit
+    Float_t                     kSgTPC_Alone;               // TPC Alone Sigma limit
+    Float_t                     kSgTPC_TOFVt;               // TPC Alone Sigma limit
+    Float_t                     kSgTOF_Veto;                // TPC Alone Sigma limit
     //
     //>->->     PID Kaons QC
     //
