@@ -171,6 +171,10 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
     TH1F                       *fQC_Kaons_M_Phi;            //! Analysis output list
     TH2F                       *fQC_Kaons_SigmaTPC_VETO_P;    //! gg
     TH2F                       *fQC_Kaons_SigmaTPC_VETO_PT;    //! gg
+    TH2F                       *fQC_Kaons_SigmaTPC_P;    //! gg
+    TH2F                       *fQC_Kaons_SigmaTPC_PT;    //! gg
+    TH2F                       *fQC_Kaons_SigmaTOF_P;    //! gg
+    TH2F                       *fQC_Kaons_SigmaTOF_PT;    //! gg
     TH2F                       *fQC_Kaons_DCAXY_P;          //! Analysis output list
     TH2F                       *fQC_Kaons_DCAZ_P;           //! Analysis output list
     TH2F                       *fQC_Kaons_DCAXY_PT;         //! Analysis output list
@@ -198,6 +202,7 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
     TH2F                       *fQC_Kaons_SigmaTPC_PT;      //! Analysis output list
     TH2F                       *fQC_Kaons_SigmaTOF_PT;      //! Analysis output list
     TH2F                       *fQC_Kaons_SigmaTOF_TPC;     //! Analysis output list
+    TH2F                       *fQC_Kaon2_SigmaTOF_TPC;     //! edede
     TH2F                       *fQC_Kaons_SignalTPC_P;      //! Analysis output list
     TH2F                       *fQC_Kaons_SignalTOF_P;      //! Analysis output list
     TH2F                       *fQC_Kaons_SignalTPC_PT;     //! Analysis output list
@@ -272,3 +277,4 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
 };
 
 #endif
+fQC_Kaon2_SigmaTOF_TPC
