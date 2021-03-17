@@ -277,4 +277,3 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
 };
 
 #endif
-fQC_Kaon2_SigmaTOF_TPC
