@@ -685,8 +685,8 @@ void        AliAnalysisTaskPhiCount::fQC_PID_Sel_Kaons( )                       
     if ( fIsTPCAvailable )    {
         fQC_Kaons_SignalTPC_P   ->  Fill(fCurrent_Track_Momentum,  fTPCSignal);
         fQC_Kaons_SignalTPC_PT  ->  Fill(fCurrent_Track_TransMom,  fTPCSignal);
-        fQC_Kaons_SigmaTPC_P    ->  Fill(fCurrent_Track_Momentum,  fSigma_TPC);
-        fQC_Kaons_SigmaTPC_PT   ->  Fill(fCurrent_Track_TransMom,  fSigma_TPC);
+        fQC_Kaon2_SigmaTPC_P    ->  Fill(fCurrent_Track_Momentum,  fSigma_TPC);
+        fQC_Kaon2_SigmaTPC_PT   ->  Fill(fCurrent_Track_TransMom,  fSigma_TPC);
         if ( fCurrent_Track->Charge() < 0. )    {
             fQC_Kaons_M_TPCSignal_P     ->  Fill(fCurrent_Track_Momentum,fTPCSignal);
             fQC_Kaons_M_TPCSignal_PT    ->  Fill(fCurrent_Track_TransMom,fTPCSignal);
@@ -699,8 +699,8 @@ void        AliAnalysisTaskPhiCount::fQC_PID_Sel_Kaons( )                       
     if ( fIsTOFAvailable )    {
         fQC_Kaons_SignalTOF_P   ->  Fill(fCurrent_Track_Momentum,  fBetaFromTOFSignal);
         fQC_Kaons_SignalTOF_PT  ->  Fill(fCurrent_Track_TransMom,  fBetaFromTOFSignal);
-        fQC_Kaons_SigmaTOF_P    ->  Fill(fCurrent_Track_Momentum,  fSigma_TOF);
-        fQC_Kaons_SigmaTOF_PT   ->  Fill(fCurrent_Track_TransMom,  fSigma_TOF);
+        fQC_Kaon2_SigmaTOF_P    ->  Fill(fCurrent_Track_Momentum,  fSigma_TOF);
+        fQC_Kaon2_SigmaTOF_PT   ->  Fill(fCurrent_Track_TransMom,  fSigma_TOF);
         if ( fCurrent_Track->Charge() < 0. )    {
             fQC_Kaons_M_TOFSignal_P     ->  Fill(fCurrent_Track_Momentum,fBetaFromTOFSignal);
             fQC_Kaons_M_TOFSignal_PT    ->  Fill(fCurrent_Track_TransMom,fBetaFromTOFSignal);
@@ -711,8 +711,8 @@ void        AliAnalysisTaskPhiCount::fQC_PID_Sel_Kaons( )                       
         }
     }
     if ( fIsTPCAvailable && fIsTOFAvailable )   {
-        fQC_Kaons_SigmaTPC_VETO_P       ->  Fill(fCurrent_Track_Momentum,   fSigma_TPC);
-        fQC_Kaons_SigmaTPC_VETO_PT      ->  Fill(fCurrent_Track_TransMom,   fSigma_TPC);
+        fQC_Kaon2_SigmaTPC_VETO_P       ->  Fill(fCurrent_Track_Momentum,   fSigma_TPC);
+        fQC_Kaon2_SigmaTPC_VETO_PT      ->  Fill(fCurrent_Track_TransMom,   fSigma_TPC);
         fQC_Kaon2_SigmaTOF_TPC          ->  Fill(fSigma_TOF,                fSigma_TPC);
     }
 }
