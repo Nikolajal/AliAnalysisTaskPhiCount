@@ -226,7 +226,7 @@ void        AliAnalysisTaskPhiCount::UserCreateOutputObjects()                  
     fPhiCandidate->Branch       ("InvMass",         &fInvMass,          "fInvMass[fnPhi]/F");
     fPhiCandidate->Branch       ("iKaon",           &fiKaon,            "fiKaon[fnPhi]/b");
     fPhiCandidate->Branch       ("jKaon",           &fjKaon,            "fjKaon[fnPhi]/b");
-    if ( kMCbool )  fPhiCandidate->Branch   ("Nature",          &fNature,           "fNature[fnPhi]/b");
+    if ( kMCbool )  fPhiCandidate->Branch   ("TrueInvMass",          &fTrueInvMass,           "fTrueInvMass[fnPhi]/F");
     
     if ( kPhibool )                 PostData(3, fPhiCandidate);
     
@@ -339,10 +339,10 @@ void        AliAnalysisTaskPhiCount::UserExec( Option_t* )                      
             fInvMass[fnPhi]     =   (fPhi).Mag();
             fiKaon[fnPhi]       =   iKaon;
             fjKaon[fnPhi]       =   jKaon;
-            fNature[fnPhi]      =   0;
+            fTrueInvMass[fnPhi]      =   0;
             if ( kMCbool && fIsCandidateTruPhi(static_cast<AliAODMCParticle*>(AODMCTrackArray->At(fKaonLabels[iKaon])),static_cast<AliAODMCParticle*>(AODMCTrackArray->At(fKaonLabels[jKaon]))) )
             {
-                fNature[fnPhi]          =   1;
+                fTrueInvMass[fnPhi]          =   1;
                 fPhiRecParticles[fnPhiRec] =   static_cast<AliAODMCParticle*>(AODMCTrackArray->At(static_cast<AliAODMCParticle*>(AODMCTrackArray->At(fKaonLabels[iKaon]))->GetMother()));
                 fnPhiRec++;
             }
@@ -939,9 +939,9 @@ void        AliAnalysisTaskPhiCount::fStoreTruePhi ( Int_t iMaskBit )           
     {
         AliAODMCParticle* fPhiTru = static_cast<AliAODMCParticle*>(AODMCTrackArray->At(iTrack));
         
-        fCheckINELgt0( fPhiTru );
-        
         if ( !fIsPhi( fPhiTru ) ) continue;
+        
+        fCheckINELgt0( fPhiTru );
         
         // Kinematics
         fPhiTruPx[fnPhiTru]        =   fPhiTru->Px();
