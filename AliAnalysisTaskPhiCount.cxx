@@ -339,12 +339,15 @@ void        AliAnalysisTaskPhiCount::UserExec( Option_t* )                      
             fInvMass[fnPhi]     =   (fPhi).Mag();
             fiKaon[fnPhi]       =   iKaon;
             fjKaon[fnPhi]       =   jKaon;
-            fTrueInvMass[fnPhi]      =   0;
-            if ( kMCbool && fIsCandidateTruPhi(static_cast<AliAODMCParticle*>(AODMCTrackArray->At(fKaonLabels[iKaon])),static_cast<AliAODMCParticle*>(AODMCTrackArray->At(fKaonLabels[jKaon]))) )
-            {
-                fTrueInvMass[fnPhi]          =   1;
-                fPhiRecParticles[fnPhiRec] =   static_cast<AliAODMCParticle*>(AODMCTrackArray->At(static_cast<AliAODMCParticle*>(AODMCTrackArray->At(fKaonLabels[iKaon]))->GetMother()));
-                fnPhiRec++;
+            fTrueInvMass[fnPhi] =   0;
+            if ( kMCbool )  {
+                auto    fTrue_iKaon =   static_cast<AliAODMCParticle*>(AODMCTrackArray->At(fKaonLabels[iKaon]));
+                auto    fTrue_jKaon =   static_cast<AliAODMCParticle*>(AODMCTrackArray->At(fKaonLabels[jKaon]));
+                if ( fIsCandidateTruPhi(fTrue_iKaon,fTrue_jKaon) ) {
+                    fTrueInvMass[fnPhi]         =   1;
+                    fPhiRecParticles[fnPhiRec]  =   static_cast<AliAODMCParticle*>(AODMCTrackArray->At(fTrue_iKaon->GetMother()));
+                    fnPhiRec++;
+                }
             }
             fnPhi++;
         }
