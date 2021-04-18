@@ -417,7 +417,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0, Fl
         if(gridTest)
         {
             // speficy on how many files you want to run
-            alienHandler->SetNtestFiles(1);
+            alienHandler->SetNtestFiles(10);
             // and launch the analysis
             alienHandler->SetRunMode("test");
             mgr->StartAnalysis("grid");
