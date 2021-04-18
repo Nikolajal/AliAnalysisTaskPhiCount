@@ -344,7 +344,11 @@ void        AliAnalysisTaskPhiCount::UserExec( Option_t* )                      
                 auto    fTrue_iKaon =   static_cast<AliAODMCParticle*>(AODMCTrackArray->At(fKaonLabels[iKaon]));
                 auto    fTrue_jKaon =   static_cast<AliAODMCParticle*>(AODMCTrackArray->At(fKaonLabels[jKaon]));
                 if ( fIsCandidateTruPhi(fTrue_iKaon,fTrue_jKaon) ) {
-                    fTrueInvMass[fnPhi]         =   1;
+                    TLorentzVector  fTrue_iKaon_Vector, fTrue_jKaon_Vector;
+                    fTrue_iKaon->Momentum(fTrue_iKaon_Vector);
+                    fTrue_jKaon->Momentum(fTrue_jKaon_Vector);
+                    auto    fTrue_Phi_Vector    =   fTrue_iKaon_Vector + fTrue_jKaon_Vector;
+                    fTrueInvMass[fnPhi]         =   fTrue_Phi_Vector.Mag();
                     fPhiRecParticles[fnPhiRec]  =   static_cast<AliAODMCParticle*>(AODMCTrackArray->At(fTrue_iKaon->GetMother()));
                     fnPhiRec++;
                 }
