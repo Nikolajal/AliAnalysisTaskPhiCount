@@ -373,7 +373,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0, Fl
         alienHandler->SetAnalysisSource("AliAnalysisTaskPhiCount.cxx");
         // select the aliphysics version. all other packages
         // are LOADED AUTOMATICALLY!
-        alienHandler->SetAliPhysicsVersion("vAN-20210417_ROOT6-1");
+        alienHandler->SetAliPhysicsVersion("vAN-20190417_ROOT6-1");
         // set the Alien API version
         alienHandler->SetAPIVersion("V1.1x");
         // select the input data
