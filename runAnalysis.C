@@ -1,45 +1,93 @@
-// TODO LIST
-// TODO: You're all set!
+// include the header of your analysis task here! for classes already compiled by aliBuild,
+// precompiled header files (with extension pcm) are available, so that you do not need to
+// specify includes for those. for your own task however, you (probably) have not generated a
+// pcm file, so we need to include it explicitly
 #include <iostream>
 #include <chrono>
 #include <ctime>
-#include "AliAnalysisTaskPhiCount.h"
-#include "AliAnalysisTaskPIDResponse.h"
+//#include "AliAnalysisTaskPIDResponse.h"
+//#include "AliAnalysisTaskPhiCount.h"
+
+//------------
+//  RUN 1 pp LHC10bcde
+//------------
 
 // MC Correspondant: LHC14j4b
-std::vector<int>    LHC10b = {  117220, 117116, 117112, 117099, 117092, 117063, 117060, 117059, 117053, 117052,
-                                117050, 117048, 116645, 116643, 116574, 116571, 116562, 116403, 116402, 116288,
-                                116102, 116081, 116079, 115414, 115401, 115399, 115393, 115345, 115335, 115328,
-                                115322, 115318, 115310, 115193, 115186, 114931, 114930, 114924, 114918, 114798,
-                                114786 };
+std::vector<int>    LHC10b          = { 117220 };/*, 117116, 117112, 117099, 117092, 117063, 117060, 117059, 117053, 117052,
+                                        117050, 117048, 116645, 116643, 116574, 116571, 116562, 116403, 116402, 116288,
+                                        116102, 116081, 116079, 115414, 115401, 115399, 115393, 115345, 115335, 115328,
+                                        115322, 115318, 115310, 115193, 115186, 114931, 114930, 114924, 114918, 114798,
+                                        114786 };*/
 
-// MC Correspondant: LHC14j4c
-std::vector<int>    LHC10c = {  121040, 121039, 120829, 120825, 120824, 120823, 120822, 120821, 120758, 120750,
-                                120741, 120671, 120617, 120616, 120505, 120503, 120244, 120079, 120076, 120073,
-                                120072, 120069, 120067, 119862, 119859, 119856, 119853, 119849, 119846, 119845,
-                                119844, 119842, 119841, 118561, 118560, 118558, 118556, 118518, 118506 };
+//  MC Correspondant: LHC14j4c
+std::vector<int>    LHC10c          = { 121040, 121039, 120829, 120825, 120824, 120823, 120822, 120821, 120758, 120750,
+                                        120741, 120671, 120617, 120616, 120505, 120503, 120244, 120079, 120076, 120073,
+                                        120072, 120069, 120067, 119862, 119859, 119856, 119853, 119849, 119846, 119845,
+                                        119844, 119842, 119841, 118561, 118560, 118558, 118556, 118518, 118506 };
 
-// MC Correspondant: LHC14j4d
-std::vector<int>    LHC10d = {  126158, 126097, 126090, 126088, 126082, 126081, 126078, 126073, 126008, 126007,
-                                126004, 125855, 125851, 125850, 125849, 125848, 125847, 125844, 125843, 125842,
-                                125633, 125632, 125630, 125628, 125296, 125134, 125101, 125100, 125097, 125085,
-                                125083, 125023, 122375, 122374 };
+//  MC Correspondant: LHC14j4d
+std::vector<int>    LHC10d          = { 126158, 126097, 126090, 126088, 126082, 126081, 126078, 126073, 126008, 126007,
+                                        126004, 125855, 125851, 125850, 125849, 125848, 125847, 125844, 125843, 125842,
+                                        125633, 125632, 125630, 125628, 125296, 125134, 125101, 125100, 125097, 125085,
+                                        125083, 125023, 122375, 122374 };
 
-// MC Correspondant: LHC14j4e
-std::vector<int>    LHC10e = {  130850, 130848, 130847, 130844, 130842, 130840, 130834, 130799, 130798, 130795,
-                                130793, 130704, 130696, 130628, 130623, 130621, 130620, 130609, 130608, 130524,
-                                130520, 130519, 130517, 130481, 130480, 130479, 130375, 130178, 130172, 130168,
-                                130158, 130157, 130149, 129983, 129966, 129962, 129961, 129960, 129744, 129742,
-                                129738, 129736, 129735, 129734, 129729, 129726, 129725, 129723, 129666, 129659,
-                                129653, 129652, 129651, 129650, 129647, 129641, 129639, 129599, 129587, 129586,
-                                129540, 129536, 129528, 129527, 129525, 129524, 129523, 129521, 129520, 129514,
-                                129513, 129512, 129042, 128913, 128855, 128853, 128850, 128843, 128836, 128835,
-                                128834, 128833, 128824, 128823, 128820, 128819, 128778, 128777, 128678, 128677,
-                                128621, 128615, 128611, 128609, 128605, 128582, 128506, 128505, 128504, 128503,
-                                128498, 128495, 128494, 128486 };
+//  MC Correspondant: LHC14j4e
+std::vector<int>    LHC10e          = { 130850, 130848, 130847, 130844, 130842, 130840, 130834, 130799, 130798, 130795,
+                                        130793, 130704, 130696, 130628, 130623, 130621, 130620, 130609, 130608, 130524,
+                                        130520, 130519, 130517, 130481, 130480, 130479, 130375, 130178, 130172, 130168,
+                                        130158, 130157, 130149, 129983, 129966, 129962, 129961, 129960, 129744, 129742,
+                                        129738, 129736, 129735, 129734, 129729, 129726, 129725, 129723, 129666, 129659,
+                                        129653, 129652, 129651, 129650, 129647, 129641, 129639, 129599, 129587, 129586,
+                                        129540, 129536, 129528, 129527, 129525, 129524, 129523, 129521, 129520, 129514,
+                                        129513, 129512, 129042, 128913, 128855, 128853, 128850, 128843, 128836, 128835,
+                                        128834, 128833, 128824, 128823, 128820, 128819, 128778, 128777, 128678, 128677,
+                                        128621, 128615, 128611, 128609, 128605, 128582, 128506, 128505, 128504, 128503,
+                                        128498, 128495, 128494, 128486 };
 
-// MC Correspondant: LHC14j4f
-std::vector<int>    LHC10f = { 134297, 133982, 133969, 133920, 133800, 133762, 133670, 133563, 133414, 133330, 133329, 133327, 133010, 133007, 133006 };
+//  ! Unused
+//  MC Correspondant: LHC14j4f
+std::vector<int>    LHC10f          = { 134297, 133982, 133969, 133920, 133800, 133762, 133670, 133563, 133414, 133330,
+                                        133329, 133327, 133010, 133007, 133006 };
+
+// Hadronic Interaction
+std::vector<int>    LHC17c4d_hits   =   { 117222 };
+std::vector<int>    LHC17c4c_hits   =   LHC17c4d_hits;
+
+
+std::vector<int>    LHCTEST   =   { 195478, 195479, 195480, 195481, 195482, 195529, 195531, 195566, 195567, 195568, 195592, 195593, 195596, 196433, 196648, 196701, 196702, 196703, 196720, 196772, 196869, 196870, 196874, 196876, 196965, 196967, 196972, 196973, 196974, 197011, 197027, 197031, 197089, 197090, 197091, 197092, 197094, 197098, 197099, 197138, 197139, 197142, 197143, 197144, 197145, 197189, 197247, 197248, 197296, 197297, 197298, 197341, 197342, 197348, 197349, 197351
+};
+
+// Material Budget
+std::vector<int>    LHC10h10        =   { 137366 };
+
+//------------
+//  RUN 2 p-Pb
+//------------
+
+//  MC Correspondant: LHC1--
+//  RunList: Central Barrel Tracking
+std::vector<int>    LHC16q = {  265309, 265332, 265334, 265335, 265336, 265338, 265339, 265342, 265343, 265344,
+                                265377, 265378, 265381, 265383, 265384, 265385, 265387, 265388, 265419, 265420,
+                                265421, 265422, 265424, 265425, 265426, 265427, 265435, 265499, 265500, 265501,
+                                265521, 265525 };
+
+//  MC Correspondant: LHC1--
+//  RunList: Central Barrel Tracking
+std::vector<int>    LHC16t = {  267163, 267164, 267165, 267166 };
+
+//------------
+//  RUN 2 Pb-Pb
+//------------
+
+//  MC Correspondant: LHC1--
+std::vector<int>    LHC15o = {  };
+
+//  MC Correspondant: LHC1--
+std::vector<int>    LHC18q = {  };
+
+//------------
+//  Miscellaneous
+//------------
 
 // MC Correspondant: --
 std::vector<int>    LHC15n = { 244628, 244627, 244626, 244619, 244618, 244617, 244542, 244540, 244531, 244484, 244483, 244482, 244481, 244480, 244456, 244453, 244421, 244416, 244377, 244364, 244359, 244355, 244351, 244343, 244340 };
@@ -49,6 +97,7 @@ std::vector<int>    LHC15f = { 226500, 226495, 226483, 226476, 226472, 226468, 2
 
 // MC Correspondant: --
 std::vector<int>    LHC17p = { 282343, 282342, 282341, 282340, 282314, 282313, 282312, 282309, 282307, 282306, 282305, 282304, 282303, 282302, 282247, 282230, 282229, 282227, 282224, 282206, 282189, 282147, 282146, 282127, 282126, 282125, 282123, 282122, 282120, 282119, 282118, 282099, 282098, 282078, 282051, 282050, 282031, 282030, 282025, 282021, 282016, 282008 };
+
 
 const std::string currentDateTime() {
     time_t     now = time(0);
@@ -119,18 +168,6 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0, Fl
     auto RunPass = "";
     auto RunAODn = "";
     auto RunDDir = "";
-    if ( MCFlag )   RunDDir = "sim";
-    else            RunDDir = "data";
-    
-    if ( MCFlag )   cout << "[info]: MC Run ENABLED" << endl;
-    else            cout << "[info]: MC Run DISABLED" << endl;
-    
-    if ( local )    cout << "[info]: Local analysis ENABLED" << endl;
-    else
-    {
-        if ( gridTest ) cout << "[info]: GridTest ENABLED" << endl;
-        else            cout << "[info]: GridTest DISABLED" << endl;
-    }
     
     switch ( kPeriod )
     {
@@ -276,6 +313,24 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0, Fl
         RunList = LHC17p;
             
             break;
+        case 9:
+            MCFlag = true;
+            RunYear = "";
+            RunName = "LHC10h10";
+            RunPass = "";
+            RunAODn = "AOD140";
+        RunList = LHC10h10;
+            
+            break;
+        case 10:
+            MCFlag = true;
+            RunYear = "";
+            RunName = "LHC10h9";
+            RunPass = "";
+            RunAODn = "AOD140";
+        RunList = LHC10h10;
+            
+            break;
     default:
         cout << "[info]: Default Period ENABLED" << endl;
         if ( MCFlag )
@@ -295,10 +350,23 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0, Fl
         RunList = LHC10b;
         break;
     }
-    cout << "[info]: " << RunName << " Period chose" << endl;
-    for ( int iRun = 0; iRun < RunList.size(); iRun++ )
+    
+    if ( MCFlag )   RunDDir = "sim";
+    else            RunDDir = "data";
+    
+    if ( MCFlag )   cout << "[info]: MC Run ENABLED" << endl;
+    else            cout << "[info]: MC Run DISABLED" << endl;
+    
+    if ( local )    cout << "[info]: Local analysis ENABLED" << endl;
+    else
     {
-        cout << "[info]: Run: " << RunList[iRun] << " ADDED" << endl;
+        if ( gridTest ) cout << "[info]: GridTest ENABLED" << endl;
+        else            cout << "[info]: GridTest DISABLED" << endl;
+        cout << "[info]: " << RunName << " Period chose" << endl;
+        for ( int iRun = 0; iRun < RunList.size(); iRun++ )
+        {
+            cout << "[info]: Run: " << RunList[iRun] << " ADDED" << endl;
+        }
     }
     
 #if !defined (__CINT__) || defined (__CLING__)
@@ -320,30 +388,29 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0, Fl
     // AnalysisTaskMyTask
     // PID Response
 #if !defined (__CINT__) || defined (__CLING__)
-    gInterpreter                ->LoadMacro("AliAnalysisTaskPhiCount.cxx++g");
+    //gInterpreter                ->LoadMacro("AliAnalysisTaskPhiCount.cxx++g");
     
     // PID Task
     TMacro PIDadd(gSystem->ExpandPathName("$ALICE_ROOT/ANALYSIS/macros/AddTaskPIDResponse.C"));
     AliAnalysisTaskPIDResponse *PIDk;
     if ( MCFlag )   PIDk = reinterpret_cast<AliAnalysisTaskPIDResponse*>(PIDadd.Exec("kTRUE,kTRUE,kTRUE,4,kFALSE,\"\",kTRUE,kTRUE"));
     else            PIDk = reinterpret_cast<AliAnalysisTaskPIDResponse*>(PIDadd.Exec("kFALSE,kTRUE,kTRUE,4,kFALSE,\"\",kTRUE,kTRUE"));
-    
     // Multiplicty Task
     TMacro MLTadd(gSystem->ExpandPathName("$ALICE_PHYSICS/OADB/COMMON/MULTIPLICITY/macros/AddTaskMultSelection.C"));
     AliMultSelectionTask *MLTk;
     MLTk = reinterpret_cast<AliMultSelectionTask*>(MLTadd.Exec());
-    
     // Custom analysis task
     AliAnalysisTaskPhiCount *task;
-    task = reinterpret_cast<AliAnalysisTaskPhiCount*>(gInterpreter->ExecuteMacro(Form("AddAnalysisTaskPhiCount.C(%d,%d,%d,%i,%f,%f,%f)",MCFlag,PhiFlag,KaonFlag,kOption,kTPCAlone,kTPCVeto,kTOFVeto)));
+    task = reinterpret_cast<AliAnalysisTaskPhiCount*>(gInterpreter->ExecuteMacro(Form("AddAnalysisTaskPhiCount.C(%d,%d,%d,\"name\",%i,%i,%i)",MCFlag,PhiFlag,KaonFlag,-1,10,2)));
 #else
-    gROOT                       ->LoadMacro("AliAnalysisTaskPhiCount.cxx++g");
+    //gROOT                       ->LoadMacro("AliAnalysisTaskPhiCount.cxx++g");
     gROOT                       ->LoadMacro("$ALICE_ROOT/ANALYSIS/macros/AddTaskPIDResponse.C");
     gROOT                       ->LoadMacro("$ALICE_PHYSICS/OADB/COMMON/MULTIPLICITY/macros/AddTaskMultSelection.C");
     gROOT                       ->LoadMacro("AddAnalysisTaskPhiCount.C");
-    AddTaskPIDResponse(kTRUE,kTRUE,kTRUE,4,kFALSE,"",kTRUE,kTRUE);
+    if ( MCFlag )               AddTaskPIDResponse(kTRUE,kTRUE,kTRUE,4,kFALSE,"",kTRUE,kTRUE);
+    else                        AddTaskPIDResponse(kFALSE,kTRUE,kTRUE,4,kFALSE,"",kTRUE,kTRUE);
     AddTaskMultSelection();
-    AliAnalysisTaskPhiCount *task = AddAnalysisTaskPhiCount(MCFlag,PhiFlag,KaonFlag,kOption,kTPCAlone,kTPCVeto,kTOFVeto);
+    AliAnalysisTaskPhiCount *task = AddAnalysisTaskPhiCount(MCFlag,PhiFlag,KaonFlag,"name",-1,10,2);
     
 #endif
 
@@ -373,7 +440,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0, Fl
         alienHandler->SetAnalysisSource("AliAnalysisTaskPhiCount.cxx");
         // select the aliphysics version. all other packages
         // are LOADED AUTOMATICALLY!
-        alienHandler->SetAliPhysicsVersion("vAN-20190417_ROOT6-1");
+        alienHandler->SetAliPhysicsVersion("vAN-20190727_ROOT6-1");
         // set the Alien API version
         alienHandler->SetAPIVersion("V1.1x");
         // select the input data
@@ -398,15 +465,15 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0, Fl
         alienHandler->SetOutputToRunNo(kTRUE);
         alienHandler->SetKeepLogs(kTRUE);
         // merging: run with kTRUE to merge on grid
-        // after re-running the jobs in SetRunMode("terminate") 
-        // (see below) mode, set SetMergeViaJDL(kFALSE) 
+        // after re-running the jobs in SetRunMode("terminate")
+        // (see below) mode, set SetMergeViaJDL(kFALSE)
         // to collect final results
-        alienHandler->SetMaxMergeStages(1);
+        alienHandler->SetMaxMergeStages(3);
         alienHandler->SetMergeViaJDL(kDown);
 
         // define the output folders
-        alienHandler->SetGridWorkingDir(Form("%s_%s",RunName,currentDateTime().c_str()));
-        alienHandler->SetGridOutputDir(Form("%s_%s",RunPass,currentDateTime().c_str()));
+        alienHandler->SetGridWorkingDir(Form("%s_%s",RunName,"2021_06_14"));//currentDateTime().c_str()));
+        alienHandler->SetGridOutputDir(Form("%s_%s",RunPass,"2021_06_14"));//currentDateTime().c_str()));
         
         // Submit policy
         //alienHandler->SetUseSubmitPolicy();
