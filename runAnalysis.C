@@ -388,7 +388,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0, Fl
     // AnalysisTaskMyTask
     // PID Response
 #if !defined (__CINT__) || defined (__CLING__)
-    //gInterpreter                ->LoadMacro("AliAnalysisTaskPhiCount.cxx++g");
+    gInterpreter                ->LoadMacro("AliAnalysisTaskPhiCount.cxx++g");
     
     // PID Task
     TMacro PIDadd(gSystem->ExpandPathName("$ALICE_ROOT/ANALYSIS/macros/AddTaskPIDResponse.C"));
@@ -403,7 +403,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0, Fl
     AliAnalysisTaskPhiCount *task;
     task = reinterpret_cast<AliAnalysisTaskPhiCount*>(gInterpreter->ExecuteMacro(Form("AddAnalysisTaskPhiCount.C(%d,%d,%d,\"name\",%i,%i,%i)",MCFlag,PhiFlag,KaonFlag,-1,10,2)));
 #else
-    //gROOT                       ->LoadMacro("AliAnalysisTaskPhiCount.cxx++g");
+    gROOT                       ->LoadMacro("AliAnalysisTaskPhiCount.cxx++g");
     gROOT                       ->LoadMacro("$ALICE_ROOT/ANALYSIS/macros/AddTaskPIDResponse.C");
     gROOT                       ->LoadMacro("$ALICE_PHYSICS/OADB/COMMON/MULTIPLICITY/macros/AddTaskMultSelection.C");
     gROOT                       ->LoadMacro("AddAnalysisTaskPhiCount.C");
@@ -472,8 +472,8 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0, Fl
         alienHandler->SetMergeViaJDL(kDown);
 
         // define the output folders
-        alienHandler->SetGridWorkingDir(Form("%s_%s",RunName,"2021_06_14"));//currentDateTime().c_str()));
-        alienHandler->SetGridOutputDir(Form("%s_%s",RunPass,"2021_06_14"));//currentDateTime().c_str()));
+        alienHandler->SetGridWorkingDir(Form("%s_%s",RunName,"2021_06_15"));//currentDateTime().c_str()));
+        alienHandler->SetGridOutputDir(Form("%s_%s",RunPass,"2021_06_15"));//currentDateTime().c_str()));
         
         // Submit policy
         //alienHandler->SetUseSubmitPolicy();
