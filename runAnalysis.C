@@ -13,11 +13,11 @@
 //------------
 
 // MC Correspondant: LHC14j4b
-std::vector<int>    LHC10b          = { 117220 };/*, 117116, 117112, 117099, 117092, 117063, 117060, 117059, 117053, 117052,
+std::vector<int>    LHC10b          = { 117220, 117116, 117112, 117099, 117092, 117063, 117060, 117059, 117053, 117052,
                                         117050, 117048, 116645, 116643, 116574, 116571, 116562, 116403, 116402, 116288,
                                         116102, 116081, 116079, 115414, 115401, 115399, 115393, 115345, 115335, 115328,
                                         115322, 115318, 115310, 115193, 115186, 114931, 114930, 114924, 114918, 114798,
-                                        114786 };*/
+                                        114786 };
 
 //  MC Correspondant: LHC14j4c
 std::vector<int>    LHC10c          = { 121040, 121039, 120829, 120825, 120824, 120823, 120822, 120821, 120758, 120750,
@@ -472,8 +472,8 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0, Fl
         alienHandler->SetMergeViaJDL(kDown);
 
         // define the output folders
-        alienHandler->SetGridWorkingDir(Form("%s_%s",RunName,"2021_06_15"));//currentDateTime().c_str()));
-        alienHandler->SetGridOutputDir(Form("%s_%s",RunPass,"2021_06_15"));//currentDateTime().c_str()));
+        alienHandler->SetGridWorkingDir(Form("%s_%s",RunName,"2021_07_30"));//currentDateTime().c_str()));
+        alienHandler->SetGridOutputDir(Form("%s_%s",RunPass,"2021_07_30"));//currentDateTime().c_str()));
         
         // Submit policy
         //alienHandler->SetUseSubmitPolicy();
