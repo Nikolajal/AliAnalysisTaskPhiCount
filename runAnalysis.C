@@ -5,8 +5,8 @@
 #include <iostream>
 #include <chrono>
 #include <ctime>
-//#include "AliAnalysisTaskPIDResponse.h"
-//#include "AliAnalysisTaskPhiCount.h"
+#include "AliAnalysisTaskPIDResponse.h"
+#include "AliAnalysisTaskPhiCount.h"
 
 //------------
 //  RUN 1 pp LHC10bcde
