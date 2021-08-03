@@ -1162,6 +1162,7 @@ void        AliAnalysisTaskPhiCount::fStoreTruePhi ( Int_t iMaskBit )           
     // Loop over all primary MC particle
     if ( !kMCbool ) return;
     AliMCVertex*   PrimaryVertexMCT = (AliMCVertex*)fMCD->GetPrimaryVertex();
+    if ( !PrimaryVertexMCT ) return;
     if ( std::fabs(PrimaryVertexMCT->GetZ()) < kVertexCut ) fSetTrueEventMask(kTRU_HAST10VTX);
     Int_t           nTrack(AODMCTrackArray->GetEntriesFast());
     for ( Int_t iTrack(0); iTrack < nTrack; iTrack++ )
