@@ -220,7 +220,7 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
     //
     //>->->     GENERAL
     //
-    TH2F                       *fQC_Phi_InvMass                 //! Test
+    TH2F                       *fQC_Phi_InvMass;                //! Test
     //
     
     //>->->->->->->->->->->->->->->->->->->->->->->->->->-> Output
