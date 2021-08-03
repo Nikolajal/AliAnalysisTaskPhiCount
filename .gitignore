@@ -29,5 +29,5 @@ stderr
 stdout
 .DS_Store
 Test.C
-./Data
-./extra
+Data
+extra
