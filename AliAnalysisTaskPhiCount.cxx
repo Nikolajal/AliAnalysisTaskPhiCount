@@ -1,8 +1,6 @@
 // !TODO LIST
 // TODO: Check Overlapping histograms
 // TODO: Tracklets up to 5k and rebinning (5k bins)
-// TODO: Flag VTX < 10cm with MC Vertex
-// TODO: 
 
 #include "TChain.h"
 #include "TH1F.h"
