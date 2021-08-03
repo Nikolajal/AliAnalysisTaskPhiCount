@@ -387,6 +387,16 @@ void        AliAnalysisTaskPhiCount::UserCreateOutputObjects()                  
     fQC_PID_TPC_Sgnl_SEL_Kaons_PT   ->  GetZaxis()  ->  SetTitle("dE/dx a.u.");
     fQCOutputList->Add(fQC_PID_TPC_Sgnl_SEL_Kaons_PT);
     
+    //_____________________________________________________________________________
+    //
+    //  GENERAL
+    //_____________________________________________________________________________
+    fQC_Phi_InvMass                 = new TH2F("fQC_Phi_InvMass",             "Invariant Mass Acc. efficiency",                 500, 0.75, 1.25, 100, 0., 2.);
+    fQC_Phi_InvMass                 ->  GetXaxis()  ->  SetTitle("m_{K^{+}K^{-}}");
+    fQC_Phi_InvMass                 ->  GetYaxis()  ->  SetTitle("#epsilon");
+    fQC_Phi_InvMass                 ->  GetZaxis()  ->  SetTitle("Counts");
+    fQCOutputList->Add(fQC_Phi_InvMass);
+    
     // TODO: ADD VETO
     
     PostData(2, fQCOutputList);

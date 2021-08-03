@@ -198,9 +198,6 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
     TH3F                       *fQC_Kaons_TOF_PT;           //! Kaons TOF Signal in Transverse Momentum
     TH3F                       *fQC_Kaons_TPC_P;            //! Kaons TPC Signal in Momentum
     TH3F                       *fQC_Kaons_TPC_PT;           //! Kaons TPC Signal in Transverse Momentum
-    
-    /* - - - */
-    
     //
     //>->->     PID
     //
@@ -221,6 +218,11 @@ class AliAnalysisTaskPhiCount : public AliAnalysisTaskSE
     TH3F                       *fQC_PID_TPC_Sgnl_SEL_Kaons_P;   //! Analysis output list
     TH3F                       *fQC_PID_TPC_Sgnl_SEL_Kaons_PT;  //! Analysis output list
     //
+    //>->->     GENERAL
+    //
+    TH2F                       *fQC_Phi_InvMass                 //! Test
+    //
+    
     //>->->->->->->->->->->->->->->->->->->->->->->->->->-> Output
     //
     // Event Variables
