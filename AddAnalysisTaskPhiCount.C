@@ -1,6 +1,5 @@
 // TODO LIST
-// TODO: Set fName as last par per Train set-up indications
-// TODO: Set Trigger Mask to be set from the AddAnalysisTask argument list
+// TODO: You're all set!
 
 AliAnalysisTaskPhiCount* AddAnalysisTaskPhiCount( Bool_t MCFlag, Bool_t PhiFlag, Bool_t KaonFlag, TString fName = "name", Int_t kFilterBit = -1., Float_t kVertexCut = 10., Float_t kDCAZcut = 2., Int_t kDCAXYcut = 7, Float_t kMinTPCclst = 70., Float_t kChi2TPCclst = 4., Float_t kChi2TPCglob = 36., Float_t kChi2ITSclst = 36., Float_t kSgTPC_Alone = 3., Float_t kSgTPC_TOFVt = 5., Float_t kSgTOF_Veto = 3. )
 {
