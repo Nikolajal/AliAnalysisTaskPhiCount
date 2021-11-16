@@ -43,11 +43,55 @@ std::vector<int>    LHC10e          = { 130850, 130848, 130847, 130844, 130842, 
                                         128834, 128833, 128824, 128823, 128820, 128819, 128778, 128777, 128678, 128677,
                                         128621, 128615, 128611, 128609, 128605, 128582, 128506, 128505, 128504, 128503,
                                         128498, 128495, 128494, 128486 };
-
 //  ! Unused
 //  MC Correspondant: LHC14j4f
 std::vector<int>    LHC10f          = { 134297, 133982, 133969, 133920, 133800, 133762, 133670, 133563, 133414, 133330,
                                         133329, 133327, 133010, 133007, 133006 };
+
+//------------
+//  RUN 1 pPb LHC13bcdef
+//------------
+
+// MC Correspondant: LHC----
+std::vector<int>    LHC13b          = { 195483, 195482, 195481, 195480, 195479, 195478, 195391, 195389, 195351, 195346,
+                                        195344 };
+// MC Correspondant: LHC----
+std::vector<int>    LHC13c          = { 195677, 195675, 195673, 195644, 195635, 195633, 195596, 195593, 195592, 195568,
+                                        195567, 195566, 195531, 195529 };
+
+//------------
+//  RUN 2 p-Pb LHC16qt
+//------------
+
+// MC Correspondant: LHC----
+std::vector<int>    LHC16q          = { 265309, 265332, 265334, 265335, 265336, 265338, 265339, 265342, 265343, 265344,
+                                        265377, 265378, 265381, 265383, 265384, 265385, 265387, 265388, 265419, 265420,
+                                        265421, 265422, 265424, 265425, 265426, 265427, 265435, 265499, 265500, 265501,
+                                        265521, 265525 };
+// MC Correspondant: LHC----
+std::vector<int>    LHC16t          = { 267163, 267164, 267165, 267166 };
+
+//------------
+//  Hadronic Interaction Run 2
+//------------
+//
+//                  LHC18a4a2_fast, LHC18a4a_fast
+std::vector<int>    LHC18a4a_fast   = { 282008, 282016, 282021, 282025, 282031, 282050, 282051, 282078, 282098, 282099, 282118, 282119, 282120, 282122, 282123, 282125, 282126, 282127, 282146, 282147, 282189, 282206, 282224, 282227, 282229, 282230, 282247, 282302, 282303, 282304, 282305, 282306, 282307, 282309, 282312, 282313, 282314, 282340, 282341, 282342, 282343, 282365, 282366, 282367 };
+//------------
+//  Material Budget Run 2
+//------------
+//
+//                  LHC21c12b,  LHC21c12c
+std::vector<int>    LHC19h12        = { 265309, 265332, 265334, 265335, 265336, 265338, 265339, 265342, 265343, 265344, 265377, 265378, 265381, 265383, 265384, 265385, 265387, 265388, 265419, 265420, 265421, 265422, 265424, 265425, 265426, 265427, 265435, 265499, 265500, 265501, 265521, 265525, 267163, 267164, 267165, 267166 };
+//------------
+//  TEST
+//------------
+//
+//
+std::vector<int>    LHC17h5         = { 244918, 244975, 244980, 244982, 244983, 245061, 245064, 245066, 245068, 245145, 245146, 245148, 245151, 245152, 245231, 245232, 245259, 245343, 245345, 245346, 245347, 245349, 245353, 245396, 245397, 245401, 245407, 245409, 245410, 245411, 245439, 245441, 245446, 245450, 245452, 245454, 245496, 245497, 245501, 245504, 245505, 245507, 245535, 245540, 245542, 245543, 245544, 245545, 245554, 245683, 245692, 245700, 245702, 245705, 245729, 245731, 245738, 245752, 245759, 245766, 245775, 245785, 245793, 245829, 245831, 245833, 245923, 245949, 245952, 245954, 246001, 246003, 246012, 246036, 246037, 246042, 246048, 246049, 246052, 246053, 246087, 246089, 246113, 246115, 246151, 246152, 246153, 246178, 246180, 246181, 246182, 246185, 246217, 246222, 246225, 246271, 246272, 246275, 246276, 246390, 246391, 246392, 246424, 246428, 246431, 246434, 246487, 246488, 246493, 246495, 246553, 246575, 246583, 246648, 246675, 246676, 246750, 246751, 246757, 246758, 246759, 246760, 246763, 246765, 246766, 246804, 246805, 246807, 246808, 246809, 246810, 246844, 246845, 246846, 246847, 246851, 246865, 246867, 246870, 246871, 246928, 246945, 246948, 246980, 246982, 246984, 246989, 246991, 246994 };
+
+/*
+
 
 // Hadronic Interaction
 std::vector<int>    LHC17c4d_hits   =   { 117222 };
@@ -80,7 +124,7 @@ std::vector<int>    LHC16t = {  267163, 267164, 267165, 267166 };
 //------------
 
 //  MC Correspondant: LHC1--
-std::vector<int>    LHC15o = {  };
+std::vector<int>    LHC15o = { 244917, 244918, 244975, 244980, 244982, 244983, 245061, 245064, 245066, 245068, 246390, 246391, 246392 };
 
 //  MC Correspondant: LHC1--
 std::vector<int>    LHC18q = {  };
@@ -95,8 +139,12 @@ std::vector<int>    LHC15n = { 244628, 244627, 244626, 244619, 244618, 244617, 2
 // MC Correspondant: LHC16d3
 std::vector<int>    LHC15f = { 226500, 226495, 226483, 226476, 226472, 226468, 226466, 226452, 226445, 226444, 226225, 226220, 226170, 226062, 225768, 225766, 225763, 225762, 225757, 225753, 225719, 225717, 225716, 225710, 225709, 225708, 225707, 225705, 225587, 225586, 225579, 225578, 225576, 225322, 225315, 225314, 225313, 225310 };
 
-// MC Correspondant: --
+// MC Correspondant: LHC20a5b4_cent, LHC20a5b5_cent
 std::vector<int>    LHC17p = { 282343, 282342, 282341, 282340, 282314, 282313, 282312, 282309, 282307, 282306, 282305, 282304, 282303, 282302, 282247, 282230, 282229, 282227, 282224, 282206, 282189, 282147, 282146, 282127, 282126, 282125, 282123, 282122, 282120, 282119, 282118, 282099, 282098, 282078, 282051, 282050, 282031, 282030, 282025, 282021, 282016, 282008 };
+
+*/
+
+
 
 
 const std::string currentDateTime() {
@@ -110,7 +158,7 @@ const std::string currentDateTime() {
     return buf;
 }
 
-void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0, Float_t kTPCAlone = 3., Float_t kTPCVeto = 5., Float_t kTOFVeto = 3.  )
+void runAnalysis( string fOption = "", Int_t kPeriod = -1 )
 {
     Bool_t MCFlag       =   false;
     Bool_t local        =   true;
@@ -171,166 +219,300 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0, Fl
     
     switch ( kPeriod )
     {
-    case 1:
-        if ( MCFlag )
-        {
-            RunYear = "2014";
-            RunName = "LHC14j4c";
-            RunPass = "pass4";
-            RunAODn = "AOD222";
-        }
-        else
-        {
-            RunYear = "2010";
-            RunName = "LHC10c";
-            RunPass = "pass4";
-            RunAODn = "AOD221";
-        }
-        RunList = LHC10c;
-        break;
-    case 2:
-        if ( MCFlag )
-        {
-            RunYear = "2014";
-            RunName = "LHC14j4d";
-            RunPass = "pass4";
-            RunAODn = "AOD222";
-        }
-        else
-        {
-            RunYear = "2010";
-            RunName = "LHC10d";
-            RunPass = "pass4";
-            RunAODn = "AOD221";
-        }
-        RunList = LHC10d;
-        break;
-    case 3:
-        if ( MCFlag )
-        {
-            RunYear = "2014";
-            RunName = "LHC14j4e";
-            RunPass = "pass4";
-            RunAODn = "AOD222";
-        }
-        else
-        {
-            RunYear = "2010";
-            RunName = "LHC10e";
-            RunPass = "pass4";
-            RunAODn = "AOD221";
-        }
-        RunList = LHC10e;
+            //--------------------
+            //--------------------
+            //      RUN1 2010 pp@7TeV
+            //--------------------
+            //--------------------
+        case 1:
+            if ( MCFlag )   {
+                RunYear = "2014";
+                RunName = "LHC14j4c";
+                RunPass = "pass4";
+                RunAODn = "AOD222";
+            } else {
+                RunYear = "2010";
+                RunName = "LHC10c";
+                RunPass = "pass4";
+                RunAODn = "AOD221";
+            }
+            RunList = LHC10c;
+            break;
                 
-        break;
-    case 4:
-        if ( MCFlag )
-        {
-            RunYear = "2014";
-            RunName = "LHC14j4f";
-            RunPass = "pass4";
-            RunAODn = "AOD222";
-        }
-        else
-        {
-            RunYear = "2010";
-            RunName = "LHC10f";
-            RunPass = "pass4";
-            RunAODn = "AOD221";
-        }
-        RunList = LHC10f;
+        case 2:
+            if ( MCFlag ) {
+                RunYear = "2014";
+                RunName = "LHC14j4d";
+                RunPass = "pass4";
+                RunAODn = "AOD222";
+            } else {
+                RunYear = "2010";
+                RunName = "LHC10d";
+                RunPass = "pass4";
+                RunAODn = "AOD221";
+            }
+            RunList = LHC10d;
+            break;
                 
-        break;
-    case 5:
-        if ( MCFlag )
-        {
-            RunYear = "-";
-            RunName = "-";
-            RunAODn = "sim";
-            RunAODn = "-";
-        }
-        else
-        {
-            RunYear = "2015";
-            RunName = "LHC15n";
-            RunPass = "pass4";
-            RunAODn = "AOD208";
-        }
-        RunList = LHC15n;
+        case 3:
+            if ( MCFlag ) {
+                RunYear = "2014";
+                RunName = "LHC14j4e";
+                RunPass = "pass4";
+                RunAODn = "AOD222";
+            } else {
+                RunYear = "2010";
+                RunName = "LHC10e";
+                RunPass = "pass4";
+                RunAODn = "AOD221";
+            }
+            RunList = LHC10e;
+            break;
                 
-        break;
-    case 6:
-        if ( MCFlag )
-        {
-            RunYear = "2016";
-            RunName = "LHC16d3";
-            RunAODn = "sim";
-            RunAODn = "AOD235";
-        }
-        else
-        {
-            RunYear = "2015";
-            RunName = "LHC15f";
-            RunPass = "pass2";
-            RunAODn = "AOD234";
-        }
-        RunList = LHC15f;
+        case 4:
+            if ( MCFlag ) {
+                RunYear = "2014";
+                RunName = "LHC14j4f";
+                RunPass = "pass4";
+                RunAODn = "AOD222";
+            } else {
+                RunYear = "2010";
+                RunName = "LHC10f";
+                RunPass = "pass4";
+                RunAODn = "AOD221";
+            }
+            RunList = LHC10f;
+            break;
+            //--------------------
+            //--------------------
+            //      RUN1 2013 pPb@5TeV
+            //--------------------
+            //--------------------
+        case 100:
+            if ( MCFlag ) {
+                RunYear = "-";
+                RunName = "-";
+                RunPass = "-";
+                RunAODn = "-";
+            } else {
+                RunYear = "2013";
+                RunName = "LHC13b";
+                RunPass = "pass5";
+                RunAODn = "AOD";
+            }
+            RunList = LHC13b;
+            break;
+        case 101:
+            if ( MCFlag ) {
+                RunYear = "-";
+                RunName = "-";
+                RunPass = "-";
+                RunAODn = "-";
+            } else {
+                RunYear = "2013";
+                RunName = "LHC13c";
+                RunPass = "pass5";
+                RunAODn = "AOD";
+            }
+            RunList = LHC13c;
+            break;
+            //--------------------
+            //--------------------
+            //      RUN2 2015-17 pp@5TeV
+            //--------------------
+            //--------------------
+        case 5:
+            if ( MCFlag ) {
+                RunYear = "-";
+                RunName = "-";
+                RunPass = "-";
+                RunAODn = "-";
+            } else {
+                RunYear = "2015";
+                RunName = "LHC15n";
+                RunPass = "pass4";
+                RunAODn = "AOD208";
+            }
+            RunList = LHC10f;
+            break;
             
-        break;
+        case 6:
+            if ( MCFlag ) {
+                RunYear = "-";
+                RunName = "-";
+                RunPass = "-";
+                RunAODn = "-";
+            } else {
+                RunYear = "-";
+                RunName = "-";
+                RunPass = "-";
+                RunAODn = "-";
+            }
+            RunList = LHC10f;
+            break;
+            
         case 7:
-            if ( MCFlag )
-            {
-                RunYear = "2018";
-                RunName = "LHC18j2_fast";
-                RunAODn = "sim";
-                RunAODn = "AOD209";
+            if ( MCFlag ) {
+                RunYear = "-";
+                RunName = "-";
+                RunPass = "-";
+                RunAODn = "-";
+            } else {
+                RunYear = "-";
+                RunName = "-";
+                RunPass = "-";
+                RunAODn = "-";
             }
-            else
-            {
-                RunYear = "2017";
-                RunName = "LHC17p";
-                RunPass = "pass1_FAST";
-                RunAODn = "AOD208";
+            RunList = LHC10f;
+            break;
+            //--------------------
+            //--------------------
+            //      RUN1 2016 pPb@5TeV
+            //--------------------
+            //--------------------
+        case 102:
+            if ( MCFlag ) {
+                RunYear = "2020";
+                RunName = "LHC20f11c_fast";
+                RunPass = "-";
+                RunAODn = "AOD";
+            } else {
+                RunYear = "2016";
+                RunName = "LHC16q";
+                RunPass = "pass2_FAST";
+                RunAODn = "AOD244";
             }
-        RunList = LHC17p;
-            
+            RunList = LHC16q;
             break;
-        case 8:
-            if ( MCFlag )
-            {
-                RunYear = "2018";
-                RunName = "LHC18j2_cent_woSDD";
-                RunAODn = "sim";
-                RunAODn = "AOD209";
+        case 103:
+            if ( MCFlag ) {
+                RunYear = "2020";
+                RunName = "LHC20f11c_cent_woSDD";
+                RunPass = "";
+                RunAODn = "AOD";
+            } else {
+                RunYear = "2016";
+                RunName = "LHC16q";
+                RunPass = "pass2_CENT_woSDD";
+                RunAODn = "AOD244";
             }
-            else
-            {
-                RunYear = "2017";
-                RunName = "LHC17p";
-                RunPass = "pass1_CENT_woSDD";
-                RunAODn = "AOD208";
+            RunList = LHC16q;
+            break;
+        case 104:
+            if ( MCFlag ) {
+                RunYear = "2020";
+                RunName = "LHC20f11c_fast";
+                RunPass = "-";
+                RunAODn = "AOD";
+            } else {
+                RunYear = "2016";
+                RunName = "LHC16t";
+                RunPass = "pass2_FAST";
+                RunAODn = "AOD244";
             }
-        RunList = LHC17p;
-            
+            RunList = LHC16t;
             break;
-        case 9:
-            MCFlag = true;
-            RunYear = "";
-            RunName = "LHC10h10";
-            RunPass = "";
-            RunAODn = "AOD140";
-        RunList = LHC10h10;
-            
+        case 105:
+            if ( MCFlag ) {
+                RunYear = "2020";
+                RunName = "LHC20f11c_cent_woSDD";
+                RunPass = "-";
+                RunAODn = "AOD";
+            } else {
+                RunYear = "2016";
+                RunName = "LHC16t";
+                RunPass = "pass2_CENT_woSDD";
+                RunAODn = "AOD244";
+            }
+            RunList = LHC16t;
             break;
-        case 10:
-            MCFlag = true;
-            RunYear = "";
-            RunName = "LHC10h9";
-            RunPass = "";
-            RunAODn = "AOD140";
-        RunList = LHC10h10;
-            
+            //--------------------
+            //--------------------
+            //      RUN2 Systematics
+            //--------------------
+            //--------------------
+        //
+        //  Hadronic Interaction
+        case 300:
+            MCFlag  =   true;
+            RunYear =   "2018";
+            RunName =   "LHC18a4a_fast";
+            RunPass =   "";
+            RunAODn =   "AOD235";
+            RunList =   LHC18a4a_fast;
             break;
+        case 301:
+            MCFlag  =   true;
+            RunYear =   "2018";
+            RunName =   "LHC18a4a2_fast";
+            RunPass =   "";
+            RunAODn =   "AOD235";
+            RunList =   LHC18a4a_fast;
+            break;
+        //
+        //  Material Budget
+            // !TODO: Not Working
+        case 302:
+            MCFlag  =   true;
+            RunYear =   "2019";
+            RunName =   "LHC19h12b_cent_woSDD";
+            RunPass =   "";
+            RunAODn =   "AOD228";
+            RunList =   LHC19h12;
+            break;
+        case 303:
+            MCFlag  =   true;
+            RunYear =   "2019";
+            RunName =   "LHC19h12b_fast";
+            RunPass =   "";
+            RunAODn =   "AOD228";
+            RunList =   LHC19h12;
+            break;
+        case 304:
+            MCFlag  =   true;
+            RunYear =   "2019";
+            RunName =   "LHC19h12c_cent_woSDD";
+            RunPass =   "";
+            RunAODn =   "AOD228";
+            RunList =   LHC19h12;
+            break;
+        case 305:
+            MCFlag  =   true;
+            RunYear =   "2019";
+            RunName =   "LHC19h12c_fast";
+            RunPass =   "";
+            RunAODn =   "AOD228";
+            RunList =   LHC19h12;
+            break;
+            //--------------------
+            //--------------------
+            //      Test
+            //--------------------
+            //--------------------
+        case 900:
+        MCFlag  =   true;
+        RunYear =   "2017";
+        RunName =   "LHC17h5a";
+        RunPass =   "";
+        RunAODn =   "AOD";
+        RunList =   LHC17h5;
+        break;
+        case 901:
+        MCFlag  =   true;
+        RunYear =   "2017";
+        RunName =   "LHC17h5b";
+        RunPass =   "";
+        RunAODn =   "AOD";
+        RunList =   LHC17h5;
+        break;
+        case 902:
+        MCFlag  =   true;
+        RunYear =   "2017";
+        RunName =   "LHC17h5c";
+        RunPass =   "";
+        RunAODn =   "AOD";
+        RunList =   LHC17h5;
+        break;
     default:
         cout << "[info]: Default Period ENABLED" << endl;
         if ( MCFlag )
@@ -363,6 +545,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0, Fl
         if ( gridTest ) cout << "[info]: GridTest ENABLED" << endl;
         else            cout << "[info]: GridTest DISABLED" << endl;
         cout << "[info]: " << RunName << " Period chose" << endl;
+        cout << "[info]: " << RunPass << " Pass chose" << endl;
         for ( int iRun = 0; iRun < RunList.size(); iRun++ )
         {
             cout << "[info]: Run: " << RunList[iRun] << " ADDED" << endl;
@@ -401,7 +584,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0, Fl
     MLTk = reinterpret_cast<AliMultSelectionTask*>(MLTadd.Exec());
     // Custom analysis task
     AliAnalysisTaskPhiCount *task;
-    task = reinterpret_cast<AliAnalysisTaskPhiCount*>(gInterpreter->ExecuteMacro(Form("AddAnalysisTaskPhiCount.C(%d,%d,%d,\"name\",%i,%i,%i)",MCFlag,PhiFlag,KaonFlag,-1,10,2)));
+    task = reinterpret_cast<AliAnalysisTaskPhiCount*>(gInterpreter->ExecuteMacro(Form("AddAnalysisTaskPhiCount.C(%d,%d,%d,\"name\",%i,%i,%i)",MCFlag,PhiFlag,KaonFlag,5,10,2)));
 #else
     gROOT                       ->LoadMacro("AliAnalysisTaskPhiCount.cxx++g");
     gROOT                       ->LoadMacro("$ALICE_ROOT/ANALYSIS/macros/AddTaskPIDResponse.C");
@@ -410,7 +593,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0, Fl
     if ( MCFlag )               AddTaskPIDResponse(kTRUE,kTRUE,kTRUE,4,kFALSE,"",kTRUE,kTRUE);
     else                        AddTaskPIDResponse(kFALSE,kTRUE,kTRUE,4,kFALSE,"",kTRUE,kTRUE);
     AddTaskMultSelection();
-    AliAnalysisTaskPhiCount *task = AddAnalysisTaskPhiCount(MCFlag,PhiFlag,KaonFlag,"name",-1,10,2);
+    AliAnalysisTaskPhiCount *task = AddAnalysisTaskPhiCount(MCFlag,PhiFlag,KaonFlag,"name",5,10,2,7,70.,4.,36.,36.,3.,5.,3.)
     
 #endif
 
@@ -431,6 +614,10 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0, Fl
     }
     else
     {
+        AliMCEventHandler* mcH = new AliMCEventHandler();
+            mgr->SetMCtruthEventHandler(mcH);
+        
+        
         // if we want to run on grid, we create and configure the plugin
         AliAnalysisAlien *alienHandler = new AliAnalysisAlien();
         // also specify the include (header) paths on grid
@@ -440,7 +627,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0, Fl
         alienHandler->SetAnalysisSource("AliAnalysisTaskPhiCount.cxx");
         // select the aliphysics version. all other packages
         // are LOADED AUTOMATICALLY!
-        alienHandler->SetAliPhysicsVersion("vAN-20190727_ROOT6-1");
+        alienHandler->SetAliPhysicsVersion("vAN-20211108_ROOT6-1");
         // set the Alien API version
         alienHandler->SetAPIVersion("V1.1x");
         // select the input data
@@ -468,12 +655,12 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1, Int_t kOption = 0, Fl
         // after re-running the jobs in SetRunMode("terminate")
         // (see below) mode, set SetMergeViaJDL(kFALSE)
         // to collect final results
-        alienHandler->SetMaxMergeStages(3);
+        alienHandler->SetMaxMergeStages(1);
         alienHandler->SetMergeViaJDL(kDown);
 
         // define the output folders
-        alienHandler->SetGridWorkingDir(Form("%s_%s",RunName,"2021_07_30"));//currentDateTime().c_str()));
-        alienHandler->SetGridOutputDir(Form("%s_%s",RunPass,"2021_07_30"));//currentDateTime().c_str()));
+        alienHandler->SetGridWorkingDir(Form("%s_%s",RunName,currentDateTime().c_str()));//"2021_07_30"));//currentDateTime().c_str()));
+        alienHandler->SetGridOutputDir(Form("%s_%s",RunPass,currentDateTime().c_str()));//"2021_07_30"));//currentDateTime().c_str()));
         
         // Submit policy
         //alienHandler->SetUseSubmitPolicy();
