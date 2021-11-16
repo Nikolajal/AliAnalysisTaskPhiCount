@@ -6,10 +6,21 @@
 	objectVersion = 55;
 	objects = {
 
+/* Begin PBXFileReference section */
+		DA1ED50127439C9900C7BD2B /* AliAnalysisTaskPhiCount.cxx */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AliAnalysisTaskPhiCount.cxx; sourceTree = "<group>"; };
+		DA1ED50227439C9900C7BD2B /* AliAnalysisTaskPhiCount.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AliAnalysisTaskPhiCount.h; sourceTree = "<group>"; };
+		DA1ED50327439C9900C7BD2B /* AddAnalysisTaskPhiCount.C */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AddAnalysisTaskPhiCount.C; sourceTree = "<group>"; };
+		DA1ED50427439C9900C7BD2B /* runAnalysis.C */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = runAnalysis.C; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
 /* Begin PBXGroup section */
 		DA1ED4F627439C7200C7BD2B = {
 			isa = PBXGroup;
 			children = (
+				DA1ED50327439C9900C7BD2B /* AddAnalysisTaskPhiCount.C */,
+				DA1ED50127439C9900C7BD2B /* AliAnalysisTaskPhiCount.cxx */,
+				DA1ED50227439C9900C7BD2B /* AliAnalysisTaskPhiCount.h */,
+				DA1ED50427439C9900C7BD2B /* runAnalysis.C */,
 			);
 			sourceTree = "<group>";
 		};
