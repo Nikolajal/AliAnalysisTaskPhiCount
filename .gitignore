@@ -27,8 +27,9 @@ myTask_merge.C
 outputs_valid
 stderr
 stdout
-.DS_Store
+*.DS*
 Test.C
 Data
 extra
 ./#*
+*.xcodeproj
