@@ -17,7 +17,7 @@ std::vector<int>    LHC10b          = { 117220, 117116, 117112, 117099, 117092, 
                                         117050, 117048, 116645, 116643, 116574, 116571, 116562, 116403, 116402, 116288,
                                         116102, 116081, 116079, 115414, 115401, 115399, 115393, 115345, 115335, 115328,
                                         115322, 115318, 115310, 115193, 115186, 114931, 114930, 114924, 114918, 114798,
-                                        114786 };
+                                        114786, 117222 };
 
 //  MC Correspondant: LHC14j4c
 std::vector<int>    LHC10c          = { 121040, 121039, 120829, 120825, 120824, 120823, 120822, 120821, 120758, 120750,
@@ -48,6 +48,18 @@ std::vector<int>    LHC10e          = { 130850, 130848, 130847, 130844, 130842, 
 std::vector<int>    LHC10f          = { 134297, 133982, 133969, 133920, 133800, 133762, 133670, 133563, 133414, 133330,
                                         133329, 133327, 133010, 133007, 133006 };
 
+//  MC Correspondant: -
+std::vector<int>    LHC15n          = { 244628, 244627, 244626};/*, 244619, 244618, 244617, 244542, 244540, 244531, 244484,
+                                        244483, 244482, 244481, 244480, 244456, 244453, 244421, 244416, 244377, 244364,
+                                        244359, 244355, 244351, 244343, 244340 };*/
+
+//  MC Correspondant: -
+std::vector<int>    LHC16l          = { 259888, 259868, 259867 };/*, 259866, 259860, 259842, 259841, 259822, 259789, 259788,
+                                        259781, 259756, 259752, 259751, 259750, 259748, 259747, 259477, 259473, 259396,
+                                        259395, 259394, 259389, 259388, 259382, 259378, 259342, 259341, 259340, 259339,
+                                        259336, 259334, 259307, 259305, 259303, 259302, 259274, 259273, 259272, 259271,
+                                        259270, 259269, 259264, 259263, 259261, 259257, 259204, 259164, 259162, 259118,
+                                        259117, 259099, 259096, 259091, 259090, 259088, 258964, 258962 };*/
 //------------
 //  RUN 1 pPb LHC13bcdef
 //------------
@@ -64,10 +76,10 @@ std::vector<int>    LHC13c          = { 195677, 195675, 195673, 195644, 195635, 
 //------------
 
 // MC Correspondant: LHC----
-std::vector<int>    LHC16q          = { 265309, 265332, 265334, 265335, 265336, 265338, 265339, 265342, 265343, 265344,
-                                        265377, 265378, 265381, 265383, 265384, 265385, 265387, 265388, 265419, 265420,
-                                        265421, 265422, 265424, 265425, 265426, 265427, 265435, 265499, 265500, 265501,
-                                        265521, 265525 };
+std::vector<int>    LHC16q          = { 265309, 265332, 265334, 265335, 265336 };//, 265338, 265339, 265342, 265343, 265344,
+                                        //265377, 265378, 265381, 265383, 265384, 265385, 265387, 265388, 265419, 265420,
+                                        //265421, 265422, 265424, 265425, 265426, 265427, 265435, 265499, 265500, 265501,
+                                        //265521, 265525 };
 // MC Correspondant: LHC----
 std::vector<int>    LHC16t          = { 267163, 267164, 267165, 267166 };
 
@@ -333,7 +345,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1 )
                 RunPass = "pass4";
                 RunAODn = "AOD208";
             }
-            RunList = LHC10f;
+            RunList = LHC15n;
             break;
             
         case 6:
@@ -343,12 +355,12 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1 )
                 RunPass = "-";
                 RunAODn = "-";
             } else {
-                RunYear = "-";
-                RunName = "-";
-                RunPass = "-";
-                RunAODn = "-";
+                RunYear = "2016";
+                RunName = "LHC16l";
+                RunPass = "pass2";
+                RunAODn = "AOD234";
             }
-            RunList = LHC10f;
+            RunList = LHC16l;
             break;
             
         case 7:
@@ -490,28 +502,28 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1 )
             //--------------------
             //--------------------
         case 900:
-        MCFlag  =   true;
-        RunYear =   "2017";
-        RunName =   "LHC17h5a";
-        RunPass =   "";
-        RunAODn =   "AOD";
-        RunList =   LHC17h5;
+            MCFlag  =   true;
+            RunYear =   "2017";
+            RunName =   "LHC17h5a";
+            RunPass =   "";
+            RunAODn =   "AOD";
+            RunList =   LHC17h5;
         break;
         case 901:
-        MCFlag  =   true;
-        RunYear =   "2017";
-        RunName =   "LHC17h5b";
-        RunPass =   "";
-        RunAODn =   "AOD";
-        RunList =   LHC17h5;
+            MCFlag  =   true;
+            RunYear =   "2017";
+            RunName =   "LHC17h5b";
+            RunPass =   "";
+            RunAODn =   "AOD";
+            RunList =   LHC17h5;
         break;
         case 902:
-        MCFlag  =   true;
-        RunYear =   "2017";
-        RunName =   "LHC17h5c";
-        RunPass =   "";
-        RunAODn =   "AOD";
-        RunList =   LHC17h5;
+            MCFlag  =   true;
+            RunYear =   "2017";
+            RunName =   "LHC17h5c";
+            RunPass =   "";
+            RunAODn =   "AOD";
+            RunList =   LHC17h5;
         break;
     default:
         cout << "[info]: Default Period ENABLED" << endl;
@@ -584,17 +596,15 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1 )
     MLTk = reinterpret_cast<AliMultSelectionTask*>(MLTadd.Exec());
     // Custom analysis task
     AliAnalysisTaskPhiCount *task;
-    task = reinterpret_cast<AliAnalysisTaskPhiCount*>(gInterpreter->ExecuteMacro(Form("AddAnalysisTaskPhiCount.C(%d,%d,%d,\"name\",%i,%i,%i)",MCFlag,PhiFlag,KaonFlag,5,10,2)));
+    task = reinterpret_cast<AliAnalysisTaskPhiCount*>(gInterpreter->ExecuteMacro(Form("AddAnalysisTaskPhiCount.C(%d,%d,%d,\"name\",5)",MCFlag,PhiFlag,KaonFlag)));
 #else
     gROOT                       ->LoadMacro("AliAnalysisTaskPhiCount.cxx++g");
     gROOT                       ->LoadMacro("$ALICE_ROOT/ANALYSIS/macros/AddTaskPIDResponse.C");
     gROOT                       ->LoadMacro("$ALICE_PHYSICS/OADB/COMMON/MULTIPLICITY/macros/AddTaskMultSelection.C");
     gROOT                       ->LoadMacro("AddAnalysisTaskPhiCount.C");
-    if ( MCFlag )               AddTaskPIDResponse(kTRUE,kTRUE,kTRUE,4,kFALSE,"",kTRUE,kTRUE);
-    else                        AddTaskPIDResponse(kFALSE,kTRUE,kTRUE,4,kFALSE,"",kTRUE,kTRUE);
+    AddTaskPIDResponse(MCFlag,kTRUE,kTRUE,4,kFALSE,"",kTRUE,kTRUE);
     AddTaskMultSelection();
-    AliAnalysisTaskPhiCount *task = AddAnalysisTaskPhiCount(MCFlag,PhiFlag,KaonFlag,"name",5,10,2,7,70.,4.,36.,36.,3.,5.,3.)
-    
+    AliAnalysisTaskPhiCount *task = AddAnalysisTaskPhiCount(MCFlag,PhiFlag,KaonFlag,"name",5);
 #endif
 
     if(!mgr->InitAnalysis()) return;
@@ -627,7 +637,7 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1 )
         alienHandler->SetAnalysisSource("AliAnalysisTaskPhiCount.cxx");
         // select the aliphysics version. all other packages
         // are LOADED AUTOMATICALLY!
-        alienHandler->SetAliPhysicsVersion("vAN-20211108_ROOT6-1");
+        alienHandler->SetAliPhysicsVersion("vAN-20220110_ROOT6-1");
         // set the Alien API version
         alienHandler->SetAPIVersion("V1.1x");
         // select the input data
@@ -637,16 +647,13 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1 )
         // MC has no prefix, data has prefix 000
         if ( !MCFlag ) alienHandler->SetRunPrefix("000");
         // runnumber
-        for ( int iRun = 0; iRun < RunList.size(); iRun++ )
-        {
-            alienHandler->AddRunNumber(RunList[iRun]);
-        }
+        for ( int iRun = 0; iRun < RunList.size(); iRun++ ) alienHandler->AddRunNumber(RunList[iRun]);
         
         // number of files per subjob
         alienHandler->SetSplitMaxInputFileNumber(40);
         alienHandler->SetExecutable("myTask.sh");
         // specify how many seconds your job may take
-        alienHandler->SetTTL(20000);
+        alienHandler->SetTTL(100000);
         alienHandler->SetJDLName("myTask.jdl");
 
         alienHandler->SetOutputToRunNo(kTRUE);
@@ -659,8 +666,8 @@ void runAnalysis( string fOption = "", Int_t kPeriod = -1 )
         alienHandler->SetMergeViaJDL(kDown);
 
         // define the output folders
-        alienHandler->SetGridWorkingDir(Form("%s_%s",RunName,currentDateTime().c_str()));//"2021_07_30"));//currentDateTime().c_str()));
-        alienHandler->SetGridOutputDir(Form("%s_%s",RunPass,currentDateTime().c_str()));//"2021_07_30"));//currentDateTime().c_str()));
+        alienHandler->SetGridWorkingDir(Form("%s_%s",RunName,"2022_01_01"));//currentDateTime().c_str()));
+        alienHandler->SetGridOutputDir(Form("%s_%s",RunPass,"2022_01_01"));//currentDateTime().c_str()));
         
         // Submit policy
         //alienHandler->SetUseSubmitPolicy();
